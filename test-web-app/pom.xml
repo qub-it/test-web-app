@@ -57,7 +57,7 @@
 		</dependency>
 		<dependency>
 			<groupId>org.fenixedu</groupId>
-			<artifactId>fenix-academic-treasury</artifactId>
+			<artifactId>fenixedu-academic-treasury</artifactId>
 			<version>${version.academic.treasury}</version>
 		</dependency>
 		<dependency>
