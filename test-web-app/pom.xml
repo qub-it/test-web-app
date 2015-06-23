@@ -20,6 +20,8 @@
 		<version.academic>5.1.0-SNAPSHOT</version.academic>
 		<version.learning>1.2.0-SNAPSHOT</version.learning>
 		<version.spaces>1.6.1</version.spaces>
+		<version.treasury>1.0.0-SNAPSHOT</version.treasury>
+		<version.academic.treasury>1.0.0-SNAPSHOT</version.academic.treasury>
 	</properties>
 
 	<dependencies>
@@ -51,7 +53,12 @@
 		<dependency>
 			<groupId>org.fenixedu</groupId>
 			<artifactId>fenixedu-treasury</artifactId>
-			<version>1.0.0-SNAPSHOT</version>
+			<version>${version.treasury}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.fenixedu</groupId>
+			<artifactId>fenix-academic-treasury</artifactId>
+			<version>${version.academic.treasury}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.fenixedu.ulisboa</groupId>
