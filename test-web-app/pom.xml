@@ -15,78 +15,13 @@
 
 	<name>test-web-app</name>
 
-	<properties>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<version.academic>5.1.0-SNAPSHOT</version.academic>
-		<version.learning>1.2.0-SNAPSHOT</version.learning>
-		<version.spaces>1.6.1</version.spaces>
-		<version.treasury>1.0.0-SNAPSHOT</version.treasury>
-		<version.academic.treasury>1.0.0-SNAPSHOT</version.academic.treasury>
-	</properties>
-
-	<dependencies>
-		<dependency>
-			<groupId>org.fenixedu</groupId>
-			<artifactId>fenixedu-academic</artifactId>
-			<version>${version.academic}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.fenixedu</groupId>
-			<artifactId>fenixedu-spaces</artifactId>
-			<version>${version.spaces}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.fenixedu</groupId>
-			<artifactId>fenixedu-learning</artifactId>
-			<version>${version.learning}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.fenixedu</groupId>
-			<artifactId>default-theme</artifactId>
-			<version>${version.org.fenixedu.bennu}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.fenixedu.ulisboa.themes</groupId>
-			<artifactId>themes-agregator</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
-		</dependency>
-		<dependency>
-			<groupId>org.fenixedu</groupId>
-			<artifactId>fenixedu-treasury</artifactId>
-			<version>${version.treasury}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.fenixedu</groupId>
-			<artifactId>fenixedu-academic-treasury</artifactId>
-			<version>${version.academic.treasury}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.fenixedu.ulisboa</groupId>
-			<artifactId>fenixedu-ulisboa-sas-integration</artifactId>
-			<version>1.0.0-SNAPSHOT</version>
-		</dependency>
-		<dependency>
-			<groupId>com.qubit.solution.fenixedu</groupId>
-			<artifactId>fenixedu-ulisboa-cgdIntegration</artifactId>
-			<version>1.0.0-SNAPSHOT</version>
-		</dependency>
-		<dependency>
-			<groupId>pt.ist</groupId>
-			<artifactId>standards</artifactId>
-			<version>1.1.0-SNAPSHOT</version>
-		</dependency>
-		<!--<dependency>
-			<groupId>org.fenixedu</groupId>
-			<artifactId>fenixedu-qubdocs-reports</artifactId>
-			<version>1.0.0-SNAPSHOT</version>
-		</dependency>-->
-	</dependencies>
 	<repositories>
 		<repository>
 			<id>ulisboa-repo</id>
 			<url>http://nexjen.ulisboa.pt/nexus/content/groups/public/</url>
 		</repository>
 	</repositories>
+
 	<build>
 		<plugins>
 			<plugin>
@@ -95,6 +30,11 @@
 				<version>2.2</version>
 				<configuration>
 					<contextFile>tomcat-context.xml</contextFile>
+					<systemProperties>
+						<!-- Uncomment the next property if you want webservices to dump their 
+							SOAP packages into tomcat's log -->
+						<!-- <com.sun.xml.ws.transport.http.client.HttpTransportPipe.dump>true</com.sun.xml.ws.transport.http.client.HttpTransportPipe.dump> -->
+					</systemProperties>
 				</configuration>
 			</plugin>
 		</plugins>
