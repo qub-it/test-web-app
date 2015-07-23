@@ -1,2 +1,5 @@
 src/main/webapp/themes
 /target/
+/.project
+*.classpath
+.settings
