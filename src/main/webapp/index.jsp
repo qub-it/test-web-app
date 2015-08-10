@@ -6,7 +6,7 @@
 	<meta http-equiv="refresh" content="0; url=${pageContext.request.contextPath}/login" />	
 <%
 	} else{
-	    request.setAttribute("path", PortalConfiguration.getInstance().getMenu().getUserMenuStream().findFirst().get().getFullPath());
+	    request.setAttribute("path", PortalConfiguration.getInstance().getMenu().getUserMenuStream().findFirst().get().getPath());
 %>
 	<meta http-equiv="refresh" content="0; url=${pageContext.request.contextPath}/${path}" />
 <%
