@@ -29,7 +29,6 @@
 
 <h2><bean:message key="label.course.enrolments" bundle="ACADEMIC_OFFICE_RESOURCES"/></h2>
 
-asdasdasdasdasda
 <html:messages id="message" message="true" bundle="ACADEMIC_OFFICE_RESOURCES">
 	<p>
 		<span class="error"><!-- Error messages go here --><bean:write name="message" /></span>
