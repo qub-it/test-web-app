@@ -75,6 +75,13 @@ ${portal.angularToolkit()}
     </fr:layout>
 </fr:view>
 
+<html:messages id="message" message="true"
+    bundle="ACADEMIC_OFFICE_RESOURCES">
+    <p class="mtop1">
+        <span class="warning0"> <bean:write name="message" />
+        </span>
+    </p>
+</html:messages>
 
 <logic:present name="academicServiceRequest" property="activeSituation">
     <p class="mbottom025">
@@ -91,14 +98,6 @@ ${portal.angularToolkit()}
         </fr:layout>
     </fr:view>
 </logic:present>
-
-<html:messages id="message" message="true"
-    bundle="ACADEMIC_OFFICE_RESOURCES">
-    <p class="mtop1">
-        <span class="warning0"> <bean:write name="message" />
-        </span>
-    </p>
-</html:messages>
 
 <bean:define id="documentRequest" name="academicServiceRequest"
     type="org.fenixedu.academic.domain.serviceRequests.documentRequests.DocumentRequest" />
@@ -123,10 +122,10 @@ angular.module('angularAppAcademicServiceRequestTemplate', ['ngSanitize', 'ui.se
         <input name="bean" type="hidden" value="{{ object }}" />
         <input name="documentRequest" type="hidden" value="${academicServiceRequest.externalId}" />
 
+        <div class="panel-header">
+            <strong><fmt:message key="label.title.printingSettings" bundle="${lang}" /></strong>
+        </div>
         <div class="panel panel-default" data-ng-init="postBack($model)">
-            <div class="panel-header">
-                <strong><fmt:message key="label.title.customTemplate" bundle="${lang}" /></strong>
-            </div>
             <div class="panel-body">
                 <div class="form-group row">
                     <div class="col-sm-2 control-label">
@@ -154,11 +153,8 @@ angular.module('angularAppAcademicServiceRequestTemplate', ['ngSanitize', 'ui.se
                         </ui-select>
                     </div>
                 </div>
+                <input type="submit" class="btn btn-default" role="button" value='<fmt:message key="label.print" bundle="${lang}" />' />
             </div>
-        </div>
-        <div class="panel-footer">
-            <input type="submit" class="btn btn-default" role="button"
-                value='<fmt:message key="label.print" bundle="${lang}" />' />
         </div>
     </form>
 </logic:equal>
