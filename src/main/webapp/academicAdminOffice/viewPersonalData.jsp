@@ -132,11 +132,11 @@
 		<em><bean:message key="label.partyContacts.no.webAddresses" bundle="ACADEMIC_OFFICE_RESOURCES" /></em>
 	</p>
 </logic:empty>
+
+<jsp:include page="viewPersonalData-ulisboa-specifications.jsp"/>
 	
 <p class="mtop2">
 	<html:link page="/student.do?method=visualizeStudent" paramId="studentID" paramName="student" paramProperty="externalId">
 		<bean:message key="link.student.back" bundle="ACADEMIC_OFFICE_RESOURCES"/>
 	</html:link>
 </p>
-
-<jsp:include page="viewPersonalData-ulisboa-specifications.jsp"/>
