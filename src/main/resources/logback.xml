@@ -21,6 +21,9 @@
 		level="WARN">
 	</logger>
 
+	<logger name="org.fenixedu.bennu.core.i18n.BundleUtil" level="ERROR">
+	</logger>
+
 	<logger name="org.fenixedu" level="INFO">
 	</logger>
 
