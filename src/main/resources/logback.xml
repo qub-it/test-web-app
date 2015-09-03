@@ -39,4 +39,7 @@
     </contextListener>
 
 	<logger name="org.glassfish.jersey.servlet.WebComponent" level="OFF" additivity="false"/>
+
+	<logger name="org.apache.commons.validator.ValidatorResources" level="OFF"/>
+	
 </configuration>
