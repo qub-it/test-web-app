@@ -53,7 +53,6 @@
 	
 	$(document).ready(disabler);
 //]]></script>
-<script>$(function(){$('table').removeClass('table')})</script>
 
 <html:form action="/bolonhaStudentEnrollment.do">
 
@@ -168,3 +167,10 @@
 	</p>
 </fr:context>
 </html:form>
+
+<script>
+$(function() {
+	$('table').removeClass('table');
+	$('form div[class="tstyle4 thlight thright"]').addClass('form-horizontal').removeClass('tstyle4 thlight thright');
+});
+</script>
