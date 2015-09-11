@@ -231,6 +231,8 @@
 				<fr:property name="sortBy" value="executionYear=desc" />
 				<fr:link name="edit" label="label.edit,ACADEMIC_OFFICE_RESOURCES" 
 							 link="/manageRegistrationDataByExecutionYear.do?method=prepareEdit&registrationDataByExecutionYearId=${externalId}" order="1" />
+				<fr:link name="shiftEnrolment" label="label.shifts,APPLICATION_RESOURCES" 
+							 link="/shiftEnrolment/${registration.externalId}/${executionYear.firstExecutionPeriod.externalId}" order="2" />							 
 			</fr:layout>
 		</fr:view>
 	</logic:notEmpty>
