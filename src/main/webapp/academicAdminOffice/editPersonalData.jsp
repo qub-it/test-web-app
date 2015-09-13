@@ -205,10 +205,9 @@
 		</html:link>
 	</div>
 
+	<jsp:include page="editPersonalData-ulisboa-specifications.jsp"/>
 
 	<p>
 		<html:cancel onclick="this.form.method.value='visualizeStudent';" ><bean:message key="button.back" bundle="ACADEMIC_OFFICE_RESOURCES" /></html:cancel>
 	</p>
 </fr:form>
-
-<jsp:include page="editPersonalData-ulisboa-specifications.jsp"/>
