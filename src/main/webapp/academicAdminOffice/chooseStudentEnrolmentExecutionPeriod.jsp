@@ -29,6 +29,7 @@
 
 <h2><bean:message key="label.course.enrolments" bundle="ACADEMIC_OFFICE_RESOURCES"/></h2>
 
+
 <html:messages id="message" message="true" bundle="ACADEMIC_OFFICE_RESOURCES">
 	<p>
 		<span class="error"><!-- Error messages go here --><bean:write name="message" /></span>
@@ -68,7 +69,7 @@
 		</li>
 		<br />
 		<li>
-			<bean:define id="url5">/improvementBolonhaStudentEnrollment.do?method=prepare&amp;scpID=<bean:write name="studentEnrolmentBean" property="studentCurricularPlan.externalId"/>&amp;executionPeriodID=<bean:write name="studentEnrolmentBean" property="executionPeriod.externalId"/></bean:define>
+			<bean:define id="url5">/improvementBolonhaStudentEnrollment.do?method=prepareChooseEvaluationSeason&amp;scpID=<bean:write name="studentEnrolmentBean" property="studentCurricularPlan.externalId"/>&amp;executionPeriodID=<bean:write name="studentEnrolmentBean" property="executionPeriod.externalId"/></bean:define>
 			<html:link action='<%= url5 %>'><bean:message key="label.course.improvementEnrolments" bundle="ACADEMIC_OFFICE_RESOURCES"/></html:link>
 		</li>		
 		<li>
@@ -106,6 +107,7 @@
 		</li>
 		</logic:equal>
 		
+		<%-- qubExtensions --%>
 		<jsp:include page="chooseStudentEnrolmentExecutionPeriod-ulisboa-specifications.jsp"/>
 		<academic:allowed operation="ENROLMENT_WITHOUT_RULES" program="<%= degree %>">
 		</academic:allowed>		
@@ -119,10 +121,21 @@
 
 	<p class="mtop2 mbottom0"><strong><bean:message key="label.student.enrolments.executionPeriod" bundle="ACADEMIC_OFFICE_RESOURCES"/>: </strong></p>
 	<logic:notEmpty name="studentEnrolments">
-		<fr:view name="studentEnrolments" schema="student.show.enrolments">
+		<fr:view name="studentEnrolments">
+			<%-- qubExtensions --%>
+			<fr:schema type="org.fenixedu.academic.domain.Enrolment" bundle="ACADEMIC_OFFICE_RESOURCES">
+				<fr:slot name="name" key="label.name" />
+				<fr:slot name="curriculumGroup.fullPath" key="label.group"/>
+				<fr:slot name="weigthForCurriculum" key="label.set.evaluation.enrolment.weight" />
+				<fr:slot name="ectsCreditsForCurriculum" key="label.ects.credits" />
+				<fr:slot name="creationDateDateTime" key="label.date" layout="no-time" />
+				<fr:slot name="enrollmentState.description" key="label.set.evaluation.enrolment.state" />
+				<fr:slot name="grade" key="label.set.evaluation.grade.value.simple" />
+			</fr:schema>
+			
 			<fr:layout name="tabular">	 
 				<fr:property name="classes" value="tstyle2"/>
-		      	<fr:property name="columnClasses" value="nowrap,acenter,nowrap,smalltxt color888,acenter"/>
+		      	<fr:property name="columnClasses" value=",smalltxt color888,acenter,acenter,nowrap smalltxt,smalltxt, acenter"/>
 				<fr:property name="sortBy" value="name"/>
 				
 				<fr:property name="linkFormat(activate)" value="/studentEnrolments.do?method=activateEnrolment&enrolmentId=${externalId}&scpID=${studentCurricularPlan.externalId}&executionPeriodId=${executionPeriod.externalId}" />
@@ -146,11 +159,24 @@
 	
 	<p class="mtop2 mbottom0"><strong><bean:message key="label.student.improvement.enrolments.executionPeriod" bundle="ACADEMIC_OFFICE_RESOURCES"/>: </strong></p>
 	<logic:notEmpty name="studentImprovementEnrolments">
-		<fr:view name="studentImprovementEnrolments" schema="student.show.enrolments">
+		<fr:view name="studentImprovementEnrolments">
+			<fr:schema type="org.fenixedu.academic.domain.EnrolmentEvaluation" bundle="ACADEMIC_OFFICE_RESOURCES">
+				<fr:slot name="enrolment.name" key="label.name" />
+				<fr:slot name="enrolment.curriculumGroup.fullPath" key="label.group"/>
+				<fr:slot name="enrolment.weigthForCurriculum" key="label.set.evaluation.enrolment.weight" />
+				<fr:slot name="enrolment.ectsCreditsForCurriculum" key="label.ects.credits" />
+				<fr:slot name="versioningCreationDate" key="label.date" layout="no-time" />
+				<fr:slot name="enrollmentStateByGrade.description" key="label.set.evaluation.enrolment.state"/>
+				<fr:slot name="grade" key="label.set.evaluation.grade.value.simple"/>
+				<fr:slot name="evaluationSeason" key="label.evaluationSeason">
+					<fr:property name="format" value="${name.content}" />
+				</fr:slot>
+			</fr:schema>
+		
 			<fr:layout name="tabular">	 
 				<fr:property name="classes" value="tstyle2"/>
-		      	<fr:property name="columnClasses" value="nowrap,acenter,nowrap,smalltxt color888,acenter"/>
-				<fr:property name="sortBy" value="name"/>
+		      	<fr:property name="columnClasses" value=",smalltxt color888,acenter,acenter,nowrap smalltxt,smalltxt,acenter, acenter smalltxt"/>
+				<fr:property name="sortBy" value="enrolment.name"/>
 			</fr:layout>
 		</fr:view>
 	</logic:notEmpty>
@@ -162,10 +188,24 @@
 	
 	<p class="mtop2 mbottom0"><strong><bean:message key="label.student.specialSeason.enrolments.executionPeriod" bundle="ACADEMIC_OFFICE_RESOURCES"/>: </strong></p>
 	<logic:notEmpty name="studentSpecialSeasonEnrolments">
-		<fr:view name="studentSpecialSeasonEnrolments" schema="student.show.enrolments">
+		<fr:view name="studentSpecialSeasonEnrolments">
+			<%-- qubExtensions --%>
+			<fr:schema type="org.fenixedu.academic.domain.Enrolment" bundle="ACADEMIC_OFFICE_RESOURCES">
+				<fr:slot name="name" key="label.name" />
+				<fr:slot name="curriculumGroup.fullPath" key="label.group"/>
+				<fr:slot name="weigthForCurriculum" key="label.set.evaluation.enrolment.weight" />
+				<fr:slot name="ectsCreditsForCurriculum" key="label.ects.credits" />
+				<fr:slot name="creationDateDateTime" key="label.date" layout="no-time" />
+				<fr:slot name="enrollmentState.description" key="label.set.evaluation.enrolment.state" />
+				<fr:slot name="grade" key="label.set.evaluation.grade.value.simple" />
+				<fr:slot name="executionPeriod" layout="format" key="label.semester" >
+					<fr:property name="format" value="${qualifiedName}"/>
+				</fr:slot>
+			</fr:schema>
+			
 			<fr:layout name="tabular">	 
 				<fr:property name="classes" value="tstyle2"/>
-		      	<fr:property name="columnClasses" value="nowrap,acenter,nowrap,smalltxt color888,acenter"/>
+		      	<fr:property name="columnClasses" value=",smalltxt color888,acenter,acenter,nowrap smalltxt,smalltxt,acenter,acenter smalltxt"/>
 				<fr:property name="sortBy" value="name"/>
 			</fr:layout>
 		</fr:view>
