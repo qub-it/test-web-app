@@ -36,4 +36,4 @@
 			</plugin>
 		</plugins>
 	</build>
-<dependencies><dependency><artifactId>fenixedu-academic</artifactId><groupId>org.fenixedu</groupId><version>5.2.0-RC63</version></dependency></dependencies><version>219</version></project>
+<dependencies><dependency><artifactId>fenixedu-academic</artifactId><groupId>org.fenixedu</groupId><version>5.2.0-RC64</version></dependency></dependencies><version>219</version></project>
