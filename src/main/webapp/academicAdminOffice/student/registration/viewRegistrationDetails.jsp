@@ -114,6 +114,8 @@
 		
 		<td style="vertical-align: top; padding-top: 1em;">
 			<academic:allowed operation="MANAGE_REGISTRATIONS" program="<%= registration.getDegree() %>">
+			<%-- qubExtension --%>
+			<academic:allowed operation="STUDENT_ENROLMENTS" program="<%= registration.getDegree() %>">
 			<p class="mtop0 pleft1 asd">
 				<span class="dblock pbottom03">
 					<img src="<%= request.getContextPath() %>/images/dotist_post.gif" alt="<bean:message key="dotist_post" bundle="IMAGE_RESOURCES" />" />
@@ -171,18 +173,20 @@
 						<bean:message key="student.regimes" bundle="ACADEMIC_OFFICE_RESOURCES"/>
 					</html:link>
 				</span>
-				<academic:allowed operation="STUDENT_ENROLMENTS" program="<%= registration.getDegree() %>">
-				<span class="dblock pbottom03">	
-					<img src="<%= request.getContextPath() %>/images/dotist_post.gif" alt="<bean:message key="dotist_post" bundle="IMAGE_RESOURCES" />" />
-					<html:link page="/registration.do?method=viewAttends" paramId="registrationId" paramName="registration" paramProperty="externalId">
-						<bean:message key="student.registrationViewAttends" bundle="ACADEMIC_OFFICE_RESOURCES"/>
-					</html:link>
-				</span>
-				</academic:allowed>		
+<%-- qubExtension --%>
+<%-- 				<academic:allowed operation="STUDENT_ENROLMENTS" program="<%= registration.getDegree() %>"> --%>
+<!-- 				<span class="dblock pbottom03">	 -->
+<%-- 					<img src="<%= request.getContextPath() %>/images/dotist_post.gif" alt="<bean:message key="dotist_post" bundle="IMAGE_RESOURCES" />" /> --%>
+<%-- 					<html:link page="/registration.do?method=viewAttends" paramId="registrationId" paramName="registration" paramProperty="externalId"> --%>
+<%-- 						<bean:message key="student.registrationViewAttends" bundle="ACADEMIC_OFFICE_RESOURCES"/> --%>
+<%-- 					</html:link> --%>
+<!-- 				</span> -->
+<%-- 				</academic:allowed>		 --%>
 				
 				<%-- Extension --%>
 				<jsp:include page="viewRegistrationDetailsTreasuryDebtAccountLink_ulisboa_specification.jsp" />	
 			</p>
+			</academic:allowed>
 			</academic:allowed>
 		</td>
 	</tr>
@@ -229,11 +233,14 @@
 				<fr:property name="classes" value="tstyle2 thright thlight thcenter"/>
 				<fr:property name="columnClasses" value="acenter,acenter,acenter" />
 				<fr:property name="sortBy" value="executionYear=desc" />
+				<%-- qubExtension --%>				
+				<academic:allowed operation="STUDENT_ENROLMENTS" program="<%= registration.getDegree() %>">
 				<fr:link name="edit" label="label.edit,ACADEMIC_OFFICE_RESOURCES" 
 							 link="/manageRegistrationDataByExecutionYear.do?method=prepareEdit&registrationDataByExecutionYearId=${externalId}" order="1" />
 				<%-- qubExtension --%>
 				<fr:link name="shiftEnrolment" label="label.shifts,APPLICATION_RESOURCES" 
-							 link="/shiftEnrolment/${registration.externalId}/${executionYear.firstExecutionPeriod.externalId}" order="2" />							 
+							 link="/shiftEnrolment/${registration.externalId}/${executionYear.firstExecutionPeriod.externalId}" order="2" />
+				</academic:allowed>							 
 			</fr:layout>
 		</fr:view>
 	</logic:notEmpty>
@@ -256,11 +263,14 @@
 			<fr:property name="visibleIf(enrol)" value="allowedToManageEnrolments" />
 			<fr:property name="order(enrol)" value="1"/>     					
 			
-			<fr:property name="linkFormat(dismissal)" value="/studentDismissals.do?method=manage&amp;scpID=${externalId}" />
-			<fr:property name="key(dismissal)" value="link.student.dismissal.management"/>
-			<fr:property name="bundle(dismissal)" value="ACADEMIC_OFFICE_RESOURCES"/>
-			<fr:property name="contextRelative(dismissal)" value="true"/>      	
-			<fr:property name="order(dismissal)" value="2"/>
+			<%-- qubExtension --%>
+			<academic:allowed operation="MANAGE_EQUIVALENCES">
+				<fr:property name="linkFormat(dismissal)" value="/studentDismissals.do?method=manage&amp;scpID=${externalId}" />
+				<fr:property name="key(dismissal)" value="link.student.dismissal.management"/>
+				<fr:property name="bundle(dismissal)" value="ACADEMIC_OFFICE_RESOURCES"/>
+				<fr:property name="contextRelative(dismissal)" value="true"/>      	
+				<fr:property name="order(dismissal)" value="2"/>
+			</academic:allowed>
 			
 			<fr:property name="linkFormat(createAccountingEvents)" value="/accountingEventsManagement.do?method=prepare&amp;scpID=${externalId}" />
 			<fr:property name="key(createAccountingEvents)" value="label.accountingEvents.management.createEvents"/>
@@ -290,12 +300,15 @@
 	
 	<p class="mtop0">
 
+		<%-- qubExtension --%>
+		<academic:allowed operation="STUDENT_ENROLMENTS" program="<%= registration.getDegree() %>">
 		<span>
 			<img src="<%= request.getContextPath() %>/images/dotist_post.gif" alt="<bean:message key="dotist_post" bundle="IMAGE_RESOURCES" />" />
 			<html:link page="/studentExternalEnrolments.do?method=manageExternalEnrolments" paramId="registrationId" paramName="registration" paramProperty="externalId">
 				<bean:message key="label.student.manageExternalEnrolments" bundle="ACADEMIC_OFFICE_RESOURCES"/>
 			</html:link>
 		</span>
+		</academic:allowed>
 
 		<span class="pleft1">
 			<img src="<%= request.getContextPath() %>/images/dotist_post.gif" alt="<bean:message key="dotist_post" bundle="IMAGE_RESOURCES" />" />
@@ -304,12 +317,15 @@
 			</html:link>
 		</span>
 		
+		<%-- qubExtension --%>
+		<academic:allowed operation="STUDENT_ENROLMENTS" program="<%= registration.getDegree() %>">
 		<span class="pleft1">
 			<img src="<%= request.getContextPath() %>/images/dotist_post.gif" alt="<bean:message key="dotist_post" bundle="IMAGE_RESOURCES" />" />
 			<html:link page="/manageStudentCurricularPlans.do?method=prepareCreate" paramId="registrationId" paramName="registration" paramProperty="externalId">
 				<bean:message key="link.manageStudentCurricularPlans.create" bundle="ACADEMIC_OFFICE_RESOURCES"/>
 			</html:link>
 		</span>
+		</academic:allowed>
 		
 	</p>
 	
