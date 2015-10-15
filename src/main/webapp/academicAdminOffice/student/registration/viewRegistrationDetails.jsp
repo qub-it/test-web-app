@@ -18,15 +18,12 @@
     along with FenixEdu Academic.  If not, see <http://www.gnu.org/licenses/>.
 
 --%>
-<%@ page import="org.fenixedu.commons.i18n.I18N" %>
-<%@page import="org.fenixedu.academic.domain.student.Registration"%>
 <%@ page isELIgnored="true"%>
 <%@ taglib uri="http://struts.apache.org/tags-bean" prefix="bean" %>
 <%@ taglib uri="http://struts.apache.org/tags-logic" prefix="logic" %>
 <%@ taglib uri="http://struts.apache.org/tags-html" prefix="html" %>
 <%@ taglib uri="http://fenix-ashes.ist.utl.pt/fenix-renderers" prefix="fr" %>
 <%@ taglib uri="http://fenix-ashes.ist.utl.pt/taglib/academic" prefix="academic" %>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jstl/fmt" %>
 
 <%@page import="org.fenixedu.academic.domain.ExecutionYear"%>
 <%@page import="org.fenixedu.academic.domain.student.RegistrationDataByExecutionYear"%>
@@ -195,80 +192,6 @@
 	</tr>
 </table>
 	
-	
-	<!-- qubExtension -->
-
-	<fmt:setLocale value=""/>
-	<fmt:setBundle basename="resources.FenixeduUlisboaSpecificationsResources" var="lang"/>
-	<academic:allowed operation="MANAGE_REGISTRATIONS">
-		<h3 class="mbottom05 mtop25 separator2"><fmt:message key="label.student.observations" bundle="${lang}" /></h3>
-		<logic:present name="registration" property="registrationObservations">
-			<logic:notEmpty name="registration" property="registrationObservations.asHtml">
-				<div id="registrationObservations">
-					<!-- values must be pre-escaped -->
-					<bean:write name="registration" property="registrationObservations.asHtml" filter="false"/>
-				</div>
-				
-				<script>
-				$(document).ready(function() {
-					
-					observations = $("#registrationObservations");
-					showObservations =$("#show-full-observations");
-					hideObservations =$("#hide-full-observations");
-					
-					hideText = function(){
-						observations[0].style.height = "100px";
-						observations[0].style.textOverflow  = "ellipsis";
-						observations[0].style.overflow  = "hidden";
-						showObservations.show();	
-						hideObservations.hide();
-					}
-					if(observations.height() > 100){
-						hideText();
-					}
-					showObservations.on("click",function(){
-						observations[0].style.height = "100%";
-						observations[0].style.textOverflow  = "none";
-						observations[0].style.overflow  = "initial";
-						showObservations.hide();
-						hideObservations.show();
-					});
-					hideObservations.on("click", hideText);
-				});
-				
-				</script>
-			</logic:notEmpty>
-			<logic:empty name="registration" property="registrationObservations.asHtml">
-				<div>
-					<fmt:message key="label.student.observations.empty" bundle="${lang}" />
-				</div>
-			</logic:empty>
-		</logic:present>
-		<logic:notPresent name="registration" property="registrationObservations">
-			<div>
-				<fmt:message key="label.student.observations.empty" bundle="${lang}" />
-			</div>
-		</logic:notPresent>
-		
-		
-		<% String observationsURL = request.getContextPath() + "/registrations/" + ((Registration)request.getAttribute("registration")).getExternalId() + "/observations"; %>
-		<div> 
-			<br>
-			<html:link href="<%=observationsURL%>">
-			     <img src="<%= request.getContextPath() %>/images/dotist_post.gif" alt="<bean:message key="dotist_post" bundle="IMAGE_RESOURCES" />" />
-			     <fmt:message key="label.student.observations.edit" bundle="${lang}" /></h3>
-			</html:link>
-			<a id="show-full-observations" style="display : none">
-				<img src="<%= request.getContextPath() %>/images/dotist_post.gif" alt="<bean:message key="dotist_post" bundle="IMAGE_RESOURCES" />" />
-				<fmt:message key="label.student.showFullObservations" bundle="${lang}" />
-			</a>
-			<a id="hide-full-observations" href="#registrationObservations" style="display : none">
-				<img src="<%= request.getContextPath() %>/images/dotist_post.gif" alt="<bean:message key="dotist_post" bundle="IMAGE_RESOURCES" />" />
-				<fmt:message key="label.student.hideFullObservations" bundle="${lang}" />
-			</a>
-		</div>
-	</academic:allowed>
-	<!-- /qubExtension -->
 	<logic:notEmpty name="registration" property="phdIndividualProgramProcess">
 		<academic:allowed operation="MANAGE_PHD_PROCESSES" program="<%= registration.getPhdIndividualProgramProcess().getPhdProgram() %>">
 		
