@@ -28,6 +28,7 @@
 <%@page import="org.fenixedu.academic.domain.ExecutionYear"%>
 <%@page import="org.fenixedu.academic.domain.student.RegistrationDataByExecutionYear"%>
 
+
 <html:xhtml/>
 
 	<bean:define id="registration" name="registration" scope="request" type="org.fenixedu.academic.domain.student.Registration"/>
@@ -191,6 +192,10 @@
 		</td>
 	</tr>
 </table>
+	
+	<!-- qubExtension -->
+		<jsp:include page="registrationObservations.jsp"></jsp:include>
+	<!-- /qubExtension -->
 	
 	<logic:notEmpty name="registration" property="phdIndividualProgramProcess">
 		<academic:allowed operation="MANAGE_PHD_PROCESSES" program="<%= registration.getPhdIndividualProgramProcess().getPhdProgram() %>">
