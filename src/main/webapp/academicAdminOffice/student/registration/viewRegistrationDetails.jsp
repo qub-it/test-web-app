@@ -24,68 +24,77 @@
 <%@ taglib uri="http://struts.apache.org/tags-html" prefix="html" %>
 <%@ taglib uri="http://fenix-ashes.ist.utl.pt/fenix-renderers" prefix="fr" %>
 <%@ taglib uri="http://fenix-ashes.ist.utl.pt/taglib/academic" prefix="academic" %>
-
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@page import="org.fenixedu.academic.domain.ExecutionYear"%>
 <%@page import="org.fenixedu.academic.domain.student.RegistrationDataByExecutionYear"%>
+<%@page import="org.fenixedu.commons.i18n.I18N" %>
+<%@page import="org.fenixedu.ulisboa.specifications.ui.ulisboaservicerequest.ULisboaServiceRequestManagementController"%>
+<%@page import="org.fenixedu.ulisboa.specifications.domain.serviceRequests.ULisboaServiceRequest"%>
+<%@page import="java.util.stream.Collectors" %>
+<%@page import="org.fenixedu.academic.domain.student.Registration" %>
+
+
+
 
 
 <html:xhtml/>
 
-	<bean:define id="registration" name="registration" scope="request" type="org.fenixedu.academic.domain.student.Registration"/>
+    <bean:define id="registration" name="registration" scope="request" type="org.fenixedu.academic.domain.student.Registration"/>
 
-	<div style="float: right;">
-		<bean:define id="personID" name="registration" property="student.person.username"/>
-		<html:img align="middle" src="<%= request.getContextPath() + "/user/photo/" + personID.toString()%>" altKey="personPhoto" bundle="IMAGE_RESOURCES" styleClass="showphoto"/>
-	</div>
+    <div style="float: right;">
+        <bean:define id="personID" name="registration" property="student.person.username"/>
+        <html:img align="middle" src="<%= request.getContextPath() + "/user/photo/" + personID.toString()%>" altKey="personPhoto" bundle="IMAGE_RESOURCES" styleClass="showphoto"/>
+    </div>
 
-	<h2><bean:message key="label.visualizeRegistration" bundle="ACADEMIC_OFFICE_RESOURCES"/></h2>
-	
+    <h2><bean:message key="label.visualizeRegistration" bundle="ACADEMIC_OFFICE_RESOURCES"/></h2>
+    
 
-	<p>
-		<html:link page="/student.do?method=visualizeStudent" paramId="studentID" paramName="registration" paramProperty="student.externalId">
-			<bean:message key="link.student.backToStudentDetails" bundle="ACADEMIC_OFFICE_RESOURCES"/>
-		</html:link>
-	</p>
+    <p>
+        <html:link page="/student.do?method=visualizeStudent" paramId="studentID" paramName="registration" paramProperty="student.externalId">
+            <bean:message key="link.student.backToStudentDetails" bundle="ACADEMIC_OFFICE_RESOURCES"/>
+        </html:link>
+    </p>
 
-	
+    
 
-	
-	<p class="mvert2">
-		<span class="showpersonid">
-		<bean:message key="label.student" bundle="ACADEMIC_OFFICE_RESOURCES"/>: 
-			<fr:view name="registration" property="student" schema="student.show.personAndStudentInformation.short">
-				<fr:layout name="flow">
-					<fr:property name="labelExcluded" value="true"/>
-				</fr:layout>
-			</fr:view>
-		</span>
-	</p>
-	
-	
-	
-	<logic:messagesPresent message="true">
-		<ul class="list7 mtop2 warning0" style="list-style: none;">
-			<html:messages id="message" message="true" bundle="ACADEMIC_OFFICE_RESOURCES">
-				<li>
-					<span><!-- Error messages go here --><bean:write name="message" /></span>
-				</li>
-			</html:messages>
-		</ul>
-	</logic:messagesPresent>
-
-
+    
+    <p class="mvert2">
+        <span class="showpersonid">
+        <bean:message key="label.student" bundle="ACADEMIC_OFFICE_RESOURCES"/>: 
+            <fr:view name="registration" property="student" schema="student.show.personAndStudentInformation.short">
+                <fr:layout name="flow">
+                    <fr:property name="labelExcluded" value="true"/>
+                </fr:layout>
+            </fr:view>
+        </span>
+    </p>
+    
+    
+    
+    <logic:messagesPresent message="true">
+        <ul class="list7 mtop2 warning0" style="list-style: none;">
+            <html:messages id="message" message="true" bundle="ACADEMIC_OFFICE_RESOURCES">
+                <li>
+                    <span><!-- Error messages go here --><bean:write name="message" /></span>
+                </li>
+            </html:messages>
+        </ul>
+    </logic:messagesPresent>
 
 
 
 
-	<logic:present name="registration" property="ingressionType">
-		<h3 class="mtop2 mbottom05 separator2"><bean:message key="label.registrationDetails" bundle="ACADEMIC_OFFICE_RESOURCES"/></h3>
-	</logic:present>
-	
-	<logic:notPresent name="registration" property="ingressionType">
-		<h3 class="mtop2 mbottom05 separator2"><bean:message key="label.registrationDetails" bundle="ACADEMIC_OFFICE_RESOURCES"/></h3>
-	</logic:notPresent>
-	<bean:define id="registration" name="registration" type="org.fenixedu.academic.domain.student.Registration"/>
+
+
+    <logic:present name="registration" property="ingressionType">
+        <h3 class="mtop2 mbottom05 separator2"><bean:message key="label.registrationDetails" bundle="ACADEMIC_OFFICE_RESOURCES"/></h3>
+    </logic:present>
+    
+    <logic:notPresent name="registration" property="ingressionType">
+        <h3 class="mtop2 mbottom05 separator2"><bean:message key="label.registrationDetails" bundle="ACADEMIC_OFFICE_RESOURCES"/></h3>
+    </logic:notPresent>
+    <bean:define id="registration" name="registration" type="org.fenixedu.academic.domain.student.Registration"/>
 
 
 
@@ -405,7 +414,7 @@
     <logic:iterate id="requestSelector"
         collection="<%= java.util.Arrays.asList("newAcademicServiceRequests", "processingAcademicServiceRequests", "toDeliverAcademicServiceRequests") %>">
         <p class="mtop2">
-    		<b><bean:message key="<%= requestSelector + ".title" %>" bundle="ACADEMIC_OFFICE_RESOURCES"/></b>
+            <b><bean:message key="<%= requestSelector + ".title" %>" bundle="ACADEMIC_OFFICE_RESOURCES"/></b>
             <bean:define id="requests" name="registration" property="<%= requestSelector.toString() %>"/>
             <logic:notEmpty name="requests">
                 <fr:view name="requests" schema="AcademicServiceRequest.view">
@@ -413,9 +422,9 @@
                         <fr:property name="classes" value="tstyle4 thlight mtop0" />
                         <fr:property name="columnClasses" value="smalltxt acenter nowrap,smalltxt acenter nowrap,acenter,,acenter,tdhl1 nowrap,,,acenter nowrap,nowrap" />
 
-    					<fr:property name="linkFormat(view)" value="/academicServiceRequestsManagement.do?method=viewAcademicServiceRequest&amp;academicServiceRequestId=${externalId}&amp;backAction=student&amp;backMethod=visualizeRegistration"/>
-    					<fr:property name="key(view)" value="view"/>
-    					<fr:property name="bundle(view)" value="APPLICATION_RESOURCES" />
+                        <fr:property name="linkFormat(view)" value="/academicServiceRequestsManagement.do?method=viewAcademicServiceRequest&amp;academicServiceRequestId=${externalId}&amp;backAction=student&amp;backMethod=visualizeRegistration"/>
+                        <fr:property name="key(view)" value="view"/>
+                        <fr:property name="bundle(view)" value="APPLICATION_RESOURCES" />
 
                         <fr:property name="linkFormat(reject)" value="/academicServiceRequestsManagement.do?method=prepareRejectAcademicServiceRequest&amp;academicServiceRequestId=${externalId}&amp;registrationID=${registration.externalId}"/>
                         <fr:property name="key(reject)" value="reject"/>
@@ -434,7 +443,7 @@
                         <fr:property name="key(payments)" value="payments"/>
                         <fr:property name="bundle(payments)" value="APPLICATION_RESOURCES" />
                         <fr:property name="visibleIfNot(payments)" value="isPayed"/>
-						<fr:property name="visibleIf(payments)" value="paymentsAccessible"/>
+                        <fr:property name="visibleIf(payments)" value="paymentsAccessible"/>
 
                         <fr:property name="linkFormat(processing)" value="/academicServiceRequestsManagement.do?method=processNewAcademicServiceRequest&amp;academicServiceRequestId=${externalId}"/>
                         <fr:property name="key(processing)" value="processing"/>
@@ -480,7 +489,7 @@
                         <fr:property name="bundle(conclude)" value="APPLICATION_RESOURCES" />
                         <fr:property name="visibleIf(conclude)" value="concludedSituationAccepted"/>
 
-    					<fr:property name="order(view)" value="1" />
+                        <fr:property name="order(view)" value="1" />
                         <fr:property name="order(reject)" value="2" />
                         <fr:property name="order(cancel)" value="3" />
                         <fr:property name="order(payments)" value="4" />
@@ -496,45 +505,29 @@
                     </fr:layout>
                 </fr:view>
             </logic:notEmpty>
-    		<logic:empty name="requests">
-    			<p>
-    				<em>
-    					<bean:message bundle="ACADEMIC_OFFICE_RESOURCES" key="<%= requestSelector + ".empty" %>"/>
-    				</em>
-    			</p>
-    		</logic:empty>
+            <logic:empty name="requests">
+                <p>
+                    <em>
+                        <bean:message bundle="ACADEMIC_OFFICE_RESOURCES" key="<%= requestSelector + ".empty" %>"/>
+                    </em>
+                </p>
+            </logic:empty>
         </p>
     </logic:iterate>
     </academic:allowed>
 
-	<%-- Precedence Info --%>
-	
-	<logic:present name="registration" property="studentCandidacy">
-		<h3 class="mtop2 mbottom05 separator2"><bean:message key="label.person.title.precedenceDegreeInfo" bundle="ACADEMIC_OFFICE_RESOURCES"/></h3>
-		<fr:view name="registration" property="studentCandidacy.precedentDegreeInformation" schema="student.precedentDegreeInformation" >
-			<fr:layout name="tabular">
-				<fr:property name="classes" value="tstyle4 thright thlight mtop05"/>
-			</fr:layout>
-		</fr:view>
-	</logic:present>
+    <jsp:include page="uLisboaServiceRequestSection.jsp" />
+
+    <%-- Precedence Info --%>
+    
+    <logic:present name="registration" property="studentCandidacy">
+        <h3 class="mtop2 mbottom05 separator2"><bean:message key="label.person.title.precedenceDegreeInfo" bundle="ACADEMIC_OFFICE_RESOURCES"/></h3>
+        <fr:view name="registration" property="studentCandidacy.precedentDegreeInformation" schema="student.precedentDegreeInformation" >
+            <fr:layout name="tabular">
+                <fr:property name="classes" value="tstyle4 thright thlight mtop05"/>
+            </fr:layout>
+        </fr:view>
+    </logic:present>
 <bean:define id="deliveryWarning">
 <bean:message bundle="ACADEMIC_OFFICE_RESOURCES"  key="academic.service.request.delivery.confirmation"/>
 </bean:define>
-<script type="text/javascript">
-	$(function(){
-		$('a[href*="deliveredAcademicServiceRequest"]').each(function(index) {
-    		$(this).click(function() {	
-    	  		return confirm("<%= deliveryWarning %>");
-    	  	});
-    	});
-  	});
-</script>
-	<%--
-	<ul class="mtop2">
-		<li>
-		<html:link page="/student.do?method=visualizeStudent" paramId="studentID" paramName="registration" paramProperty="student.externalId">
-			<bean:message key="link.student.back" bundle="ACADEMIC_OFFICE_RESOURCES"/>
-		</html:link>
-		</li>
-	</ul>
-	--%>
