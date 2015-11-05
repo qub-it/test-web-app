@@ -516,7 +516,7 @@
     </logic:iterate>
     </academic:allowed>
 
-    <jsp:include page="uLisboaServiceRequestSection.jsp" />
+    <jsp:include page="/WEB-INF/fenixedu-ulisboa-specifications/servicerequests/ulisboarequest/uLisboaServiceRequestSection.jsp" />
 
     <%-- Precedence Info --%>
     
