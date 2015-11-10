@@ -18,6 +18,7 @@
     along with FenixEdu Academic.  If not, see <http://www.gnu.org/licenses/>.
 
 --%>
+<%@page import="org.fenixedu.academic.domain.student.Registration"%>
 <%@page import="org.fenixedu.academic.domain.student.Student"%>
 <%@page import="org.fenixedu.academic.domain.treasury.TreasuryBridgeAPIFactory"%>
 <%@page import="org.fenixedu.academic.domain.treasury.ITreasuryBridgeAPI"%>
@@ -83,7 +84,23 @@
 
 <academic:allowed operation="MANAGE_REGISTRATIONS">
 <h3 class="mtop15 mbottom025"><bean:message key="label.studentRegistrations" bundle="ACADEMIC_OFFICE_RESOURCES"/></h3>
-<fr:view name="student" property="registrations" schema="student.registrationDetail.short" >
+<fr:view name="student" property="registrations">
+	<fr:schema bundle="ACADEMIC_OFFICE_RESOURCES" type="<%= Registration.class.getName() %>">
+		<fr:slot name="registrationYear" key="label.registrationYear">
+			<fr:property name="format" value="${qualifiedName}" />
+		</fr:slot>
+		<fr:slot name="startDate" layout="null-as-label" key="label.startDate" >
+	        <fr:property name="label" value="-"/>	
+		</fr:slot>
+	    <fr:slot name="number" layout="null-as-label" key="label.number">
+	        <property name="label" value="-"/>
+	    </fr:slot>	
+		<fr:slot name="this" key="label.degree" layout="format">
+			<fr:property name="format" value="${degreeNameWithDescription} (${degree.code})" />
+		</fr:slot>
+		<fr:slot name="activeStateType" key="label.currentState" />
+		<fr:slot name="numberEnroledCurricularCoursesInCurrentYear" key="label.numberEnroledCurricularCoursesInCurrentYear" />
+	</fr:schema>
 	<fr:layout name="tabular">
 		<fr:property name="sortBy" value="startDate=desc"/>
 
