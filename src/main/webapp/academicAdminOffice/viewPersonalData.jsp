@@ -18,6 +18,7 @@
     along with FenixEdu Academic.  If not, see <http://www.gnu.org/licenses/>.
 
 --%>
+<%@page import="org.fenixedu.academic.domain.person.IDDocumentType"%>
 <%@ taglib uri="http://struts.apache.org/tags-bean" prefix="bean" %>
 <%@ taglib uri="http://struts.apache.org/tags-logic" prefix="logic" %>
 <%@ taglib uri="http://struts.apache.org/tags-html" prefix="html" %>
@@ -40,8 +41,21 @@
 	</fr:layout>
 </fr:view>
 
+<bean:define id="personBean" name="personBean" type="org.fenixedu.academic.dto.person.PersonBean" />
+
 <h3 class="mbottom025"><bean:message key="label.identification" bundle="ACADEMIC_OFFICE_RESOURCES" /></h3>
 <fr:view name="personBean" schema="student.documentId-edit" >
+	<fr:schema type="org.fenixedu.academic.dto.person.PersonBean" bundle="ACADEMIC_OFFICE_RESOURCES" > 
+		<fr:slot name="idDocumentType" key="label.idDocumentType" />
+		<fr:slot name="documentIdNumber" key="label.identificationNumber"  />
+		<% if(personBean.getIdDocumentType() == IDDocumentType.IDENTITY_CARD) { %>
+		<fr:slot name="identificationDocumentSeriesNumber" key="label.PersonBean.identificationDocumentSeriesNumber" />
+		<% } %>
+		<fr:slot name="documentIdEmissionLocation" />
+		<fr:slot name="documentIdEmissionDate" />
+		<fr:slot name="documentIdExpirationDate" />
+	</fr:schema>
+
 	<fr:layout name="tabular" >
 		<fr:property name="classes" value="tstyle1 thlight thright mtop025"/>
         <fr:property name="columnClasses" value="width14em,,tdclear tderror1"/>
