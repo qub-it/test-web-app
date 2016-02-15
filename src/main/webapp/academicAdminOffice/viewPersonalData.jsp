@@ -44,7 +44,7 @@
 <bean:define id="personBean" name="personBean" type="org.fenixedu.academic.dto.person.PersonBean" />
 
 <h3 class="mbottom025"><bean:message key="label.identification" bundle="ACADEMIC_OFFICE_RESOURCES" /></h3>
-<fr:view name="personBean" schema="student.documentId-edit" >
+<fr:view name="personBean" >
 	<fr:schema type="org.fenixedu.academic.dto.person.PersonBean" bundle="ACADEMIC_OFFICE_RESOURCES" > 
 		<fr:slot name="idDocumentType" key="label.idDocumentType" />
 		<fr:slot name="documentIdNumber" key="label.identificationNumber"  />
