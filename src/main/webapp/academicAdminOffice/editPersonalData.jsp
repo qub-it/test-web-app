@@ -18,6 +18,7 @@
     along with FenixEdu Academic.  If not, see <http://www.gnu.org/licenses/>.
 
 --%>
+<%@page import="org.fenixedu.academictreasury.domain.customer.PersonCustomer"%>
 <%@page import="org.fenixedu.academic.domain.person.IDDocumentType"%>
 <%@ page isELIgnored="true"%>
 <%@ taglib uri="http://struts.apache.org/tags-bean" prefix="bean" %>
@@ -30,6 +31,7 @@
 
 <fr:form action="/student.do">	
 	<html:hidden bundle="HTMLALT_RESOURCES" altKey="hidden.method" property="method" value="editPersonalData"/>
+	<bean:define id="person" name="student" property="person" type="org.fenixedu.academic.domain.Person" /> 
 	<bean:define id="studentID" type="java.lang.String" name="student" property="externalId"/>
 	<html:hidden bundle="HTMLALT_RESOURCES" altKey="hidden.method" property="studentID" value="<%= studentID.toString() %>"/>
 
@@ -41,8 +43,28 @@
 		</ul>
 	</logic:messagesPresent>
 
+	<bean:define id="countryCode" type="java.lang.String" ><%= PersonCustomer.countryCode(person) %></bean:define>
 	<h3 class="mtop15 mbottom025"><bean:message key="label.person.title.personal.info" bundle="ACADEMIC_OFFICE_RESOURCES" /></h3>
-	<fr:edit id="personData" name="personBean" schema="student.personalData-withoutProfessionDetails" >
+	<fr:edit id="personData" name="personBean" >
+		<fr:schema type="org.fenixedu.academic.dto.person.PersonBean" bundle="ACADEMIC_OFFICE_RESOURCES">
+			<fr:slot name="givenNames" validator="pt.ist.fenixWebFramework.renderers.validators.RequiredValidator">
+				<fr:property name="size" value="50" />
+			</fr:slot>
+			<fr:slot name="familyNames" validator="pt.ist.fenixWebFramework.renderers.validators.RequiredValidator">
+				<fr:property name="size" value="50" />
+			</fr:slot>
+			<fr:slot name="gender" validator="pt.ist.fenixWebFramework.renderers.validators.RequiredValidator" />
+			<fr:slot name="socialSecurityNumber" >
+				<fr:validator name="org.fenixedu.ulisboa.specifications.ui.renderers.validators.FiscalCodeValidator" >
+					<fr:property name="countryCode" value="<%= countryCode %>" />
+				</fr:validator>
+			</fr:slot>
+			<fr:slot name="profession" />
+			<fr:slot name="maritalStatus">
+				<fr:property name="excludedValues" value="UNKNOWN" />
+			</fr:slot>
+		</fr:schema>
+		
 		<fr:layout name="tabular" >
 			<fr:property name="classes" value="tstyle1 thlight thright mtop025"/>
 	        <fr:property name="columnClasses" value="width14em,,tdclear tderror1"/>
