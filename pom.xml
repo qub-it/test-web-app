@@ -5,15 +5,15 @@
 
 	<parent>
 		<groupId>org.fenixedu.ulisboa</groupId>
-		<artifactId>web-app-project</artifactId>
-		<version>1.0.0-SNAPSHOT</version>
+		<artifactId>qub-web-app-project</artifactId>
+		<version>1.0.2</version>
 		<relativePath></relativePath>
 	</parent>
 
-	<artifactId>test-web-app</artifactId>
+	<artifactId>fc-web-app</artifactId>
 	<packaging>war</packaging>
 
-	<name>test-web-app</name>
+	<name>fc-web-app</name>
 
 	<repositories>
 		<repository>
