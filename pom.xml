@@ -16,10 +16,22 @@
 	<name>fc-web-app</name>
 
 	<repositories>
-		<repository>
-			<id>ulisboa-repo</id>
-			<url>http://nexus.ulisboa.pt:8081/nexus/content/groups/public/</url>
-		</repository>
+	    <repository>
+                        <id>ulisboa-repo</id>
+                        <url>http://nexus.ulisboa.pt:8081/nexus/content/groups/public/</url>
+                </repository>
+                <repository>
+                        <id>qubIT-repo-obfuscated</id>
+                        <url>https://repository.qub-it.com/nexus/content/repositories/nexus_obfuscated</url>
+                </repository>
+                <repository>
+                        <id>qubIT-repo-public</id>
+                        <url>https://repository.qub-it.com/nexus/content/groups/public</url>
+                </repository>
+                <repository>
+                        <id>qubIT-repo</id>
+                        <url>https://repository.qub-it.com/nexus/content/groups/qubITRepo</url>
+                </repository>
 	</repositories>
 
 	<build>
