@@ -38,12 +38,12 @@
 
 <p class="mtop15 mbottom025"><strong><bean:message key="label.student.enrolment.chooseExecutionPeriod" bundle="ACADEMIC_OFFICE_RESOURCES"/>:</strong></p>
 
-<fr:form action="/studentEnrolments.do?method=showDegreeModulesToEnrol">
+<fr:form action="/studentEnrolmentsExtended.do?method=showDegreeModulesToEnrol">
 	<fr:edit id="studentEnrolment"
 			 name="studentEnrolmentBean"
 			 type="org.fenixedu.academic.dto.administrativeOffice.studentEnrolment.StudentEnrolmentBean"
 			 schema="student.enrolment.choose.executionPeriod">
-		<fr:destination name="postBack" path="/studentEnrolments.do?method=postBack"/>
+		<fr:destination name="postBack" path="/studentEnrolmentsExtended.do?method=postBack"/>
 		<fr:layout name="tabular">
 			<fr:property name="classes" value="tstyle4 thright thlight mtop025 mbottom05"/>
 			<fr:property name="columnClasses" value=",,tdclear tderror1"/>
@@ -116,7 +116,7 @@
 	</ul>
 
 	<br/>
-	<fr:form action="/studentEnrolments.do?method=backViewRegistration">
+	<fr:form action="/studentEnrolmentsExtended.do?method=backViewRegistration">
 		<fr:edit id="studentEnrolment-back" name="studentEnrolmentBean" visible="false" />
 		<html:cancel><bean:message key="button.back" bundle="ACADEMIC_OFFICE_RESOURCES"/></html:cancel>
 	</fr:form>
@@ -140,12 +140,12 @@
 		      	<fr:property name="columnClasses" value=",smalltxt color888,acenter,acenter,nowrap smalltxt,smalltxt, acenter"/>
 				<fr:property name="sortBy" value="name"/>
 				
-				<fr:property name="linkFormat(activate)" value="/studentEnrolments.do?method=activateEnrolment&enrolmentId=${externalId}&scpID=${studentCurricularPlan.externalId}&executionPeriodId=${executionPeriod.externalId}" />
+				<fr:property name="linkFormat(activate)" value="/studentEnrolmentsExtended.do?method=activateEnrolment&enrolmentId=${externalId}&scpID=${studentCurricularPlan.externalId}&executionPeriodId=${executionPeriod.externalId}" />
 				<fr:property name="key(activate)" value="label.enrolment.activate"/>
 				<fr:property name="bundle(activate)" value="ACADEMIC_OFFICE_RESOURCES"/>
 				<fr:property name="visibleIf(activate)" value="annulled"/>
 			
-				<fr:property name="linkFormat(annul)" value="/studentEnrolments.do?method=annulEnrolment&enrolmentId=${externalId}&scpID=${studentCurricularPlan.externalId}&executionPeriodId=${executionPeriod.externalId}" />
+				<fr:property name="linkFormat(annul)" value="/studentEnrolmentsExtended.do?method=annulEnrolment&enrolmentId=${externalId}&scpID=${studentCurricularPlan.externalId}&executionPeriodId=${executionPeriod.externalId}" />
 				<fr:property name="key(annul)" value="label.enrolment.annul"/>
 				<fr:property name="bundle(annul)" value="ACADEMIC_OFFICE_RESOURCES"/>
 				<fr:property name="visibleIfNot(annul)" value="annulled"/>
@@ -221,7 +221,7 @@
 	
 </logic:present>
 
-<fr:form action="/studentEnrolments.do?method=backViewRegistration">
+<fr:form action="/studentEnrolmentsExtended.do?method=backViewRegistration">
 	<fr:edit id="studentEnrolment-back" name="studentEnrolmentBean" visible="false" />
 	<html:cancel><bean:message key="button.back" bundle="ACADEMIC_OFFICE_RESOURCES"/></html:cancel>
 </fr:form>
