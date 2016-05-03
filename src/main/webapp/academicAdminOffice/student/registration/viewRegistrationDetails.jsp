@@ -270,7 +270,7 @@
 			<fr:property name="classes" value="tstyle2 thright thlight thcenter"/>
 			<fr:property name="groupLinks" value="false"/>
 			
-			<fr:property name="linkFormat(enrol)" value="/studentEnrolments.do?method=prepare&amp;scpID=${externalId}" />
+			<fr:property name="linkFormat(enrol)" value="/studentEnrolmentsExtended.do?method=prepare&amp;scpID=${externalId}" />
 			<fr:property name="key(enrol)" value="link.student.enrolInCourses"/>
 			<fr:property name="bundle(enrol)" value="ACADEMIC_OFFICE_RESOURCES"/>
 			<fr:property name="contextRelative(enrol)" value="true"/>      
@@ -354,7 +354,7 @@
 					<fr:property name="classes" value="tstyle2 thright thlight thcenter"/>
 					<fr:property name="groupLinks" value="false"/>
 					
-					<fr:property name="linkFormat(enrol)" value="/studentEnrolments.do?method=prepare&amp;scpID=${externalId}" />
+					<fr:property name="linkFormat(enrol)" value="/studentEnrolmentsExtended.do?method=prepare&amp;scpID=${externalId}" />
 					<fr:property name="key(enrol)" value="link.student.enrolInCourses"/>
 					<fr:property name="bundle(enrol)" value="ACADEMIC_OFFICE_RESOURCES"/>
 					<fr:property name="contextRelative(enrol)" value="true"/>      
