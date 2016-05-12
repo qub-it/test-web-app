@@ -42,7 +42,19 @@
 	<fr:edit id="studentEnrolment"
 			 name="studentEnrolmentBean"
 			 type="org.fenixedu.academic.dto.administrativeOffice.studentEnrolment.StudentEnrolmentBean"
-			 schema="student.enrolment.choose.executionPeriod">
+			 >
+		<fr:schema type="org.fenixedu.academic.dto.administrativeOffice.studentEnrolment.StudentEnrolmentBean" bundle="ACADEMIC_OFFICE_RESOURCES">
+			<fr:slot name="studentCurricularPlan.student.student.person.name" key="label.name" readOnly="true"/>
+			<fr:slot name="studentCurricularPlan.student.student.number" key="label.studentNumber" readOnly="true"/>
+			<fr:slot name="studentCurricularPlan.degreeCurricularPlan.name" key="label.degreeCurricularPlan" readOnly="true"/>
+			<fr:slot name="executionPeriod" layout="menu-select-postback" validator="pt.ist.fenixWebFramework.renderers.validators.RequiredValidator" >
+				<%-- qubExtension --%>
+				<fr:property name="providerClass"
+					value="org.fenixedu.academic.ui.renderers.providers.enrollment.bolonha.ExecutionPeriodsForEnrolmentProvider" />
+				<fr:property name="format" value="${qualifiedName}" />
+				<fr:property name="destination" value="postBack"/>
+			</fr:slot>
+		</fr:schema>
 		<fr:destination name="postBack" path="/studentEnrolmentsExtended.do?method=postBack"/>
 		<fr:layout name="tabular">
 			<fr:property name="classes" value="tstyle4 thright thlight mtop025 mbottom05"/>
