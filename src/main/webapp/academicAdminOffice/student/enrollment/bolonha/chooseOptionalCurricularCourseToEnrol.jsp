@@ -36,24 +36,6 @@
 	</logic:equal>
 </h2>
 
-<%-- qubExtension --%>
-<%@page import="org.fenixedu.bennu.core.i18n.BundleUtil"%>
-<%@page import="org.fenixedu.academic.util.Bundle"%>
-<%@page import="org.fenixedu.academic.dto.student.enrollment.bolonha.BolonhaStudentOptionalEnrollmentBean"%>
-<%@page import="org.fenixedu.academic.ui.renderers.providers.enrollment.bolonha.DegreeCurricularPlansForDegreeForOptionalEnrollment"%>
-<script type="text/javascript">//<![CDATA[
-	function disabler(jQuery) {
-		var OIDs = <%=DegreeCurricularPlansForDegreeForOptionalEnrollment.getAnyCurricularCourseExceptionsOIDs((BolonhaStudentOptionalEnrollmentBean) request.getAttribute("optionalEnrolmentBean"))%>;
-		var indexer = "a[name^=optionalCurricularCourseEnrolLink";
-		var label = '<%=BundleUtil.getString("resources/FenixeduUlisboaSpecificationsResources", "curricularRules.ruleExecutors.AnyCurricularCourseExceptions.not.offered.label")%>';
-		$.each( OIDs, function( key, value ) {
-			$(indexer.concat(value)).text(label).attr('onclick', function(){return false;}).css('text-decoration', 'line-through').css('color', 'grey');
-		});
-	}
-	
-	$(document).ready(disabler);
-//]]></script>
-
 <html:form action="/bolonhaStudentEnrollment.do">
 
 	<html:hidden property="method" value=""/>
@@ -144,7 +126,8 @@
 	
 		<logic:present name="optionalEnrolmentBean" property="degreeCurricularPlan">
 			<fr:edit id="degreeCurricularPlan" name="optionalEnrolmentBean">
-				<fr:layout name="bolonha-student-optional-enrolments">
+				<%-- qubExtension --%>
+				<fr:layout name="bolonha-student-optional-enrolments-extended">
 					<fr:property name="classes" value="mtop15" />
 					<fr:property name="groupRowClasses" value="se_groups" />
 				</fr:layout>
@@ -168,9 +151,10 @@
 </fr:context>
 </html:form>
 
-<script>
-$(function() {
-	$('table').removeClass('table');
-	$('form div[class="tstyle4 thlight thright"]').addClass('form-horizontal').removeClass('tstyle4 thlight thright');
-});
+<script type="text/javascript">
+    $(function() {
+		$('.showinfo3.mvert0').removeClass('table');
+		$('.smalltxt.noborder.table').removeClass('table');
+		$('form div[class="tstyle4 thlight thright"]').addClass('form-horizontal');
+    });
 </script>
