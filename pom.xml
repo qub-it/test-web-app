@@ -19,7 +19,7 @@
     		 <artifactId>javax.servlet-api</artifactId>
 		<version>3.0.1</version>
 		</dependency>
-	</dependencies>
+	<dependency><artifactId>fenixedu-academic</artifactId><groupId>org.fenixedu</groupId><version>5.2.0-RC151</version></dependency></dependencies>
 
 	<repositories>
 		<repository>
