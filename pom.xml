@@ -42,6 +42,7 @@
                          <groupId>javax.servlet</groupId>
                          <artifactId>javax.servlet-api</artifactId>
                         <version>3.0.1</version>
+			<scope>provided</scope>
                 </dependency>
         <dependency><artifactId>fenixedu-academic</artifactId><groupId>org.fenixedu</groupId><version>5.2.0-RC151</version></dependency></dependencies>
 <version>362</version></project>
