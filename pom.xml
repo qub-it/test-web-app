@@ -44,5 +44,5 @@
                         <version>3.0.1</version>
 			<scope>provided</scope>
                 </dependency>
-        <dependency><artifactId>fenixedu-academic</artifactId><groupId>org.fenixedu</groupId><version>5.2.0-RC156</version></dependency></dependencies>
+        <dependency><artifactId>fenixedu-academic</artifactId><groupId>org.fenixedu</groupId><version>5.2.0-RC157</version></dependency></dependencies>
 <version>367</version></project>
