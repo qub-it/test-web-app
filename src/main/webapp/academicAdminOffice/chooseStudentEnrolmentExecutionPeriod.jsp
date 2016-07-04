@@ -138,6 +138,7 @@
 		<fr:view name="studentEnrolments">
 			<%-- qubExtensions --%>
 			<fr:schema type="org.fenixedu.academic.domain.Enrolment" bundle="ACADEMIC_OFFICE_RESOURCES">
+				<fr:slot name="code" key="label.code" />
 				<fr:slot name="name" key="label.name" />
 				<fr:slot name="curriculumGroup.fullPath" key="label.group"/>
 				<fr:slot name="weigthForCurriculum" key="label.set.evaluation.enrolment.weight" />
@@ -149,8 +150,7 @@
 			
 			<fr:layout name="tabular">	 
 				<fr:property name="classes" value="tstyle2"/>
-		      	<fr:property name="columnClasses" value=",smalltxt color888,acenter,acenter,nowrap smalltxt,smalltxt, acenter"/>
-				<fr:property name="sortBy" value="name"/>
+		      	<fr:property name="columnClasses" value=",,smalltxt color888,acenter,acenter,nowrap smalltxt,smalltxt, acenter"/>
 				
 				<fr:property name="linkFormat(activate)" value="/studentEnrolmentsExtended.do?method=activateEnrolment&enrolmentId=${externalId}&scpID=${studentCurricularPlan.externalId}&executionPeriodId=${executionPeriod.externalId}" />
 				<fr:property name="key(activate)" value="label.enrolment.activate"/>
@@ -176,6 +176,7 @@
 		<fr:view name="studentImprovementEnrolments">
 			<%-- [JIRA] (ACDM-979) Bug Fix, Enrolments in Improvements: allow to choose EvaluationSeason --%>
 			<fr:schema type="org.fenixedu.academic.domain.EnrolmentEvaluation" bundle="ACADEMIC_OFFICE_RESOURCES">
+				<fr:slot name="enrolment.code" key="label.code" />				
 				<fr:slot name="enrolment.name" key="label.name" />
 				<fr:slot name="enrolment.curriculumGroup.fullPath" key="label.group"/>
 				<fr:slot name="enrolment.weigthForCurriculum" key="label.set.evaluation.enrolment.weight" />
@@ -190,8 +191,7 @@
 		
 			<fr:layout name="tabular">	 
 				<fr:property name="classes" value="tstyle2"/>
-		      	<fr:property name="columnClasses" value=",smalltxt color888,acenter,acenter,nowrap smalltxt,smalltxt,acenter, acenter smalltxt"/>
-				<fr:property name="sortBy" value="enrolment.name"/>
+		      	<fr:property name="columnClasses" value=",,smalltxt color888,acenter,acenter,nowrap smalltxt,smalltxt,acenter, acenter smalltxt"/>
 			</fr:layout>
 		</fr:view>
 	</logic:notEmpty>
@@ -206,6 +206,7 @@
 		<fr:view name="studentSpecialSeasonEnrolments">
 			<%-- [JIRA] (ACDM-980) Bug Fix, Enrolments in Special Season: allow to choose EvaluationSeason --%>
 			<fr:schema type="org.fenixedu.academic.domain.EnrolmentEvaluation" bundle="ACADEMIC_OFFICE_RESOURCES">
+				<fr:slot name="enrolment.code" key="label.code" />
 				<fr:slot name="enrolment.name" key="label.name" />
 				<fr:slot name="enrolment.curriculumGroup.fullPath" key="label.group"/>
 				<fr:slot name="enrolment.weigthForCurriculum" key="label.set.evaluation.enrolment.weight" />
@@ -220,8 +221,7 @@
 		
 			<fr:layout name="tabular">	 
 				<fr:property name="classes" value="tstyle2"/>
-		      	<fr:property name="columnClasses" value=",smalltxt color888,acenter,acenter,nowrap smalltxt,smalltxt,acenter, acenter smalltxt"/>
-				<fr:property name="sortBy" value="enrolment.name"/>
+		      	<fr:property name="columnClasses" value=",,smalltxt color888,acenter,acenter,nowrap smalltxt,smalltxt,acenter, acenter smalltxt"/>
 			</fr:layout>
 		</fr:view>
 	</logic:notEmpty>
