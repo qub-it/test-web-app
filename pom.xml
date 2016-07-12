@@ -45,4 +45,4 @@
 			<scope>provided</scope>
                 </dependency>
         <dependency><artifactId>fenixedu-academic</artifactId><groupId>org.fenixedu</groupId><version>5.2.0-RC173</version></dependency></dependencies>
-<version>384</version></project>
+<version>385</version></project>
