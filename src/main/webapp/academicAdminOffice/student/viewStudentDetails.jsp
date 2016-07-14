@@ -152,10 +152,25 @@
 </academic:allowed>
 
 <%-- qubExtension --%>
-<fr:view name="student" property="currentStatutes" schema="student.statutes" >
+<fr:view name="student" property="currentStatutes">
+	<fr:schema bundle="ACADEMIC_OFFICE_RESOURCES" type="org.fenixedu.academic.dto.student.StudentStatuteBean">
+		<fr:slot name="statuteType" key="label.code" >
+			<fr:property name="format" value="${code}" /> 
+		</fr:slot>
+		<fr:slot name="description" key="label.statuteType" />
+		<fr:slot name="beginPeriodFormatted" key="label.beginExecutionPeriod" />
+		<fr:slot name="studentStatute.beginDate" key="label.beginDate" />
+		<fr:slot name="endPeriodFormatted" key="label.endExecutionPeriod" />
+		<fr:slot name="studentStatute.endDate" key="label.endDate" />
+		<fr:slot name="studentStatute.registration" key="label.registration" >
+			<fr:property name="format" value="${degree.presentationNameI18N.content}" /> 
+		</fr:slot>
+	</fr:schema>
+
 	<fr:layout name="tabular">
 		<fr:property name="classes" value="tstyle4 thlight mtop025 mbottom0"/>
 		<fr:property name="columnClasses" value=",tdhl1"/>
+		<fr:property name="sortBy" value="studentStatute.beginExecutionPeriod.qualifiedName=desc,studentStatute.endExecutionPeriod.qualifiedName=desc" />
 	</fr:layout>
 </fr:view>
 
