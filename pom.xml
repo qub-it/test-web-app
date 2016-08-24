@@ -1,48 +1,65 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-	<modelVersion>4.0.0</modelVersion>
-
-	<parent>
-		<groupId>org.fenixedu.ulisboa</groupId>
-		<artifactId>web-app-project</artifactId>
-		<version>1.0.0-SNAPSHOT</version>
-		<relativePath />
-	</parent>
-
-	<artifactId>test-web-app</artifactId>
-	<packaging>war</packaging>
-
-	<name>test-web-app</name>
-	
-	<repositories>
-		<repository>
-			<id>ulisboa-repo</id>
-			<url>http://nexus.ulisboa.pt:8081/nexus/content/groups/public/</url>
-		</repository>
-	</repositories>
-
-	<build>
-		<plugins>
-			<plugin>
-				<groupId>org.apache.tomcat.maven</groupId>
-				<artifactId>tomcat7-maven-plugin</artifactId>
-				<version>2.2</version>
-				<configuration>
-					<contextFile>tomcat-context.xml</contextFile>
-					<systemProperties>
-						
-						
-					</systemProperties>
-				</configuration>
-			</plugin>
-		</plugins>
-	</build>
-
-	<dependencies>
-                <dependency>
-                         <groupId>javax.servlet</groupId>
-                         <artifactId>javax.servlet-api</artifactId>
-                        <version>3.0.1</version>
-			<scope>provided</scope>
-                </dependency>
-        <dependency><artifactId>fenixedu-academic</artifactId><groupId>org.fenixedu</groupId><version>5.2.0-RC205</version><exclusions><exclusion><artifactId>bcprov-jdk14</artifactId><groupId>bouncycastle</groupId></exclusion></exclusions></dependency></dependencies>
-<version>422</version></project>
+<?xml version="1.0" encoding="UTF-8"?><project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>org.fenixedu.ulisboa</groupId>
+    <artifactId>web-app-project</artifactId>
+    <version>1.0.0-SNAPSHOT</version>
+    <relativePath/>
+  </parent>
+  <artifactId>test-web-app</artifactId>
+  <packaging>war</packaging>
+  <name>
+    <name>fc-web-app</name>
+  </name>
+  <repositories>
+    <repository>
+      <id>ulisboa-repo</id>
+      <url>http://nexus.ulisboa.pt:8081/nexus/content/groups/public/</url>
+    </repository>
+  </repositories>
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.tomcat.maven</groupId>
+        <artifactId>tomcat7-maven-plugin</artifactId>
+        <version>2.2</version>
+        <configuration>
+          <contextFile>tomcat-context.xml</contextFile>
+          <systemProperties/>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+  <dependencies>
+    <dependency>
+      <groupId>javax.servlet</groupId>
+      <artifactId>javax.servlet-api</artifactId>
+      <version>3.0.1</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <artifactId>fenixedu-academic</artifactId>
+      <groupId>org.fenixedu</groupId>
+      <version>5.2.0-RC205</version>
+      <exclusions>
+        <exclusion>
+          <artifactId>bcprov-jdk14</artifactId>
+          <groupId>bouncycastle</groupId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+    <dependency>
+      <groupId>com.qubit.solution.fenixedu.module</groupId>
+      <artifactId>bennu-qub.module.fculApi</artifactId>
+      <version>1.0.0-SNAPSHOT</version>
+      <scope/>
+    </dependency>
+    <dependency>
+      <groupId>com.qubit.solution.fenixedu.module</groupId>
+      <artifactId>bennu-qub.module.customers-fcul</artifactId>
+      <version>1.0.0-SNAPSHOT</version>
+      <scope/>
+    </dependency>
+  </dependencies>
+  <version>422</version>
+</project>
