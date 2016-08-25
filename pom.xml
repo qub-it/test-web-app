@@ -8,9 +8,7 @@
   </parent>
   <artifactId>test-web-app</artifactId>
   <packaging>war</packaging>
-  <name>
-    <name>fc-web-app</name>
-  </name>
+  <name>fc-web-app</name>
   <repositories>
     <repository>
       <id>ulisboa-repo</id>
@@ -40,7 +38,7 @@
     <dependency>
       <artifactId>fenixedu-academic</artifactId>
       <groupId>org.fenixedu</groupId>
-      <version>5.2.0-RC206</version>
+      <version>5.2.0-RC207</version>
       <exclusions>
         <exclusion>
           <artifactId>bcprov-jdk14</artifactId>
