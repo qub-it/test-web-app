@@ -6,7 +6,7 @@
     <version>1.0.0-SNAPSHOT</version>
     <relativePath />
   </parent>
-  <artifactId>test-web-app</artifactId>
+  <artifactId>fc-web-app</artifactId>
   <packaging>war</packaging>
   <name>fc-web-app</name>
   <repositories>
@@ -38,7 +38,7 @@
     <dependency>
       <artifactId>fenixedu-academic</artifactId>
       <groupId>org.fenixedu</groupId>
-      <version>5.2.0-RC207</version>
+      <version>5.2.0-RC208</version>
       <exclusions>
         <exclusion>
           <artifactId>bcprov-jdk14</artifactId>
