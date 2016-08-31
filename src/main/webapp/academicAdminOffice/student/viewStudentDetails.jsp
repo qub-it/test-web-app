@@ -92,20 +92,27 @@
 		<fr:slot name="startDate" layout="null-as-label" key="label.startDate" >
 	        <fr:property name="label" value="-"/>	
 		</fr:slot>
+	    
 	    <fr:slot name="number" layout="null-as-label" key="label.number">
 	        <property name="label" value="-"/>
 	    </fr:slot>	
 		<fr:slot name="this" key="label.degree" layout="format">
 			<fr:property name="format" value="${degreeNameWithDescription} (${degree.code})" />
 		</fr:slot>
+		
 		<fr:slot name="activeStateType" key="label.currentState" />
+		<fr:slot name="registrationProtocol.description.content" key="label.registrationAgreement" />
+		
 		<fr:slot name="numberEnroledCurricularCoursesInCurrentYear" key="label.numberEnroledCurricularCoursesInCurrentYear" />
+		<fr:slot name="lastEnrolmentExecutionYear" layout="format" key="label.Registration.lastEnrolmentExecutionYear" >
+			<fr:property name="format" value="${qualifiedName}" />
+		</fr:slot>
 	</fr:schema>
 	<fr:layout name="tabular">
-		<fr:property name="sortBy" value="startDate=desc"/>
+		<fr:property name="sortBy" value="registrationYear=desc,startDate=desc"/>
 
 		<fr:property name="classes" value="tstyle1 thlight mtop025 boldlink1"/>
-		<fr:property name="columnClasses" value="acenter,acenter,tdhl1,,acenter,nowrap"/>
+		<fr:property name="columnClasses" value="acenter,acenter nowrap,acenter,tdhl1,,acenter,acenter,acenter,nowrap"/>
 
 		<fr:property name="linkFormat(view)" value="/student.do?method=visualizeRegistration&registrationID=${externalId}" />
 		<fr:property name="key(view)" value="link.student.visualizeRegistration"/>

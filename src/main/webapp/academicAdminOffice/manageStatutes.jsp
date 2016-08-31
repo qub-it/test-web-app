@@ -81,7 +81,7 @@
 			<fr:property name="bundle(delete)" value="ACADEMIC_OFFICE_RESOURCES"/>
 			<fr:property name="visibleIf(delete)" value="statuteType.explicitCreation"/>
 			<fr:property name="contextRelative(delete)" value="true"/> 		
-			<fr:property name="sortBy" value="studentStatute.beginExecutionPeriod.qualifiedName=desc,studentStatute.endExecutionPeriod.qualifiedName=desc" />
+			<fr:property name="sortBy" value="studentStatute.beginExecutionPeriod=desc,studentStatute.beginDate=asc,studentStatute.endExecutionPeriod=desc,studentStatute.endDate=asc" />
 		</fr:layout>
 	</fr:view>
 </logic:notEmpty>
@@ -104,11 +104,11 @@
 			</fr:slot>
 			<fr:slot name="beginExecutionPeriod" layout="menu-select" key="label.beginExecutionPeriod" validator="pt.ist.fenixWebFramework.renderers.validators.RequiredValidator" >
 				<fr:property name="providerClass" value="org.fenixedu.academic.ui.renderers.providers.StudentExecutionPeriodsProvider" />
-				<fr:property name="format" value="${semester}º Sem - ${executionYear.year}" />
+				<fr:property name="format" value="${qualifiedName}" />
 			</fr:slot>
 			<fr:slot name="endExecutionPeriod" layout="menu-select"  key="label.endExecutionPeriod" validator="pt.ist.fenixWebFramework.renderers.validators.RequiredValidator" >
 				<fr:property name="providerClass" value="org.fenixedu.academic.ui.renderers.providers.StudentExecutionPeriodsProvider" />
-				<fr:property name="format" value="${semester}º Sem - ${executionYear.year}" />
+				<fr:property name="format" value="${qualifiedName}" />
 			</fr:slot>
 			<fr:slot name="beginDate" key="label.beginDate">
 				<fr:property name="size" value="12"/>
@@ -147,11 +147,11 @@
 			</fr:slot>
 			<fr:slot name="beginExecutionPeriod" layout="menu-select" key="label.beginExecutionPeriod" validator="pt.ist.fenixWebFramework.renderers.validators.RequiredValidator" >
 				<fr:property name="providerClass" value="org.fenixedu.academic.ui.renderers.providers.StudentExecutionPeriodsProvider" />
-				<fr:property name="format" value="${semester}º Sem - ${executionYear.year}" />
+				<fr:property name="format" value="${qualifiedName}" />
 			</fr:slot>
 			<fr:slot name="endExecutionPeriod" layout="menu-select"  key="label.endExecutionPeriod" validator="pt.ist.fenixWebFramework.renderers.validators.RequiredValidator" >
 				<fr:property name="providerClass" value="org.fenixedu.academic.ui.renderers.providers.StudentExecutionPeriodsProvider" />
-				<fr:property name="format" value="${semester}º Sem - ${executionYear.year}" />
+				<fr:property name="format" value="${qualifiedName}" />
 			</fr:slot>
 			<fr:slot name="beginDate" key="label.beginDate">
 				<fr:property name="size" value="12"/>
