@@ -261,12 +261,20 @@
 	
 	
 	<%-- Curricular Plans --%>
-	
 	<academic:allowed operation="MANAGE_REGISTRATIONS" program="<%= registration.getDegree() %>">
 	<h3 class="mbottom05 mtop25 separator2"><bean:message key="label.studentCurricularPlans" bundle="ACADEMIC_OFFICE_RESOURCES"/></h3>
+	<%-- qubExtension --%><b><%= registration.getDegreeNameWithDescription() %></b>
 	
-	<fr:view name="registration" property="sortedStudentCurricularPlans" schema="student.studentCurricularPlans" >
+	<fr:view name="registration" property="sortedStudentCurricularPlans" >
+		<%-- qubExtension --%>
+		<fr:schema type="org.fenixedu.academic.domain.StudentCurricularPlan" bundle="ACADEMIC_OFFICE_RESOURCES">
+			<fr:slot name="startDateYearMonthDay" key="label.startDate" />
+			<fr:slot name="degreeCurricularPlan.name" key="label.curricularPlan" />
+			<fr:slot name="majorBranchNames" key="label.RegistrationHistoryReport.primaryBranch" />
+			<fr:slot name="minorBranchNames" key="label.RegistrationHistoryReport.secondaryBranch" />
+		</fr:schema>
 		<fr:layout name="tabular">
+			<fr:property name="sortBy" value="startDateYearMonthDay=desc"/>
 			<fr:property name="classes" value="tstyle2 thright thlight thcenter"/>
 			<fr:property name="groupLinks" value="false"/>
 			
