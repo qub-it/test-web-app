@@ -38,7 +38,7 @@
     <dependency>
       <artifactId>fenixedu-academic</artifactId>
       <groupId>org.fenixedu</groupId>
-      <version>5.2.0-RC224</version>
+      <version>5.2.0-RC225</version>
       <exclusions>
         <exclusion>
           <artifactId>bcprov-jdk14</artifactId>
