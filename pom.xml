@@ -45,4 +45,4 @@
 			<scope>provided</scope>
                 </dependency>
         <dependency><artifactId>fenixedu-academic</artifactId><groupId>org.fenixedu</groupId><version>5.2.0-RC244</version><exclusions><exclusion><artifactId>bcprov-jdk14</artifactId><groupId>bouncycastle</groupId></exclusion></exclusions></dependency></dependencies>
-<version>462</version></project>
+<version>463</version></project>
