@@ -250,6 +250,7 @@
             <fr:schema bundle="ACADEMIC_OFFICE_RESOURCES" type="<%= RegistrationDataBean.class.getName() %>">
                 <fr:slot name="executionYear.qualifiedName" key="label.executionYear" />
                 <fr:slot name="notApproved" key="label.notApproved"/>
+                <fr:slot name="reingression" key="reingression"/>
                 <%-- 
                 />
                 --%> 
