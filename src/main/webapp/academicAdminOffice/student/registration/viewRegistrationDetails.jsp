@@ -32,6 +32,7 @@
 <%@page import="org.fenixedu.commons.i18n.I18N" %>
 <%@page import="org.fenixedu.ulisboa.specifications.ui.ulisboaservicerequest.ULisboaServiceRequestManagementController"%>
 <%@page import="org.fenixedu.ulisboa.specifications.domain.serviceRequests.ULisboaServiceRequest"%>
+<%@page import="org.fenixedu.ulisboa.specifications.domain.services.RegistrationServices"%>
 <%@page import="java.util.stream.Collectors" %>
 <%@page import="org.fenixedu.academic.domain.student.Registration" %>
 <%@page import="java.util.List"%>
@@ -327,7 +328,18 @@
 	<%-- Curricular Plans --%>
 	<academic:allowed operation="MANAGE_REGISTRATIONS" program="<%= registration.getDegree() %>">
 	<h3 class="mbottom05 mtop25 separator2"><bean:message key="label.studentCurricularPlans" bundle="ACADEMIC_OFFICE_RESOURCES"/></h3>
-	<%-- qubExtension --%><b><%= registration.getDegreeNameWithDescription() + " (" + registration.getDegree().getCode() + ")" %></b>
+	<%-- qubExtension --%>
+    <div onmouseout="document.getElementById('curriculumAccumulatedInfo').className='tooltip tooltipClosed';" id="curriculumAccumulatedInfo" class="tooltip tooltipClosed" onmouseover="document.getElementById('curriculumAccumulatedInfo').className='tooltip tooltipOpen';">
+          <span style="font-weight: bold;"><%= registration.getDegreeNameWithDescription() + " (" + registration.getDegree().getCode() + ")" %></span>
+          <div class="tooltipText">
+            <% if(RegistrationServices.isCurriculumAccumulated(registration)) { %>
+                <bean:message key="curriculumAccumulated.enabled" bundle="ACADEMIC_OFFICE_RESOURCES"/>
+            <% } else { %>
+                <bean:message key="curriculumAccumulated.disabled" bundle="ACADEMIC_OFFICE_RESOURCES"/>
+            <% } %>
+          </div>
+          <script type="text/javascript">document.getElementById('curriculumAccumulatedInfo').className='tooltip tooltipClosed';</script>
+    </div>
 	
 	<fr:view name="registration" property="sortedStudentCurricularPlans" >
 		<%-- qubExtension --%>
