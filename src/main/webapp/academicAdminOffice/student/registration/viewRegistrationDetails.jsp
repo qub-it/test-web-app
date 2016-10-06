@@ -28,14 +28,15 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@page import="org.fenixedu.academic.domain.ExecutionYear"%>
 <%@page import="org.fenixedu.academic.domain.student.RegistrationDataByExecutionYear"%>
+<%@page import="org.fenixedu.ulisboa.specifications.dto.student.RegistrationDataBean"%>
 <%@page import="org.fenixedu.commons.i18n.I18N" %>
 <%@page import="org.fenixedu.ulisboa.specifications.ui.ulisboaservicerequest.ULisboaServiceRequestManagementController"%>
 <%@page import="org.fenixedu.ulisboa.specifications.domain.serviceRequests.ULisboaServiceRequest"%>
+<%@page import="org.fenixedu.ulisboa.specifications.domain.services.RegistrationServices"%>
 <%@page import="java.util.stream.Collectors" %>
 <%@page import="org.fenixedu.academic.domain.student.Registration" %>
-
-
-
+<%@page import="java.util.List"%>
+<%@page import="com.google.common.collect.Lists"%>
 
 
 <html:xhtml/>
@@ -238,23 +239,87 @@
 		<bean:message key="label.registrationDataByExecutionYear.noResults" bundle="ACADEMIC_OFFICE_RESOURCES"/>
 	</logic:empty>
 	<logic:notEmpty name="registration" property="registrationDataByExecutionYear">
-		<fr:view name="registration" property="registrationDataByExecutionYear">
-			<fr:schema bundle="ACADEMIC_OFFICE_RESOURCES" type="<%= RegistrationDataByExecutionYear.class.getName() %>">
-				<fr:slot name="executionYear.qualifiedName" key="label.executionYear" />
-				<fr:slot name="enrolmentDate" key="label.enrolmentDate" />
-			</fr:schema>
-			<fr:layout name="tabular">
-				<fr:property name="classes" value="tstyle2 thright thlight thcenter"/>
-				<fr:property name="columnClasses" value="acenter,acenter,acenter" />
-				<fr:property name="sortBy" value="executionYear=desc" />
-				<%-- qubExtension --%>				
-				<academic:allowed operation="STUDENT_ENROLMENTS" program="<%= registration.getDegree() %>">
-				<fr:link name="edit" label="label.edit,ACADEMIC_OFFICE_RESOURCES" 
-							 link="/manageRegistrationDataByExecutionYear.do?method=prepareEdit&registrationDataByExecutionYearId=${externalId}" order="1" />
-				<%-- qubExtension --%>
-				<fr:link name="shiftEnrolment" label="label.shifts,APPLICATION_RESOURCES" 
-							 link="/shiftEnrolment/${registration.externalId}/${executionYear.firstExecutionPeriod.externalId}" order="2" />
-				</academic:allowed>							 
+        <%-- qubExtension --%>
+        <%
+        final List<RegistrationDataBean> datas = Lists.newArrayList();
+        for (final RegistrationDataByExecutionYear data : registration.getRegistrationDataByExecutionYearSet()) {
+            datas.add(new RegistrationDataBean(data));
+        }
+        pageContext.setAttribute("datas", datas);
+        %>
+		<fr:view name="datas">
+            <fr:schema bundle="ACADEMIC_OFFICE_RESOURCES" type="<%= RegistrationDataBean.class.getName() %>">
+                <fr:slot name="executionYear.qualifiedName" key="label.executionYear" />
+                <fr:slot name="notApproved" key="label.notApproved"/>
+                <fr:slot name="reingression" key="reingression"/>
+                <%-- 
+                />
+                --%> 
+                <fr:slot name="curricularYearPresentation" key="label.curricularYear"
+                layout="output-with-hover">
+                    <fr:property name="format" value="${curricularYearJustificationPresentation}" />
+                    <fr:property name="useParent" value="true" />
+                </fr:slot>
+                <fr:slot name="schoolClassPresentation" key="label.schoolClass"/>
+                <fr:slot name="enrolmentsCount" key="label.enrolmentsCount" layout="link">
+                    <fr:property name="useParent" value="true" />
+                    <fr:property name="linkFormat"  value="/studentEnrolmentsExtended.do?method=prepare&amp;scpID=${studentCurricularPlan.externalId}&amp;executionSemesterID=${executionYear.firstExecutionPeriod.externalId}"/>
+                    <fr:property name="moduleRelative" value="true" />
+                    <fr:property name="contextRelative" value="true" />
+                </fr:slot>
+                <fr:slot name="creditsConcluded" key="approved" bundle="BOLONHA_MANAGER_RESOURCES" layout="link">
+                    <fr:property name="format" value="${creditsConcluded} Cred." />
+                    <fr:property name="useParent" value="true" />
+                    <fr:property name="linkFormat"  value="/viewStudentCurriculum.do?method=prepare&amp;registrationOID=${registration.externalId}"/>
+                    <fr:property name="moduleRelative" value="true" />
+                    <fr:property name="contextRelative" value="true" />
+                </fr:slot>
+                <fr:slot name="enroledEcts" key="enrolled" layout="link">
+                    <fr:property name="format" value="${enroledEcts} Cred." />
+                    <fr:property name="useParent" value="true" />
+                    <fr:property name="linkFormat"  value="/studentEnrolmentsExtended.do?method=prepare&amp;scpID=${studentCurricularPlan.externalId}&amp;executionSemesterID=${executionYear.firstExecutionPeriod.externalId}"/>
+                    <fr:property name="moduleRelative" value="true" />
+                    <fr:property name="contextRelative" value="true" />
+                </fr:slot>
+                <fr:slot name="regimePresentation" key="label.regimeType" layout="link">
+                    <fr:property name="useParent" value="true" />
+                    <fr:property name="linkFormat"  value="/registration.do?method=showRegimes&amp;registrationId=${registration.externalId}"/>
+                    <fr:property name="moduleRelative" value="true" />
+                    <fr:property name="contextRelative" value="true" />
+                </fr:slot>
+                <fr:slot name="lastRegistrationStatePresentation" key="label.lastRegistrationState" layout="link">
+                    <fr:property name="useParent" value="true" />
+                    <fr:property name="linkFormat"  value="/manageRegistrationState.do?method=prepare&amp;registrationId=${registration.externalId}"/>
+                    <fr:property name="moduleRelative" value="true" />
+                    <fr:property name="contextRelative" value="true" />
+                </fr:slot>
+                <fr:slot name="enrolmentDate" key="label.enrolmentDate" />
+                <fr:slot name="lastAcademicActDate" key="label.lastAcademicAct.date"/>
+            </fr:schema>
+            <fr:layout name="tabular">
+                <fr:property name="classes" value="tstyle2 thright thlight thcenter"/>
+                <fr:property name="columnClasses" value="acenter,acenter,acenter" />
+                <fr:property name="groupLinks" value="false"/>
+                <fr:property name="sortBy" value="executionYear=desc" />
+    
+                <%-- qubExtension --%>              
+                <academic:allowed operation="STUDENT_ENROLMENTS" program="<%= registration.getDegree() %>">
+                    <fr:link name="edit" label="label.edit,ACADEMIC_OFFICE_RESOURCES" 
+                                 link="/manageRegistrationDataByExecutionYear.do?method=prepareEdit&registrationDataByExecutionYearId=${externalId}" order="1" />
+                    <%-- qubExtension --%>
+                    <fr:link name="shiftEnrolment" label="label.shifts,APPLICATION_RESOURCES" 
+                                 link="/shiftEnrolment/${registration.externalId}/${executionYear.firstExecutionPeriod.externalId}" order="2" />
+                </academic:allowed>                          
+                
+                <%-- TODO legidio
+                <fr:property name="linkFormat(delete)" value="<%="/manageRegistrationDataByExecutionYear.do?method=delete&amp;registrationDataByExecutionYearId=${externalId}"%>"/>
+                <fr:property name="key(delete)" value="label.delete"/>
+                <fr:property name="bundle(delete)" value="ACADEMIC_OFFICE_RESOURCES"/>
+                <fr:property name="confirmationKey(delete)" value="info.RegistrationDataByExecutionYear.confirmDelete"/>
+                <fr:property name="confirmationBundle(delete)" value="ACADEMIC_OFFICE_RESOURCES"/>
+                <fr:property name="order(delete)" value="2"/>
+                 --%>
+    
 			</fr:layout>
 		</fr:view>
 	</logic:notEmpty>
@@ -263,7 +328,18 @@
 	<%-- Curricular Plans --%>
 	<academic:allowed operation="MANAGE_REGISTRATIONS" program="<%= registration.getDegree() %>">
 	<h3 class="mbottom05 mtop25 separator2"><bean:message key="label.studentCurricularPlans" bundle="ACADEMIC_OFFICE_RESOURCES"/></h3>
-	<%-- qubExtension --%><b><%= registration.getDegreeNameWithDescription() %></b>
+	<%-- qubExtension --%>
+    <div onmouseout="document.getElementById('curriculumAccumulatedInfo').className='tooltip tooltipClosed';" id="curriculumAccumulatedInfo" class="tooltip tooltipClosed" onmouseover="document.getElementById('curriculumAccumulatedInfo').className='tooltip tooltipOpen';">
+          <span style="font-weight: bold;"><%= registration.getDegreeNameWithDescription() + " (" + registration.getDegree().getCode() + ")" %></span>
+          <div class="tooltipText">
+            <% if(RegistrationServices.isCurriculumAccumulated(registration)) { %>
+                <bean:message key="curriculumAccumulated.enabled" bundle="ACADEMIC_OFFICE_RESOURCES"/>
+            <% } else { %>
+                <bean:message key="curriculumAccumulated.disabled" bundle="ACADEMIC_OFFICE_RESOURCES"/>
+            <% } %>
+          </div>
+          <script type="text/javascript">document.getElementById('curriculumAccumulatedInfo').className='tooltip tooltipClosed';</script>
+    </div>
 	
 	<fr:view name="registration" property="sortedStudentCurricularPlans" >
 		<%-- qubExtension --%>
@@ -279,7 +355,7 @@
 			<fr:property name="groupLinks" value="false"/>
 			
 			<fr:property name="linkFormat(enrol)" value="/studentEnrolmentsExtended.do?method=prepare&amp;scpID=${externalId}" />
-			<fr:property name="key(enrol)" value="link.student.enrolInCourses"/>
+			<fr:property name="key(enrol)" value="label.student.enrolments"/>
 			<fr:property name="bundle(enrol)" value="ACADEMIC_OFFICE_RESOURCES"/>
 			<fr:property name="contextRelative(enrol)" value="true"/>      
 			<fr:property name="visibleIf(enrol)" value="allowedToManageEnrolments" />
@@ -288,7 +364,7 @@
 			<%-- qubExtension --%>
 			<academic:allowed operation="MANAGE_EQUIVALENCES">
 				<fr:property name="linkFormat(dismissal)" value="/studentDismissals.do?method=manage&amp;scpID=${externalId}" />
-				<fr:property name="key(dismissal)" value="link.student.dismissal.management"/>
+				<fr:property name="key(dismissal)" value="label.studentDismissal.equivalences"/>
 				<fr:property name="bundle(dismissal)" value="ACADEMIC_OFFICE_RESOURCES"/>
 				<fr:property name="contextRelative(dismissal)" value="true"/>      	
 				<fr:property name="order(dismissal)" value="2"/>
@@ -322,17 +398,7 @@
 	
 	<p class="mtop0">
 
-		<%-- qubExtension --%>
-		<academic:allowed operation="STUDENT_ENROLMENTS" program="<%= registration.getDegree() %>">
 		<span>
-			<img src="<%= request.getContextPath() %>/images/dotist_post.gif" alt="<bean:message key="dotist_post" bundle="IMAGE_RESOURCES" />" />
-			<html:link page="/studentExternalEnrolments.do?method=manageExternalEnrolments" paramId="registrationId" paramName="registration" paramProperty="externalId">
-				<bean:message key="label.student.manageExternalEnrolments" bundle="ACADEMIC_OFFICE_RESOURCES"/>
-			</html:link>
-		</span>
-		</academic:allowed>
-
-		<span class="pleft1">
 			<img src="<%= request.getContextPath() %>/images/dotist_post.gif" alt="<bean:message key="dotist_post" bundle="IMAGE_RESOURCES" />" />
 			<html:link page="/viewStudentCurriculum.do?method=prepare" paramId="registrationOID" paramName="registration" paramProperty="externalId">
 				<bean:message key="link.registration.viewStudentCurricularPlans" bundle="ACADEMIC_OFFICE_RESOURCES"/>
@@ -349,6 +415,16 @@
 		</span>
 		</academic:allowed>
 		
+		<%-- qubExtension --%>
+		<academic:allowed operation="STUDENT_ENROLMENTS" program="<%= registration.getDegree() %>">
+		<span class="pleft1">
+			<img src="<%= request.getContextPath() %>/images/dotist_post.gif" alt="<bean:message key="dotist_post" bundle="IMAGE_RESOURCES" />" />
+			<html:link page="/studentExternalEnrolments.do?method=manageExternalEnrolments" paramId="registrationId" paramName="registration" paramProperty="externalId">
+				<bean:message key="label.student.externalEnrolments" bundle="ACADEMIC_OFFICE_RESOURCES"/>
+			</html:link>
+		</span>
+		</academic:allowed>
+
 	</p>
 	
 	</academic:allowed>
@@ -405,3 +481,55 @@
 <bean:define id="deliveryWarning">
 <bean:message bundle="ACADEMIC_OFFICE_RESOURCES"  key="academic.service.request.delivery.confirmation"/>
 </bean:define>
+
+<%-- TODO legidio, move this to a generic place --%>
+<style type="text/css">
+/*---------------------------------------
+       Tooltip
+---------------------------------------*/
+
+div.tooltip {
+display: inline;
+position: relative;
+opacity: initial;
+}
+div.tooltip img {
+padding-top: 5px;
+}
+div.tooltipClosed div.tooltipText {
+display: none;
+}
+div.tooltipOpen div.tooltipText {
+display: inline;
+}
+div.tooltipOpen div.tooltipText p {
+display: block !important;
+margin: 0 !important;
+}
+div.tooltip div.tooltipText {
+position: absolute;
+z-index: 10;
+left: 25px;
+width: 325px;
+padding: 5px 10px;
+text-align: left;
+background: #e3f0f6;
+border: 2px solid #c8e3ec;
+white-space: normal !important;
+}
+div.tooltip div.tooltipText a {
+font-weight: normal;
+}
+div.tooltip div.tooltipText ul {
+margin: 0;
+padding: 0;
+list-style: none;
+text-align: left;
+}
+div.tooltip div.tooltipText ul li {
+margin: 0;
+padding: 0;
+}
+div.tooltip span { border-bottom: 1px dotted #888; cursor: default; }
+div.tooltip div.tooltipText span { border-bottom: none; }
+</style>

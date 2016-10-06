@@ -114,7 +114,7 @@ public class ClassEnrollmentAuthorizationFilter {
         if (!studentCurricularPlan.isInCandidateEnrolmentProcess(executionSemester.getExecutionYear())) {
             predicate = ep -> ep.isForClasses() || ep.isForShift();
         } else {
-            predicate = ep -> ep.getFirstTimeRegistration();
+            predicate = ep -> ep.isForFirstTimeRegistration();
         }
         FenixServiceException result = verify(predicate, degreeCurricularPlan, executionSemester);
         if (result == null) {
