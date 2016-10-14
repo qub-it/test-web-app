@@ -71,21 +71,30 @@
         </span>
     </p>
     
-    
-    
-    <logic:messagesPresent message="true">
-        <ul class="list7 mtop2 warning0" style="list-style: none;">
-            <html:messages id="message" message="true" bundle="ACADEMIC_OFFICE_RESOURCES">
-                <li>
-                    <span><!-- Error messages go here --><bean:write name="message" /></span>
-                </li>
+
+    <logic:messagesPresent message="true" property="success">
+        <div class="success0" style="padding: 0.5em;">
+            <html:messages id="messages" message="true" bundle="ACADEMIC_OFFICE_RESOURCES" property="success">
+                <span><bean:write name="messages" /></span>
             </html:messages>
-        </ul>
+        </div>
     </logic:messagesPresent>
-
-
-
-
+    
+    <logic:messagesPresent message="true" property="warning" >
+        <div class="warning0" style="padding: 0.5em;">
+            <html:messages id="messages" message="true" bundle="ACADEMIC_OFFICE_RESOURCES" property="warning">
+                <span><bean:write name="messages" /></span>
+            </html:messages>
+        </div>
+    </logic:messagesPresent>
+    
+    <logic:messagesPresent message="true" property="error">
+        <div class="error0" style="padding: 0.5em;">
+            <html:messages id="messages" message="true" bundle="ACADEMIC_OFFICE_RESOURCES" property="error">
+                <span><bean:write name="messages" /></span>
+            </html:messages>
+        </div>
+    </logic:messagesPresent>
 
 
     <logic:present name="registration" property="ingressionType">
@@ -304,21 +313,20 @@
     
                 <%-- qubExtension --%>              
                 <academic:allowed operation="STUDENT_ENROLMENTS" program="<%= registration.getDegree() %>">
-                    <fr:link name="edit" label="label.edit,ACADEMIC_OFFICE_RESOURCES" 
-                                 link="/manageRegistrationDataByExecutionYear.do?method=prepareEdit&registrationDataByExecutionYearId=${externalId}" order="1" />
                     <%-- qubExtension --%>
                     <fr:link name="shiftEnrolment" label="label.shifts,APPLICATION_RESOURCES" 
-                                 link="/shiftEnrolment/${registration.externalId}/${executionYear.firstExecutionPeriod.externalId}" order="2" />
+                                 link="/shiftEnrolment/${registration.externalId}/${executionYear.firstExecutionPeriod.externalId}" order="1" />
+                    
+                    <fr:link name="edit" label="label.edit,ACADEMIC_OFFICE_RESOURCES" 
+                                 link="/manageRegistrationData.do?method=prepareEdit&registrationDataByExecutionYearId=${externalId}" order="2" />
+
+                    <fr:property name="linkFormat(delete)" value="<%="/manageRegistrationData.do?method=delete&amp;registrationDataByExecutionYearId=${externalId}"%>"/>
+                    <fr:property name="key(delete)" value="label.delete"/>
+                    <fr:property name="bundle(delete)" value="ACADEMIC_OFFICE_RESOURCES"/>
+                    <fr:property name="confirmationKey(delete)" value="info.RegistrationDataByExecutionYear.confirmDelete"/>
+                    <fr:property name="confirmationBundle(delete)" value="ACADEMIC_OFFICE_RESOURCES"/>
+                    <fr:property name="order(delete)" value="3"/>
                 </academic:allowed>                          
-                
-                <%-- TODO legidio
-                <fr:property name="linkFormat(delete)" value="<%="/manageRegistrationDataByExecutionYear.do?method=delete&amp;registrationDataByExecutionYearId=${externalId}"%>"/>
-                <fr:property name="key(delete)" value="label.delete"/>
-                <fr:property name="bundle(delete)" value="ACADEMIC_OFFICE_RESOURCES"/>
-                <fr:property name="confirmationKey(delete)" value="info.RegistrationDataByExecutionYear.confirmDelete"/>
-                <fr:property name="confirmationBundle(delete)" value="ACADEMIC_OFFICE_RESOURCES"/>
-                <fr:property name="order(delete)" value="2"/>
-                 --%>
     
 			</fr:layout>
 		</fr:view>
