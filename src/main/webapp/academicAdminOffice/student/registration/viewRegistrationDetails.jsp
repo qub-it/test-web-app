@@ -378,12 +378,14 @@
 				<fr:property name="order(dismissal)" value="2"/>
 			</academic:allowed>
 			
+					<%-- extension: Deprecated payment system 
 			<fr:property name="linkFormat(createAccountingEvents)" value="/accountingEventsManagement.do?method=prepare&amp;scpID=${externalId}" />
 			<fr:property name="key(createAccountingEvents)" value="label.accountingEvents.management.createEvents"/>
 			<fr:property name="bundle(createAccountingEvents)" value="ACADEMIC_OFFICE_RESOURCES"/>
 			<fr:property name="contextRelative(createAccountingEvents)" value="true"/>      	
 			<fr:property name="order(createAccountingEvents)" value="3"/>
 			<fr:property name="visibleIf(createAccountingEvents)" value="allowedToManageAccountingEvents"/>
+					--%>
 			
 			<fr:property name="linkFormat(edit)" value="/manageStudentCurricularPlans.do?method=prepareEdit&amp;studentCurricularPlanId=${externalId}" />
 			<fr:property name="key(edit)" value="label.edit"/>
