@@ -510,7 +510,7 @@ div.tooltipClosed div.tooltipText {
 display: none;
 }
 div.tooltipOpen div.tooltipText {
-display: inline;
+<%--display: inline;--%>
 }
 div.tooltipOpen div.tooltipText p {
 display: block !important;
@@ -543,3 +543,8 @@ padding: 0;
 div.tooltip span { border-bottom: 1px dotted #888; cursor: default; }
 div.tooltip div.tooltipText span { border-bottom: none; }
 </style>
+<script type="text/javascript">
+$(".tooltipText").each(function( index ) {
+    $( this ).html($( this ).html().replace("\"[", "<br/>\"[").replace("; [", ";<br/>["));
+  });
+</script>
