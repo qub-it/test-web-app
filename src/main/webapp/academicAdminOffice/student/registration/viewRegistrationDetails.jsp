@@ -378,12 +378,14 @@
 				<fr:property name="order(dismissal)" value="2"/>
 			</academic:allowed>
 			
+					<%-- extension: Deprecated payment system 
 			<fr:property name="linkFormat(createAccountingEvents)" value="/accountingEventsManagement.do?method=prepare&amp;scpID=${externalId}" />
 			<fr:property name="key(createAccountingEvents)" value="label.accountingEvents.management.createEvents"/>
 			<fr:property name="bundle(createAccountingEvents)" value="ACADEMIC_OFFICE_RESOURCES"/>
 			<fr:property name="contextRelative(createAccountingEvents)" value="true"/>      	
 			<fr:property name="order(createAccountingEvents)" value="3"/>
 			<fr:property name="visibleIf(createAccountingEvents)" value="allowedToManageAccountingEvents"/>
+					--%>
 			
 			<fr:property name="linkFormat(edit)" value="/manageStudentCurricularPlans.do?method=prepareEdit&amp;studentCurricularPlanId=${externalId}" />
 			<fr:property name="key(edit)" value="label.edit"/>
@@ -508,7 +510,7 @@ div.tooltipClosed div.tooltipText {
 display: none;
 }
 div.tooltipOpen div.tooltipText {
-display: inline;
+<%--display: inline;--%>
 }
 div.tooltipOpen div.tooltipText p {
 display: block !important;
@@ -541,3 +543,8 @@ padding: 0;
 div.tooltip span { border-bottom: 1px dotted #888; cursor: default; }
 div.tooltip div.tooltipText span { border-bottom: none; }
 </style>
+<script type="text/javascript">
+$(".tooltipText").each(function( index ) {
+    $( this ).html($( this ).html().replace("\"[", "<br/>\"[").replace("; [", ";<br/>["));
+  });
+</script>
