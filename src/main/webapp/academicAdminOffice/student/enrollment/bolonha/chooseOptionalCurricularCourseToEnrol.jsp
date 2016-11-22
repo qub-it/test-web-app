@@ -57,21 +57,18 @@
     
     final BolonhaDegreeTypesProviderForOptionalEnrollment typeProvider = new BolonhaDegreeTypesProviderForOptionalEnrollment();
     final List<DegreeType> types = (List<DegreeType>) typeProvider.provide(bean, null);
-    System.out.println(types);
     
     if (types.size() == 1) {
         bean.setDegreeType(types.iterator().next());
         
         final DegreesByDegreeTypeForOptionalEnrollment degreesProvider = new DegreesByDegreeTypeForOptionalEnrollment();
         final List<Degree> degrees = (List<Degree>) degreesProvider.provide(bean, null);
-        System.out.println(degrees);
 
         if (degrees.size() == 1) {
             bean.setDegree(degrees.iterator().next());
             
             final DegreeCurricularPlansForDegreeForOptionalEnrollment dcpsProvider = new DegreeCurricularPlansForDegreeForOptionalEnrollment();
             final List<DegreeCurricularPlan> dcps = (List<DegreeCurricularPlan>) dcpsProvider.provide(bean, null);
-            System.out.println(dcps);
             
             if (dcps.size() == 1) {
                 bean.setDegreeCurricularPlan(dcps.iterator().next());
