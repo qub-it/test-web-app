@@ -18,12 +18,20 @@
     along with FenixEdu Academic.  If not, see <http://www.gnu.org/licenses/>.
 
 --%>
-<%@ taglib uri="http://struts.apache.org/tags-html" prefix="html"%>
 <html:xhtml />
+<%@ taglib uri="http://struts.apache.org/tags-html" prefix="html"%>
 <%@ taglib uri="http://struts.apache.org/tags-bean" prefix="bean"%>
 <%@ taglib uri="http://struts.apache.org/tags-logic" prefix="logic"%>
 <%@ taglib uri="http://fenix-ashes.ist.utl.pt/fenix-renderers" prefix="fr"%>
 <%@page import="org.fenixedu.commons.i18n.I18N"%>
+<%@page import="java.util.List"%>
+<%@page import="org.fenixedu.academic.domain.Degree"%>
+<%@page import="org.fenixedu.academic.domain.DegreeCurricularPlan"%>
+<%@page import="org.fenixedu.academic.domain.degree.DegreeType"%>
+<%@page import="org.fenixedu.academic.ui.renderers.providers.enrollment.bolonha.BolonhaDegreeTypesProviderForOptionalEnrollment"%>
+<%@page import="org.fenixedu.academic.ui.renderers.providers.enrollment.bolonha.DegreesByDegreeTypeForOptionalEnrollment"%>
+<%@page import="org.fenixedu.academic.ui.renderers.providers.enrollment.bolonha.DegreeCurricularPlansForDegreeForOptionalEnrollment"%>
+<%@page import="org.fenixedu.academic.dto.student.enrollment.bolonha.BolonhaStudentOptionalEnrollmentBean"%>
 
 <h2>
 	<bean:message key="label.student.enrollment.optional.course" bundle="ACADEMIC_OFFICE_RESOURCES" />
@@ -42,64 +50,91 @@
 	<html:hidden property="withRules"/>
 
 	<fr:context>
-	<fr:edit id="optionalEnrolment" name="optionalEnrolmentBean">
+    
+    <%-- qubExtension, avoid choosing values in drop-downs if only one option is be available --%>
+    <% 
+    final BolonhaStudentOptionalEnrollmentBean bean = (BolonhaStudentOptionalEnrollmentBean) request.getAttribute("optionalEnrolmentBean");
+    
+    final BolonhaDegreeTypesProviderForOptionalEnrollment typeProvider = new BolonhaDegreeTypesProviderForOptionalEnrollment();
+    final List<DegreeType> types = (List<DegreeType>) typeProvider.provide(bean, null);
+    
+    if (types.size() == 1) {
+        bean.setDegreeType(types.iterator().next());
+        
+        final DegreesByDegreeTypeForOptionalEnrollment degreesProvider = new DegreesByDegreeTypeForOptionalEnrollment();
+        final List<Degree> degrees = (List<Degree>) degreesProvider.provide(bean, null);
 
-		<%-- qubExtension --%>	
-		<fr:schema bundle="STUDENT_RESOURCES"
-			type="org.fenixedu.academic.dto.student.enrollment.bolonha.BolonhaStudentOptionalEnrollmentBean">
-			<fr:slot name="degreeType" key="label.degreeType"
-				layout="menu-select-postback"
-				validator="pt.ist.fenixWebFramework.renderers.validators.RequiredValidator">
-				<fr:property name="format" value="\${name.content}" />
-				<logic:equal name="withRules" value="true">
-					<fr:property name="providerClass"
-						value="org.fenixedu.academic.ui.renderers.providers.enrollment.bolonha.BolonhaDegreeTypesProviderForOptionalEnrollment" />
-				</logic:equal>
-				<logic:equal name="withRules" value="false">
-					<fr:property name="providerClass"
-						value="org.fenixedu.academic.ui.renderers.providers.BolonhaDegreeTypesProvider" />
-				</logic:equal>
-				<fr:property name="destination" value="updateComboBoxes"/>
-			</fr:slot>
-			<fr:slot name="degree" key="label.degree"
-				layout="menu-select-postback"
-				validator="pt.ist.fenixWebFramework.renderers.validators.RequiredValidator">
-				<logic:equal name="withRules" value="true">
-					<fr:property name="providerClass"
-						value="org.fenixedu.academic.ui.renderers.providers.enrollment.bolonha.DegreesByDegreeTypeForOptionalEnrollment" />
-				</logic:equal>
-				<logic:equal name="withRules" value="false">
-					<fr:property name="providerClass"
-						value="org.fenixedu.academic.ui.renderers.providers.enrollment.bolonha.DegreesByDegreeType" />
-				</logic:equal>
-				<fr:property name="format" value="\${name}" />
-				<fr:property name="destination" value="updateComboBoxes"/>
-			</fr:slot>
-			<fr:slot name="degreeCurricularPlan" key="label.degreeCurricularPlan"
-				layout="menu-select-postback"
-				validator="pt.ist.fenixWebFramework.renderers.validators.RequiredValidator">
-				<logic:equal name="withRules" value="true">
-					<fr:property name="providerClass"
-						value="org.fenixedu.academic.ui.renderers.providers.enrollment.bolonha.DegreeCurricularPlansForDegreeForOptionalEnrollment" />
-				</logic:equal>
-				<logic:equal name="withRules" value="false">
-					<fr:property name="providerClass"
-						value="org.fenixedu.academic.ui.renderers.providers.enrollment.bolonha.DegreeCurricularPlansForDegree" />
-				</logic:equal>
-				<fr:property name="format" value="\${name}" />
-				<fr:property name="destination" value="updateComboBoxes"/>
-			</fr:slot>
-		</fr:schema>
-	
-		<fr:destination name="updateComboBoxes"
-			path="/bolonhaStudentEnrollment.do?method=updateParametersToSearchOptionalCurricularCourses" />
-		<fr:layout name="tabular">
-			<fr:property name="classes" value="tstyle4 thlight thright" />
-			<fr:property name="columnClasses" value=",,tdclear tderror1" />
-		</fr:layout>
-	</fr:edit>
-	
-	
+        if (degrees.size() == 1) {
+            bean.setDegree(degrees.iterator().next());
+            
+            final DegreeCurricularPlansForDegreeForOptionalEnrollment dcpsProvider = new DegreeCurricularPlansForDegreeForOptionalEnrollment();
+            final List<DegreeCurricularPlan> dcps = (List<DegreeCurricularPlan>) dcpsProvider.provide(bean, null);
+            
+            if (dcps.size() == 1) {
+                bean.setDegreeCurricularPlan(dcps.iterator().next());
+            }
+        }
+    }
+    %>
+    
+        <fr:edit id="optionalEnrolment" name="optionalEnrolmentBean" visible="<%=bean.getDegreeCurricularPlan() == null%>">
+    
+    		<%-- qubExtension --%>	
+    		<fr:schema bundle="STUDENT_RESOURCES"
+    			type="org.fenixedu.academic.dto.student.enrollment.bolonha.BolonhaStudentOptionalEnrollmentBean">
+    			<fr:slot name="degreeType" key="label.degreeType"
+    				layout="menu-select-postback"
+    				validator="pt.ist.fenixWebFramework.renderers.validators.RequiredValidator">
+    				<fr:property name="format" value="\${name.content}" />
+    				<logic:equal name="withRules" value="true">
+    					<fr:property name="providerClass"
+    						value="org.fenixedu.academic.ui.renderers.providers.enrollment.bolonha.BolonhaDegreeTypesProviderForOptionalEnrollment" />
+    				</logic:equal>
+    				<logic:equal name="withRules" value="false">
+    					<fr:property name="providerClass"
+    						value="org.fenixedu.academic.ui.renderers.providers.BolonhaDegreeTypesProvider" />
+    				</logic:equal>
+    				<fr:property name="destination" value="updateComboBoxes"/>
+    			</fr:slot>
+    			<fr:slot name="degree" key="label.degree"
+    				layout="menu-select-postback"
+    				validator="pt.ist.fenixWebFramework.renderers.validators.RequiredValidator">
+    				<logic:equal name="withRules" value="true">
+    					<fr:property name="providerClass"
+    						value="org.fenixedu.academic.ui.renderers.providers.enrollment.bolonha.DegreesByDegreeTypeForOptionalEnrollment" />
+    				</logic:equal>
+    				<logic:equal name="withRules" value="false">
+    					<fr:property name="providerClass"
+    						value="org.fenixedu.academic.ui.renderers.providers.enrollment.bolonha.DegreesByDegreeType" />
+    				</logic:equal>
+    				<fr:property name="format" value="\${name}" />
+    				<fr:property name="destination" value="updateComboBoxes"/>
+    			</fr:slot>
+    			<fr:slot name="degreeCurricularPlan" key="label.degreeCurricularPlan"
+    				layout="menu-select-postback"
+    				validator="pt.ist.fenixWebFramework.renderers.validators.RequiredValidator">
+    				<logic:equal name="withRules" value="true">
+    					<fr:property name="providerClass"
+    						value="org.fenixedu.academic.ui.renderers.providers.enrollment.bolonha.DegreeCurricularPlansForDegreeForOptionalEnrollment" />
+    				</logic:equal>
+    				<logic:equal name="withRules" value="false">
+    					<fr:property name="providerClass"
+    						value="org.fenixedu.academic.ui.renderers.providers.enrollment.bolonha.DegreeCurricularPlansForDegree" />
+    				</logic:equal>
+    				<fr:property name="format" value="\${name}" />
+    				<fr:property name="destination" value="updateComboBoxes"/>
+    			</fr:slot>
+    		</fr:schema>
+    	
+    		<fr:destination name="updateComboBoxes"
+    			path="/bolonhaStudentEnrollment.do?method=updateParametersToSearchOptionalCurricularCourses" />
+    		<fr:layout name="tabular">
+    			<fr:property name="classes" value="tstyle4 thlight thright" />
+    			<fr:property name="columnClasses" value=",,tdclear tderror1" />
+    		</fr:layout>
+    	</fr:edit>
+
+
 		<logic:messagesPresent message="true" property="error">
 			<div class="mtop1 mbottom15 error0" style="padding: 0.5em;">
 			<p class="mvert0"><strong><bean:message bundle="ACADEMIC_OFFICE_RESOURCES" key="label.student.enrollment.errors.in.enrolment" />:</strong></p>
