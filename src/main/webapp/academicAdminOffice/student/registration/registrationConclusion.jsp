@@ -36,6 +36,7 @@
 <%@page import="org.fenixedu.bennu.core.security.Authenticate" %>
 <%@page import="org.fenixedu.bennu.core.i18n.BundleUtil" %>
 <%@page import="org.fenixedu.ulisboa.specifications.servlet.FenixeduUlisboaSpecificationsInitializer" %>
+<%@page import="org.fenixedu.ulisboa.specifications.domain.services.RegistrationServices"%>
 
 <html:xhtml/>
 
@@ -174,7 +175,17 @@
 		</p>
 	</logic:iterate>
 		
-	<%-- Registration Not Concluded  --%> 
+	<%-- Registration Not Concluded  --%>
+    <!-- qubExtension, allow manual conclusion process for accumulated registrations -->
+    <%
+    if (RegistrationServices.isCurriculumAccumulated(registrationConclusionBean.getRegistration())) {
+    %>
+        <p>
+            <span class="warning0"><bean:message key="curriculumAccumulated.enabled" bundle="ACADEMIC_OFFICE_RESOURCES"/></span>
+        </p>
+    <%
+    } else {
+    %>
 	<logic:equal name="registrationConclusionBean" property="concluded" value="false">
 		<p>
 			<span class="error0"><bean:message key="registration.not.concluded" bundle="ACADEMIC_OFFICE_RESOURCES"/></span>
@@ -190,10 +201,16 @@
 			</fr:view>
 		</logic:equal>
 	</logic:equal>
+    <%
+    }
+    %> 
 	
 	
 	<%-- Registration Concluded  --%>
-	<logic:equal name="registrationConclusionBean" property="concluded" value="true">
+    <!-- qubExtension, allow manual conclusion process for accumulated registrations -->
+    <%
+    if (registrationConclusionBean.isConcluded() || RegistrationServices.isCurriculumAccumulated(registrationConclusionBean.getRegistration())) {
+    %>
 		
 		<%-- Conclusion Processed  --%>
 		<logic:equal name="registrationConclusionBean" property="conclusionProcessed" value="true">
@@ -259,7 +276,9 @@
 				</html:link>
 			</logic:notEmpty>
 		</p>
-	</logic:equal>
+    <%
+    }
+    %>
 
 		<h3 class="mtop15 mbottom05"><bean:message key="registration.curriculum" bundle="ACADEMIC_OFFICE_RESOURCES"/></h3>
 
