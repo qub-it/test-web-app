@@ -18,6 +18,7 @@
     along with FenixEdu Academic.  If not, see <http://www.gnu.org/licenses/>.
 
 --%>
+<%@page import="com.google.common.collect.Lists"%>
 <%@ taglib uri="http://struts.apache.org/tags-html" prefix="html"%>
 <%@ taglib uri="http://struts.apache.org/tags-bean" prefix="bean"%>
 <%@ taglib uri="http://struts.apache.org/tags-logic" prefix="logic"%>
@@ -56,19 +57,22 @@
     final BolonhaStudentOptionalEnrollmentBean bean = (BolonhaStudentOptionalEnrollmentBean) request.getAttribute("optionalEnrolmentBean");
     
     final BolonhaDegreeTypesProviderForOptionalEnrollment typeProvider = new BolonhaDegreeTypesProviderForOptionalEnrollment();
-    final List<DegreeType> types = (List<DegreeType>) typeProvider.provide(bean, null);
+    
+    final List<DegreeType> types = (List<DegreeType>) typeProvider.provide(bean, bean.getDegreeType());
+    List<Degree> degrees = Lists.newArrayList();
+    List<DegreeCurricularPlan> dcps = Lists.newArrayList();
     
     if (types.size() == 1) {
         bean.setDegreeType(types.iterator().next());
         
         final DegreesByDegreeTypeForOptionalEnrollment degreesProvider = new DegreesByDegreeTypeForOptionalEnrollment();
-        final List<Degree> degrees = (List<Degree>) degreesProvider.provide(bean, null);
+        degrees = (List<Degree>) degreesProvider.provide(bean, bean.getDegree());
 
         if (degrees.size() == 1) {
             bean.setDegree(degrees.iterator().next());
             
             final DegreeCurricularPlansForDegreeForOptionalEnrollment dcpsProvider = new DegreeCurricularPlansForDegreeForOptionalEnrollment();
-            final List<DegreeCurricularPlan> dcps = (List<DegreeCurricularPlan>) dcpsProvider.provide(bean, null);
+            dcps = (List<DegreeCurricularPlan>) dcpsProvider.provide(bean, bean.getDegreeCurricularPlan());
             
             if (dcps.size() == 1) {
                 bean.setDegreeCurricularPlan(dcps.iterator().next());
@@ -77,7 +81,7 @@
     }
     %>
     
-        <fr:edit id="optionalEnrolment" name="optionalEnrolmentBean" visible="<%=bean.getDegreeCurricularPlan() == null%>">
+        <fr:edit id="optionalEnrolment" name="optionalEnrolmentBean" visible="<%= !(types.size() == 1 && degrees.size() == 1 && dcps.size() == 1)%>">
     
     		<%-- qubExtension --%>	
     		<fr:schema bundle="STUDENT_RESOURCES"
