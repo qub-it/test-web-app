@@ -97,8 +97,8 @@
 		<fr:schema bundle="ACADEMIC_OFFICE_RESOURCES" type="org.fenixedu.academic.dto.student.ManageStudentStatuteBean">
 			<fr:slot name="statuteType" layout="menu-select-postback" key="label.statuteType" validator="pt.ist.fenixWebFramework.renderers.validators.RequiredValidator">
 				<fr:property name="providerClass"
-					value="org.fenixedu.academic.ui.renderers.providers.VisibleStudentStatuteTypeProvider" />
-				<fr:property name="format" value="${code} - ${name.content}" />
+					value="org.fenixedu.academic.ui.renderers.providers.student.StudentStatuteTypeProviderForCreation" />
+				<fr:property name="format" value="${name.content} [${code}]" />
 				<fr:property name="sortBy" value="code=asc" />
 				<fr:property name="destination" value="seniorStatutePostBack"/>	
 			</fr:slot>
@@ -140,7 +140,7 @@
 		<fr:schema bundle="ACADEMIC_OFFICE_RESOURCES" type="org.fenixedu.academic.dto.student.ManageStudentStatuteBean">
 			<fr:slot name="statuteType" layout="menu-select-postback" key="label.statuteType" validator="pt.ist.fenixWebFramework.renderers.validators.RequiredValidator">
 				<fr:property name="providerClass"
-					value="org.fenixedu.academic.ui.renderers.providers.VisibleStudentStatuteTypeProvider" />
+					value="org.fenixedu.academic.ui.renderers.providers.student.StudentStatuteTypeProviderForCreation" />
 				<fr:property name="format" value="${name.content} [${code}]" />
 				<fr:property name="sortBy" value="name.content=asc" />
 				<fr:property name="destination" value="seniorStatutePostBack"/>	
