@@ -88,7 +88,7 @@
 	request.setAttribute("creditsDescription", registration.getDegreeType().getCreditsDescription());
 	
 	DegreeGradingTable table = DegreeGradingTable.find(registrationConclusionBean.getConclusionYear(), registrationConclusionBean.getProgramConclusion(), registrationConclusionBean.getRegistration());
-	final String eecc = table.getEctsGrade(registrationConclusionBean.getFinalGrade().getValue());
+	final String eecc = table == null ? null : table.getEctsGrade(registrationConclusionBean.getFinalGrade().getValue());
     request.setAttribute("finalEctsGrade", eecc != null ? eecc : "-" );
 	
 	AdministrativeOffice office = registration.getDegree().getAdministrativeOffice();
