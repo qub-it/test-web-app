@@ -36,6 +36,7 @@
 <%@page import="org.fenixedu.academic.domain.accessControl.academicAdministration.AcademicOperationType" %>
 <%@page import="org.fenixedu.bennu.core.security.Authenticate" %>
 <%@page import="org.fenixedu.bennu.core.i18n.BundleUtil" %>
+<%@page import="org.fenixedu.academic.util.Bundle"%>
 <%@page import="org.fenixedu.ulisboa.specifications.servlet.FenixeduUlisboaSpecificationsInitializer" %>
 <%@page import="org.fenixedu.ulisboa.specifications.domain.services.RegistrationServices"%>
 
@@ -171,9 +172,11 @@
 	<%-- Credits in group not correct  --%> 		
 	<h3 class="mtop1 mbottom05"><bean:message key="label.summary" bundle="ACADEMIC_OFFICE_RESOURCES"/></h3>
 
-	<logic:iterate id="curriculumGroup" name="registrationConclusionBean" property="curriculumGroupsNotVerifyingStructure">
+	<logic:iterate id="curriculumGroup" name="registrationConclusionBean" property="curriculumGroupsNotVerifyingStructure" type="org.fenixedu.academic.domain.studentCurriculum.CurriculumGroup">
 		<p>
-			<span class="error0">O grupo <bean:write name="curriculumGroup" property="fullPath"/> tem <bean:write name="curriculumGroup" property="aprovedEctsCredits"/> créditos ECTS quando deveria ter <bean:write name="curriculumGroup" property="creditsConcluded"/> créditos ECTS</span>
+			<span class="error0">
+            <%=BundleUtil.getString(Bundle.APPLICATION, "label.curriculumGroupsNotVerifyingStructure", registrationConclusionBean.getConclusionYear().getQualifiedName(), curriculumGroup.getFullPath(), curriculumGroup.getAprovedEctsCredits().toString(), curriculumGroup.getCreditsConcluded(registrationConclusionBean.getConclusionYear()).toString())%>
+            </span>
 		</p>
 	</logic:iterate>
 		
@@ -341,7 +344,7 @@
                 </fr:layout>
             </fr:edit>
             
-            <logic:equal name="registrationConclusionBean" property="canRepeatConclusionProcess" value="false">
+            <logic:equal name="registrationConclusionBean" property="conclusionProcessed" value="false">
                 <p class="mtop15">
                     <html:submit bundle="HTMLALT_RESOURCES" altKey="submit.submit">
                         <bean:message bundle="APPLICATION_RESOURCES" key="label.finish"/>
@@ -350,7 +353,7 @@
             </logic:equal>
             
             <%-- // QubEdu extension, Explicit button label of update --%>
-            <logic:equal name="registrationConclusionBean" property="canRepeatConclusionProcess" value="true">
+            <logic:equal name="registrationConclusionBean" property="conclusionProcessed" value="true">
                 <p class="mtop15">
                     <html:submit bundle="HTMLALT_RESOURCES" altKey="submit.submit">
                         <bean:message bundle="APPLICATION_RESOURCES" key="label.update"/>
