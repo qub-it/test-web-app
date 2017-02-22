@@ -32,7 +32,7 @@
 									<bean:write name="registrationObservations" property="versioningUpdatedBy"/>
 								</td>
 								<td class="acenter">
-									<%= registrationObservations.getVersioningUpdateDate().getDate().toString("dd/MM/yyyy hh:mm:ss") %>
+									<%= registrationObservations.getVersioningUpdateDate().getDate().toString("dd/MM/yyyy HH:mm:ss") %>
 								</td>
 								<td class="acenter">
 									<bean:write name="registrationObservations" property="asLimitedHtml" filter="false"/>
