@@ -18,6 +18,7 @@
     along with FenixEdu Academic.  If not, see <http://www.gnu.org/licenses/>.
 
 --%>
+<%@page import="org.fenixedu.academic.domain.student.curriculum.Curriculum"%>
 <%@page import="org.fenixedu.academic.domain.ExecutionYear"%>
 <%@ taglib uri="http://struts.apache.org/tags-bean" prefix="bean" %>
 <%@ taglib uri="http://struts.apache.org/tags-logic" prefix="logic" %>
@@ -378,6 +379,16 @@
 					</fr:layout>
 				</fr:view>
 			</p>
+            
+            <%-- Extension --%>
+            <p>
+                <%
+                final RegistrationConclusionBean bean = (RegistrationConclusionBean) request.getAttribute("registrationConclusionBean");
+                final Curriculum curriculum = bean == null ? null : (Curriculum) bean.getCurriculumForConclusion();
+                request.setAttribute("curriculum", curriculum);
+                %>
+                <jsp:include page="curriculumGradeCalculator.jsp" /> 
+            </p>                
 
 </logic:equal>
 
