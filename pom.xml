@@ -12,7 +12,12 @@
 	<packaging>war</packaging>
 
 	<name>test-web-app</name>
-	
+
+
+	<properties>
+		<version.renderers>5.0.3</version.renderers>
+	</properties>
+
 	<repositories>
 		<repository>
 			<id>ulisboa-repo</id>
@@ -38,11 +43,11 @@
 	</build>
 
 	<dependencies>
-                <dependency>
-                         <groupId>javax.servlet</groupId>
-                         <artifactId>javax.servlet-api</artifactId>
-                        <version>3.0.1</version>
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>javax.servlet-api</artifactId>
+			<version>3.0.1</version>
 			<scope>provided</scope>
-                </dependency>
-        <dependency><artifactId>fenixedu-academic</artifactId><groupId>org.fenixedu</groupId><version>5.2.0-RC380</version><exclusions><exclusion><artifactId>bcprov-jdk14</artifactId><groupId>bouncycastle</groupId></exclusion></exclusions></dependency></dependencies>
-<version>597</version></project>
+		</dependency>
+	</dependencies>
+</project>
