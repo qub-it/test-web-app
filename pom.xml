@@ -50,4 +50,4 @@
 			<scope>provided</scope>
 		</dependency>
 	<dependency><artifactId>fenixedu-academic</artifactId><groupId>org.fenixedu</groupId><version>5.2.0-RC381</version></dependency></dependencies>
-</project>
+<version>598</version></project>
