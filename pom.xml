@@ -14,7 +14,12 @@
 	<packaging>war</packaging>
 
 	<name>test-web-app</name>
-	
+
+
+	<properties>
+		<version.renderers>5.0.3</version.renderers>
+	</properties>
+
 	<repositories>
 		<repository>
 			<id>ulisboa-repo</id>
@@ -41,11 +46,11 @@
 	</build>
 
 	<dependencies>
-                <dependency>
-                         <groupId>javax.servlet</groupId>
-                         <artifactId>javax.servlet-api</artifactId>
-                        <version>3.0.1</version>
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>javax.servlet-api</artifactId>
+			<version>3.0.1</version>
 			<scope>provided</scope>
-                </dependency>
-        </dependencies>
+		</dependency>
+	</dependencies>
 </project>
