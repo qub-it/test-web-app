@@ -178,14 +178,18 @@
 					</span>	
 				</logic:equal>
 				<academic:allowed operation="MANAGE_CONCLUSION" program="<%= registration.getDegree() %>">
-					<logic:equal name="registration" property="qualifiedToRegistrationConclusionProcess" value="true">
+					<%-- qubExtensions, removed conditional access to conclusion process page
+                    <logic:equal name="registration" property="qualifiedToRegistrationConclusionProcess" value="true">
+                     --%>
 						<span class="dblock pbottom03">	
 							<img src="<%= request.getContextPath() %>/images/dotist_post.gif" alt="<bean:message key="dotist_post" bundle="IMAGE_RESOURCES" />" />
 							<html:link page="/registration.do?method=prepareRegistrationConclusionProcess" paramId="registrationId" paramName="registration" paramProperty="externalId">
 								<bean:message key="student.registrationConclusionProcess" bundle="ACADEMIC_OFFICE_RESOURCES"/>
 							</html:link>
-						</span>	
+						</span>
+                    <%--
 					</logic:equal>
+                     --%>	
 				</academic:allowed>
 				<span class="dblock pbottom03">	
 					<img src="<%= request.getContextPath() %>/images/dotist_post.gif" alt="<bean:message key="dotist_post" bundle="IMAGE_RESOURCES" />" />

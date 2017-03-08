@@ -18,6 +18,8 @@
     along with FenixEdu Academic.  If not, see <http://www.gnu.org/licenses/>.
 
 --%>
+<%@page import="org.fenixedu.academic.domain.student.curriculum.Curriculum"%>
+<%@page import="org.fenixedu.academic.domain.ExecutionYear"%>
 <%@ taglib uri="http://struts.apache.org/tags-bean" prefix="bean" %>
 <%@ taglib uri="http://struts.apache.org/tags-logic" prefix="logic" %>
 <%@ taglib uri="http://struts.apache.org/tags-html" prefix="html" %>
@@ -59,7 +61,8 @@
 			
 			if (registrationConclusionBean != null
 			        && registrationConclusionBean.getFinalGrade() != null
-			        && registrationConclusionBean.getFinalGrade().getValue() != null) {
+			        && registrationConclusionBean.getFinalGrade().getValue() != null
+			        && registrationConclusionBean.getConclusionYear() != null) {
 			    
 			    DegreeGradingTable table = DegreeGradingTable.find(registrationConclusionBean.getConclusionYear(), registrationConclusionBean.getProgramConclusion(), registrationConclusionBean.getRegistration());
 			    if (table != null) {
@@ -175,7 +178,7 @@
 	<logic:iterate id="curriculumGroup" name="registrationConclusionBean" property="curriculumGroupsNotVerifyingStructure" type="org.fenixedu.academic.domain.studentCurriculum.CurriculumGroup">
 		<p>
 			<span class="error0">
-            <%=BundleUtil.getString(Bundle.APPLICATION, "label.curriculumGroupsNotVerifyingStructure", registrationConclusionBean.getConclusionYear().getQualifiedName(), curriculumGroup.getFullPath(), curriculumGroup.getAprovedEctsCredits().toString(), curriculumGroup.getCreditsConcluded(registrationConclusionBean.getConclusionYear()).toString())%>
+            <%=BundleUtil.getString(Bundle.APPLICATION, "label.curriculumGroupsNotVerifyingStructure", registrationConclusionBean.getConclusionYear() != null ? registrationConclusionBean.getConclusionYear().getQualifiedName() : ExecutionYear.readCurrentExecutionYear().getQualifiedName(), curriculumGroup.getFullPath(), curriculumGroup.getAprovedEctsCredits().toString(), curriculumGroup.getCreditsConcluded(registrationConclusionBean.getConclusionYear()).toString())%>
             </span>
 		</p>
 	</logic:iterate>
@@ -376,6 +379,16 @@
 					</fr:layout>
 				</fr:view>
 			</p>
+            
+            <%-- Extension --%>
+            <p>
+                <%
+                final RegistrationConclusionBean bean = (RegistrationConclusionBean) request.getAttribute("registrationConclusionBean");
+                final Curriculum curriculum = bean == null ? null : (Curriculum) bean.getCurriculumForConclusion();
+                request.setAttribute("curriculum", curriculum);
+                %>
+                <jsp:include page="curriculumGradeCalculator.jsp" /> 
+            </p>                
 
 </logic:equal>
 
