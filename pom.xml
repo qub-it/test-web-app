@@ -42,4 +42,4 @@
       <scope />
     </dependency>
   <dependency><artifactId>fenixedu-academic</artifactId><groupId>org.fenixedu</groupId><version>5.2.0-RC383</version></dependency></dependencies>
-</project>
+<version>263</version></project>
