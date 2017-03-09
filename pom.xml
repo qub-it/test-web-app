@@ -41,6 +41,23 @@
       <version>1.0.0-SNAPSHOT</version>
       <scope />
     </dependency>
-    <dependency><artifactId>fenixedu-academic</artifactId><groupId>org.fenixedu</groupId><version>5.2.0-RC383</version><exclusions><exclusion><artifactId>bcprov-jdk14</artifactId><groupId>bouncycastle</groupId></exclusion></exclusions></dependency></dependencies>
-
-<version>263</version></project>
+    <dependency>
+      <artifactId>fenixedu-academic</artifactId>
+      <groupId>org.fenixedu</groupId>
+      <version>5.2.0-RC383</version>
+      <exclusions>
+        <exclusion>
+          <artifactId>bcprov-jdk14</artifactId>
+          <groupId>bouncycastle</groupId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+    <dependency>
+      <groupId>com.qubit.solution.fenixedu.module</groupId>
+      <artifactId>bennu-qub.module.customers-fcul</artifactId>
+      <version>1.0.0-SNAPSHOT</version>
+      <scope />
+    </dependency>
+  </dependencies>
+  <version>263</version>
+</project>
