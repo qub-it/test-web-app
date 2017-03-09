@@ -44,5 +44,11 @@
       <version>1.0.0-SNAPSHOT</version>
       <scope />
     </dependency>
-  <dependency><artifactId>fenixedu-academic</artifactId><groupId>org.fenixedu</groupId><version>5.2.0-RC381</version></dependency></dependencies>
-<version>261</version></project>
+    <dependency>
+      <artifactId>fenixedu-academic</artifactId>
+      <groupId>org.fenixedu</groupId>
+      <version>5.2.0-RC382</version>
+    </dependency>
+  </dependencies>
+  <version>261</version>
+</project>
