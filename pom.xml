@@ -13,11 +13,6 @@
 
 	<name>test-web-app</name>
 
-
-	<properties>
-		<version.renderers>5.0.3</version.renderers>
-	</properties>
-
 	<repositories>
 		<repository>
 			<id>ulisboa-repo</id>
