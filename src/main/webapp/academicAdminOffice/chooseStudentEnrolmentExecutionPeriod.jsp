@@ -139,11 +139,11 @@
 			<%-- qubExtensions --%>
 			<fr:schema type="org.fenixedu.academic.domain.Enrolment" bundle="ACADEMIC_OFFICE_RESOURCES">
 				<fr:slot name="code" key="label.code" />
-				<fr:slot name="name" key="label.name" />
+				<fr:slot name="presentationName" key="label.name" />
 				<fr:slot name="curriculumGroup.fullPath" key="label.group"/>
 				<fr:slot name="weigthForCurriculum" key="label.set.evaluation.enrolment.weight" />
 				<fr:slot name="ectsCreditsForCurriculum" key="label.ects.credits" />
-				<fr:slot name="creationDateDateTime" key="label.date" layout="no-time" />
+				<fr:slot name="creationDateDateTime" key="label.enrolmentDate" layout="no-time" />
 				<fr:slot name="enrollmentState.description" key="label.set.evaluation.enrolment.state" />
 				<fr:slot name="grade" key="label.set.evaluation.grade.value.simple" />
 			</fr:schema>
@@ -177,11 +177,11 @@
 			<%-- [JIRA] (ACDM-979) Bug Fix, Enrolments in Improvements: allow to choose EvaluationSeason --%>
 			<fr:schema type="org.fenixedu.academic.domain.EnrolmentEvaluation" bundle="ACADEMIC_OFFICE_RESOURCES">
 				<fr:slot name="enrolment.code" key="label.code" />				
-				<fr:slot name="enrolment.name" key="label.name" />
+				<fr:slot name="enrolment.presentationName" key="label.name" />
 				<fr:slot name="enrolment.curriculumGroup.fullPath" key="label.group"/>
 				<fr:slot name="enrolment.weigthForCurriculum" key="label.set.evaluation.enrolment.weight" />
 				<fr:slot name="enrolment.ectsCreditsForCurriculum" key="label.ects.credits" />
-				<fr:slot name="versioningCreationDate" key="label.date" layout="no-time" />
+				<fr:slot name="versioningCreationDate" key="label.enrolmentDate" layout="no-time" />
 				<fr:slot name="enrollmentStateByGrade.description" key="label.set.evaluation.enrolment.state"/>
 				<fr:slot name="grade" key="label.set.evaluation.grade.value.simple"/>
 				<fr:slot name="evaluationSeason" key="label.evaluationSeason">
@@ -207,11 +207,11 @@
 			<%-- [JIRA] (ACDM-980) Bug Fix, Enrolments in Special Season: allow to choose EvaluationSeason --%>
 			<fr:schema type="org.fenixedu.academic.domain.EnrolmentEvaluation" bundle="ACADEMIC_OFFICE_RESOURCES">
 				<fr:slot name="enrolment.code" key="label.code" />
-				<fr:slot name="enrolment.name" key="label.name" />
+				<fr:slot name="enrolment.presentationName" key="label.name" />
 				<fr:slot name="enrolment.curriculumGroup.fullPath" key="label.group"/>
 				<fr:slot name="enrolment.weigthForCurriculum" key="label.set.evaluation.enrolment.weight" />
 				<fr:slot name="enrolment.ectsCreditsForCurriculum" key="label.ects.credits" />
-				<fr:slot name="versioningCreationDate" key="label.date" layout="no-time" />
+				<fr:slot name="versioningCreationDate" key="label.enrolmentDate" layout="no-time" />
 				<fr:slot name="enrollmentStateByGrade.description" key="label.set.evaluation.enrolment.state"/>
 				<fr:slot name="grade" key="label.set.evaluation.grade.value.simple"/>
 				<fr:slot name="evaluationSeason" key="label.evaluationSeason">
