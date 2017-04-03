@@ -376,7 +376,7 @@
 			<%-- qubExtension --%>
 			<academic:allowed operation="MANAGE_EQUIVALENCES">
 				<fr:property name="linkFormat(dismissal)" value="/studentDismissals.do?method=manage&amp;scpID=${externalId}" />
-				<fr:property name="key(dismissal)" value="label.studentDismissal.equivalences"/>
+				<fr:property name="key(dismissal)" value="label.dismissals"/>
 				<fr:property name="bundle(dismissal)" value="ACADEMIC_OFFICE_RESOURCES"/>
 				<fr:property name="contextRelative(dismissal)" value="true"/>      	
 				<fr:property name="order(dismissal)" value="2"/>
