@@ -98,8 +98,8 @@
 			<fr:slot name="statuteType" layout="menu-select-postback" key="label.statuteType" validator="pt.ist.fenixWebFramework.renderers.validators.RequiredValidator">
 				<fr:property name="providerClass"
 					value="org.fenixedu.academic.ui.renderers.providers.student.StudentStatuteTypeProviderForCreation" />
-				<fr:property name="format" value="${name.content} [${code}]" />
-				<fr:property name="sortBy" value="code=asc" />
+				<fr:property name="format" value="${code} - ${name.content}" />
+				<fr:property name="sortBy" value="name.content=asc" />
 				<fr:property name="destination" value="seniorStatutePostBack"/>	
 			</fr:slot>
 			<fr:slot name="beginExecutionPeriod" layout="menu-select" key="label.beginExecutionPeriod" validator="pt.ist.fenixWebFramework.renderers.validators.RequiredValidator" >
@@ -141,7 +141,7 @@
 			<fr:slot name="statuteType" layout="menu-select-postback" key="label.statuteType" validator="pt.ist.fenixWebFramework.renderers.validators.RequiredValidator">
 				<fr:property name="providerClass"
 					value="org.fenixedu.academic.ui.renderers.providers.student.StudentStatuteTypeProviderForCreation" />
-				<fr:property name="format" value="${name.content} [${code}]" />
+				<fr:property name="format" value="${code} - ${name.content}" />
 				<fr:property name="sortBy" value="name.content=asc" />
 				<fr:property name="destination" value="seniorStatutePostBack"/>	
 			</fr:slot>
