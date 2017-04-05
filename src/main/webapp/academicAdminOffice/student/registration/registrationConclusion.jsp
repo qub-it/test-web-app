@@ -307,17 +307,15 @@
 
             <h3 class="mtop15 mbottom05"><bean:message  key="student.registrationConclusionProcess.data" bundle="ACADEMIC_OFFICE_RESOURCES" /></h3>
 
-            <%-- QubEdu extension --%>
-            <p><em><bean:message key="label.registrationConclusionProcess.enteredConclusionDate.comment" bundle="APPLICATION_RESOURCES" /></em></p>
-            
             <fr:edit id="registrationConclusionBean-manage" name="registrationConclusionBean">
                 <fr:schema bundle="APPLICATION_RESOURCES" type="org.fenixedu.academic.dto.student.RegistrationConclusionBean">
                     <fr:slot name="calculatedConclusionDate" readOnly="true">
                         <fr:property name="classes" value="bold" />
                     </fr:slot>
-                    <fr:slot name="enteredConclusionDate" layout="input-with-comment">
-                        <fr:property name="bundle" value="APPLICATION_RESOURCES"/>
+                    <fr:slot name="enteredConclusionDate" layout="input">
+                        <fr:property name="format" value="dd-MM-yyyy"/>
                         <%-- // QubEdu extension
+                        <fr:property name="bundle" value="APPLICATION_RESOURCES"/>
                         <fr:property name="comment" value="label.registrationConclusionProcess.enteredConclusionDate.comment"/>
                         <fr:property name="commentLocation" value="right" />
                          --%>
@@ -336,7 +334,7 @@
                     <%
                     }
                     %>
-                    <fr:slot name="observations" key="label.anotation" bundle="ACADEMIC_OFFICE_RESOURCES">
+                    <fr:slot name="observations" key="label.anotation" bundle="ACADEMIC_OFFICE_RESOURCES" layout="longText">
                         <fr:property name="columns" value="25" />
                         <fr:property name="rows" value="5" />
                     </fr:slot>
@@ -346,29 +344,30 @@
                     <fr:property name="columnClasses" value=",,tderror1 tdclear"/>
                 </fr:layout>
             </fr:edit>
-            
-            <logic:equal name="registrationConclusionBean" property="conclusionProcessed" value="false">
-                <p class="mtop15">
-                    <html:submit bundle="HTMLALT_RESOURCES" altKey="submit.submit">
-                        <bean:message bundle="APPLICATION_RESOURCES" key="label.finish"/>
-                    </html:submit>
-                </p>
-            </logic:equal>
-            
-            <%-- // QubEdu extension, Explicit button label of update --%>
-            <logic:equal name="registrationConclusionBean" property="conclusionProcessed" value="true">
-                <p class="mtop15">
-                    <html:submit bundle="HTMLALT_RESOURCES" altKey="submit.submit">
-                        <bean:message bundle="APPLICATION_RESOURCES" key="label.update"/>
-                    </html:submit>
-                </p>
-            </logic:equal>
 
+                <div style="float: left; margin-top: 1.5em">
+                    <logic:equal name="registrationConclusionBean" property="conclusionProcessed" value="false">
+                        <html:submit bundle="HTMLALT_RESOURCES" altKey="submit.submit">
+                            <bean:message bundle="APPLICATION_RESOURCES" key="label.finish"/>
+                        </html:submit>
+                    </logic:equal>
+                    
+                    <%-- // QubEdu extension, Explicit button label of update --%>
+                    <logic:equal name="registrationConclusionBean" property="conclusionProcessed" value="true">
+                        <html:submit bundle="HTMLALT_RESOURCES" altKey="submit.submit">
+                            <bean:message bundle="APPLICATION_RESOURCES" key="label.update"/>
+                        </html:submit>
+                    </logic:equal>
+                </div>
+
+                <%-- QubEdu extension --%>
+                <div style="float: left; margin-left: 2em; margin-top: 2em;"><span class="warning0"><bean:message key="label.registrationConclusionProcess.enteredConclusionDate.comment" bundle="APPLICATION_RESOURCES" /></span></div>
+                <div style="clear: both;"></div>
         </fr:form>
     <%
     }
     %>
-    
+        
         <%-- // QubEdu extension, moved to end of page --%>
 		<h3 class="mtop15 mbottom05"><bean:message key="registration.curriculum" bundle="ACADEMIC_OFFICE_RESOURCES"/></h3>
 
