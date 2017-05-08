@@ -45,4 +45,4 @@
 			<scope>provided</scope>
 		</dependency>
          <dependency><artifactId>fenixedu-academic</artifactId><groupId>org.fenixedu</groupId><version>~/.jenkins/jobs/quality-web-app/workspace</version><exclusions><exclusion><artifactId>bcprov-jdk14</artifactId><groupId>bouncycastle</groupId></exclusion></exclusions></dependency></dependencies>
-<version>637</version></project>
+<version>638</version></project>
