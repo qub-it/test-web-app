@@ -72,12 +72,12 @@
 		<academic:allowed operation="ENROLMENT_WITHOUT_RULES" program="<%= degree %>">
 			<li>
 				<bean:define id="url1">/bolonhaStudentEnrollment.do?method=prepare&amp;scpID=<bean:write name="studentEnrolmentBean" property="studentCurricularPlan.externalId"/>&amp;executionPeriodID=<bean:write name="studentEnrolmentBean" property="executionPeriod.externalId"/>&amp;withRules=false</bean:define>
-				<html:link action='<%= url1 %>'><bean:message key="label.course.enrolmentWithoutRules" bundle="ACADEMIC_OFFICE_RESOURCES"/></html:link>
+				<html:link action='<%= url1 %>' onclick="openPleaseWaitDialog();"><bean:message key="label.course.enrolmentWithoutRules" bundle="ACADEMIC_OFFICE_RESOURCES"/></html:link>
 			</li>
 		</academic:allowed>
 		<li>
 			<bean:define id="url2">/bolonhaStudentEnrollment.do?method=prepare&amp;scpID=<bean:write name="studentEnrolmentBean" property="studentCurricularPlan.externalId"/>&amp;executionPeriodID=<bean:write name="studentEnrolmentBean" property="executionPeriod.externalId"/>&amp;withRules=true</bean:define>
-			<html:link action='<%= url2 %>'><bean:message key="label.course.enrolmentWithRules" bundle="ACADEMIC_OFFICE_RESOURCES"/></html:link>
+			<html:link action='<%= url2 %>' onclick="openPleaseWaitDialog();"><bean:message key="label.course.enrolmentWithRules" bundle="ACADEMIC_OFFICE_RESOURCES"/></html:link>
 		</li>
 		<br />
 		<li>
@@ -237,3 +237,6 @@
 	<fr:edit id="studentEnrolment-back" name="studentEnrolmentBean" visible="false" />
 	<html:cancel><bean:message key="button.back" bundle="ACADEMIC_OFFICE_RESOURCES"/></html:cancel>
 </fr:form>
+
+<%-- qubExtension --%>
+<jsp:include page="<%= "/layout/pleasewait.jsp"%>"/>
