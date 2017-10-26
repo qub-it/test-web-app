@@ -32,7 +32,7 @@
 
 <div style="float: right;">
 	<bean:define id="personID" name="student" property="person.username"/>
-	<html:img align="middle" src="<%= request.getContextPath() + "/user/photo/" + personID.toString()%>" altKey="personPhoto" bundle="IMAGE_RESOURCES" styleClass="showphoto"/>
+	<html:img align="middle" src="<%= request.getContextPath() + "/user/photo/" + personID.toString() + "?timestamp=" + new DateTime().toDate().getTime()%>" altKey="personPhoto" bundle="IMAGE_RESOURCES" styleClass="showphoto"/>
 </div>
 
 <h2><bean:message key="label.studentPage" bundle="ACADEMIC_OFFICE_RESOURCES"/></h2>
