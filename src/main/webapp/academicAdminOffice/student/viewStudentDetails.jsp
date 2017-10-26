@@ -18,6 +18,7 @@
     along with FenixEdu Academic.  If not, see <http://www.gnu.org/licenses/>.
 
 --%>
+<%@page import="org.joda.time.DateTime"%>
 <%@page import="org.fenixedu.academic.domain.student.Registration"%>
 <%@page import="org.fenixedu.academic.domain.student.Student"%>
 <%@page import="org.fenixedu.academic.domain.treasury.TreasuryBridgeAPIFactory"%>
