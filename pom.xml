@@ -44,7 +44,7 @@
     <dependency>
       <artifactId>fenixedu-academic</artifactId>
       <groupId>org.fenixedu</groupId>
-      <version>5.2.0-RC564</version>
+      <version>5.2.0-RC566</version>
       <exclusions>
         <exclusion>
           <artifactId>bcprov-jdk14</artifactId>
@@ -56,6 +56,12 @@
       <groupId>com.qubit.solution.fenixedu.module</groupId>
       <artifactId>bennu-qub.module.customers-fcul</artifactId>
       <version>1.0.0-SNAPSHOT</version>
+      <scope />
+    </dependency>
+    <dependency>
+      <groupId>com.qubit.terra.fenixframework</groupId>
+      <artifactId>qub-fenix-framework-bridging</artifactId>
+      <version>1.5.1</version>
       <scope />
     </dependency>
   </dependencies>
