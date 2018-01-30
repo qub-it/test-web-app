@@ -18,6 +18,11 @@
     along with FenixEdu Academic.  If not, see <http://www.gnu.org/licenses/>.
 
 --%>
+<%@page import="org.fenixedu.ulisboa.specifications.domain.student.curriculum.conclusion.RegistrationConclusionServices"%>
+<%@page import="java.util.HashSet"%>
+<%@page import="java.util.Set"%>
+<%@page import="java.util.stream.Stream"%>
+<%@page import="org.fenixedu.academic.domain.StudentCurricularPlan"%>
 <%@ page isELIgnored="true"%>
 <%@ taglib uri="http://struts.apache.org/tags-bean" prefix="bean" %>
 <%@ taglib uri="http://struts.apache.org/tags-logic" prefix="logic" %>
@@ -353,62 +358,83 @@
           <script type="text/javascript">document.getElementById('curriculumAccumulatedInfo').className='tooltip tooltipClosed';</script>
     </div>
 	
-	<fr:view name="registration" property="sortedStudentCurricularPlans" >
-		<%-- qubExtension --%>
-		<fr:schema type="org.fenixedu.academic.domain.StudentCurricularPlan" bundle="ACADEMIC_OFFICE_RESOURCES">
-			<fr:slot name="startDateYearMonthDay" key="label.startDate" />
-			<fr:slot name="degreeCurricularPlan.name" key="label.curricularPlan" />
-			<fr:slot name="majorBranchNames" key="label.RegistrationHistoryReport.primaryBranch" />
-			<fr:slot name="minorBranchNames" key="label.RegistrationHistoryReport.secondaryBranch" />
-		</fr:schema>
-		<fr:layout name="tabular">
-			<fr:property name="sortBy" value="startDateYearMonthDay=desc"/>
-			<fr:property name="classes" value="tstyle2 thright thlight thcenter"/>
-			<fr:property name="groupLinks" value="false"/>
+	<% 
+		pageContext.setAttribute("sortedStudentCurricularPlans", registration.getSortedStudentCurricularPlans().stream().sorted(StudentCurricularPlan.STUDENT_CURRICULAR_PLAN_COMPARATOR_BY_START_DATE.reversed()).collect(Collectors.toList())); 
+	%>
+	
+	<%-- qubExtension --%>
+	<table class="tstyle2 thright thlight thcenter table">
+	  <tr>
+	    <th><bean:message key="label.executionYear" bundle="ACADEMIC_OFFICE_RESOURCES"/></th>
+	    <th><bean:message key="label.startDate" bundle="ACADEMIC_OFFICE_RESOURCES"/></th>
+	    <th><bean:message key="label.curricularPlan" bundle="ACADEMIC_OFFICE_RESOURCES"/></th>
+	    <th><bean:message key="label.RegistrationHistoryReport.primaryBranch" bundle="ACADEMIC_OFFICE_RESOURCES"/></th>
+	    <th><bean:message key="label.RegistrationHistoryReport.secondaryBranch" bundle="ACADEMIC_OFFICE_RESOURCES"/></th>
+	    <th><bean:message key="label.programConclusions" bundle="FENIXEDU_ULISBOA_SPECIFICATIONS_RESOURCES"/></th>
+	    <th> </th>
+	    <th> </th>
+	    <th> </th>
+	    <th> </th>
+	    <th> </th>
+	  </tr>
+	  <logic:iterate id="studentCurricularPlan" name="sortedStudentCurricularPlans">
+	  		<% 
+	  			int programConclusionCount = RegistrationConclusionServices.getProgramConclusionProcesses((StudentCurricularPlan) studentCurricularPlan).size();
+		  	%>
+		  <tr>
+		  	<td class="acenter"><fr:view name="studentCurricularPlan" property="startExecutionYear.qualifiedName" /></td>
+		  	<td class="acenter"><fr:view name="studentCurricularPlan" property="startDateYearMonthDay" /></td>
+		  	<td><fr:view name="studentCurricularPlan" property="degreeCurricularPlan.name" /></td>
+		  	<td class="acenter"><fr:view name="studentCurricularPlan" property="majorBranchNames" /></td>
+		  	<td class="acenter"><fr:view name="studentCurricularPlan" property="minorBranchNames" /></td>
+		  	<td class="acenter"><span class="<%= programConclusionCount > 0 ? "badge bold" : "" %>"><%= programConclusionCount > 0 ? programConclusionCount : "-" %></span></td>
+		  	
+		  	<%-- Actions --%>
+		  	<td class="acenter">
+		  		<logic:equal name="studentCurricularPlan" property="allowedToManageEnrolments" value="true">
+			  		<html:link action="/studentEnrolmentsExtended.do?method=prepare" paramId="scpID" paramName="studentCurricularPlan" paramProperty="externalId">
+			  			<bean:message key="label.student.enrolments" bundle="ACADEMIC_OFFICE_RESOURCES"/>
+			  		</html:link>
+		  		</logic:equal>
+		  	</td>
+		  			  	
+		  	<td class="acenter">
+				<academic:allowed operation="MANAGE_EQUIVALENCES">
+					<html:link action="/studentDismissals.do?method=manage" paramId="scpID" paramName="studentCurricularPlan" paramProperty="externalId">
+			  			<bean:message key="label.dismissals" bundle="ACADEMIC_OFFICE_RESOURCES"/>
+			  		</html:link>
+				</academic:allowed>
+			</td>
+						
+			<td class="acenter">
+				<html:link action="/programConclusionsSummary.do?method=prepare" paramId="scpID" paramName="studentCurricularPlan" paramProperty="externalId">
+ 		  			<bean:message key="label.programConclusions" bundle="FENIXEDU_ULISBOA_SPECIFICATIONS_RESOURCES"/>
+		  		</html:link>
+			</td>
+						
+			<td class="acenter">
+				<logic:equal name="studentCurricularPlan" property="allowedToManageEnrolments" value="true">
+					<html:link action="/manageStudentCurricularPlans.do?method=prepareEdit" paramId="studentCurricularPlanId" paramName="studentCurricularPlan" paramProperty="externalId">
+			  			<bean:message key="label.edit" bundle="ACADEMIC_OFFICE_RESOURCES"/>
+			  		</html:link>
+		  		</logic:equal>
+			</td>
 			
-			<fr:property name="linkFormat(enrol)" value="/studentEnrolmentsExtended.do?method=prepare&amp;scpID=${externalId}" />
-			<fr:property name="key(enrol)" value="label.student.enrolments"/>
-			<fr:property name="bundle(enrol)" value="ACADEMIC_OFFICE_RESOURCES"/>
-			<fr:property name="contextRelative(enrol)" value="true"/>      
-			<fr:property name="visibleIf(enrol)" value="allowedToManageEnrolments" />
-			<fr:property name="order(enrol)" value="1"/>     					
+					
 			
-			<%-- qubExtension --%>
-			<academic:allowed operation="MANAGE_EQUIVALENCES">
-				<fr:property name="linkFormat(dismissal)" value="/studentDismissals.do?method=manage&amp;scpID=${externalId}" />
-				<fr:property name="key(dismissal)" value="label.dismissals"/>
-				<fr:property name="bundle(dismissal)" value="ACADEMIC_OFFICE_RESOURCES"/>
-				<fr:property name="contextRelative(dismissal)" value="true"/>      	
-				<fr:property name="order(dismissal)" value="2"/>
-			</academic:allowed>
-			
-					<%-- extension: Deprecated payment system 
-			<fr:property name="linkFormat(createAccountingEvents)" value="/accountingEventsManagement.do?method=prepare&amp;scpID=${externalId}" />
-			<fr:property name="key(createAccountingEvents)" value="label.accountingEvents.management.createEvents"/>
-			<fr:property name="bundle(createAccountingEvents)" value="ACADEMIC_OFFICE_RESOURCES"/>
-			<fr:property name="contextRelative(createAccountingEvents)" value="true"/>      	
-			<fr:property name="order(createAccountingEvents)" value="3"/>
-			<fr:property name="visibleIf(createAccountingEvents)" value="allowedToManageAccountingEvents"/>
-					--%>
-			
-			<fr:property name="linkFormat(edit)" value="/manageStudentCurricularPlans.do?method=prepareEdit&amp;studentCurricularPlanId=${externalId}" />
-			<fr:property name="key(edit)" value="label.edit"/>
-			<fr:property name="bundle(edit)" value="ACADEMIC_OFFICE_RESOURCES"/>
-			<fr:property name="contextRelative(edit)" value="true"/>      	
-			<fr:property name="visibleIf(edit)" value="allowedToManageEnrolments" />
-			<fr:property name="order(edit)" value="4"/>
-			
-			<fr:property name="linkFormat(delete)" value="/manageStudentCurricularPlans.do?method=delete&amp;studentCurricularPlanId=${externalId}" />
-			<fr:property name="key(delete)" value="label.delete"/>
-			<fr:property name="bundle(delete)" value="ACADEMIC_OFFICE_RESOURCES"/>
-			<fr:property name="confirmationKey(delete)" value="message.manageStudentCurricularPlans.delete.confirmation"/>
-			<fr:property name="confirmationBundle(delete)" value="ACADEMIC_OFFICE_RESOURCES"/>
-			<fr:property name="contextRelative(delete)" value="true"/>      	
-			<fr:property name="visibleIf(delete)" value="allowedToDelete" />
-			<fr:property name="order(delete)" value="5"/>
-			
-		</fr:layout>
-	</fr:view>
+			<td class="acenter">
+				<logic:equal name="studentCurricularPlan" property="allowedToDelete" value="true">
+					<bean:define id="confirmDelete" type="java.lang.String">return confirm('<bean:message key="message.manageStudentCurricularPlans.delete.confirmation" bundle="ACADEMIC_OFFICE_RESOURCES"/>')</bean:define>
+					<html:link action="/manageStudentCurricularPlans.do?method=delete" paramId="studentCurricularPlanId" paramName="studentCurricularPlan" paramProperty="externalId" onclick="<%= confirmDelete %>">
+			  			<bean:message key="label.delete" bundle="ACADEMIC_OFFICE_RESOURCES"/>
+			  		</html:link>
+		  		</logic:equal>
+			</td>
+						
+		  </tr>
+	  </logic:iterate>
+	</table>
+
 	
 	<p class="mtop0">
 
