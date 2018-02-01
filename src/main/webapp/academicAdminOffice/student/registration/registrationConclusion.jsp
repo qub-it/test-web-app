@@ -399,7 +399,7 @@
 	                final Curriculum curriculum = bean == null ? null : (Curriculum) bean.getCurriculumForConclusion();
 	                request.setAttribute("curriculum", curriculum);
 	                %>
-	                <jsp:include page="curriculumGradeCalculator.jsp" /> 
+	                <jsp:include page="<%=org.fenixedu.ulisboa.specifications.ULisboaConfiguration.getConfiguration().getCurriculumGradeCalculatorVisualizer()%>" /> 
 	            </p>   
 		
 		
