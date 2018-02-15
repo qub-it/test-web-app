@@ -144,6 +144,7 @@
 				<fr:slot name="weigthForCurriculum" key="label.set.evaluation.enrolment.weight" />
 				<fr:slot name="ectsCreditsForCurriculum" key="label.ects.credits" />
 				<fr:slot name="creationDateDateTime" key="label.enrolmentDate" layout="no-time" />
+				<fr:slot name="annulmentDate" key="label.annulmentDate" layout="no-time" />
 				<fr:slot name="enrollmentState.description" key="label.set.evaluation.enrolment.state" />
 				<fr:slot name="grade" key="label.set.evaluation.grade.value.simple" />
 			</fr:schema>
@@ -151,6 +152,11 @@
 			<fr:layout name="tabular">	 
 				<fr:property name="classes" value="tstyle2"/>
 		      	<fr:property name="columnClasses" value=",,smalltxt color888,acenter,acenter,nowrap smalltxt,smalltxt, acenter"/>
+		      	
+		      	<fr:property name="linkFormat(edit)" value="/studentEnrolmentsExtended.do?method=prepareEditEnrolment&enrolmentId=${externalId}&scpID=${studentCurricularPlan.externalId}&executionPeriodId=${executionPeriod.externalId}" />
+				<fr:property name="key(edit)" value="label.edit"/>
+				<fr:property name="bundle(edit)" value="ACADEMIC_OFFICE_RESOURCES"/>
+				<fr:property name="visibleIf(edit)" value="annulled"/>
 				
 				<fr:property name="linkFormat(activate)" value="/studentEnrolmentsExtended.do?method=activateEnrolment&enrolmentId=${externalId}&scpID=${studentCurricularPlan.externalId}&executionPeriodId=${executionPeriod.externalId}" />
 				<fr:property name="key(activate)" value="label.enrolment.activate"/>
