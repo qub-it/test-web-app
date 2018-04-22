@@ -62,7 +62,7 @@
           <artifactId>bcprov-jdk14</artifactId>
         </exclusion>
       </exclusions>
-      <version>5.2.0-RC630</version>
+      <version>5.2.0-RC631</version>
     </dependency>
   </dependencies>
   <version>508</version>
