@@ -10,8 +10,6 @@ VAADIN/c3-0.4.8
 
 VAADIN/optionsMatrix
 
-VAADIN/*
-
 .qubFoundationTracking
 
 static
@@ -21,7 +19,3 @@ theme
 images
 
 qubEdu-surveys
-
-academicAdminOffice/student/registration/curriculumGradeCalculator.jsp
-
-student
