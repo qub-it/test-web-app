@@ -53,5 +53,17 @@
       <version>1.5.1</version>
       <scope />
     </dependency>
-  <dependency><artifactId>fenixedu-academic</artifactId><groupId>org.fenixedu</groupId><exclusions><exclusion><groupId>bouncycastle</groupId><artifactId>bcprov-jdk14</artifactId></exclusion></exclusions><version>5.2.0-RC625</version></dependency></dependencies>
-<version>503</version></project>
+    <dependency>
+      <artifactId>fenixedu-academic</artifactId>
+      <groupId>org.fenixedu</groupId>
+      <exclusions>
+        <exclusion>
+          <groupId>bouncycastle</groupId>
+          <artifactId>bcprov-jdk14</artifactId>
+        </exclusion>
+      </exclusions>
+      <version>5.2.0-RC626</version>
+    </dependency>
+  </dependencies>
+  <version>503</version>
+</project>
