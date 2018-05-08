@@ -181,7 +181,7 @@
 			</fr:slot>
 			<% if (precedentDegreeInformationBean.isHighSchoolCountryFieldRequired()) { %>
 				<fr:slot name="countryWhereFinishedHighSchoolLevel" layout="menu-select" validator="pt.ist.fenixWebFramework.renderers.validators.RequiredValidator"> 
-					<fr:property name="format" value="${localizedName}"/>
+					<fr:property name="format" value="${localizedName.content}"/>
 					<fr:property name="sortBy" value="name=asc" />
 					<fr:property name="providerClass" value="org.fenixedu.academic.ui.renderers.providers.DistinctCountriesProvider" />
 				</fr:slot>
