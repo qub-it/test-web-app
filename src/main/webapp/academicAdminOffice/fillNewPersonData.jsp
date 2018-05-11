@@ -18,6 +18,7 @@
     along with FenixEdu Academic.  If not, see <http://www.gnu.org/licenses/>.
 
 --%>
+<%@page import="org.fenixedu.academic.domain.Country"%>
 <%@page import="org.fenixedu.bennu.core.i18n.BundleUtil"%>
 <%@page import="org.fenixedu.academictreasury.domain.customer.PersonCustomer"%>
 <%@ page isELIgnored="true"%>
@@ -42,7 +43,14 @@
 	
 	<h3 class="mtop15 mbottom025"><bean:message key="label.person.title.personal.info" bundle="ACADEMIC_OFFICE_RESOURCES" /></h3>
 	<bean:define id="personBean" name="personBean" type="org.fenixedu.academic.dto.person.PersonBean" />
-	<bean:define id="countryCode" type="java.lang.String" ><%= PersonCustomer.countryCode(personBean) %></bean:define>
+	<% 
+		if(personBean.getFiscalCountry() != null) {
+		    pageContext.setAttribute("countryCode", personBean.getFiscalCountry().getCode());
+		} else {
+		    pageContext.setAttribute("countryCode", Country.readDefault().getCode());
+		}
+	%>
+	
 	<fr:edit id="personData" name="personBean">
 		<fr:schema type="org.fenixedu.academic.dto.person.PersonBean" bundle="ACADEMIC_OFFICE_RESOURCES">
 			<fr:slot name="givenNames" validator="pt.ist.fenixWebFramework.renderers.validators.RequiredValidator">
@@ -52,9 +60,15 @@
 				<fr:property name="size" value="50" />
 			</fr:slot>
 			<fr:slot name="gender" validator="pt.ist.fenixWebFramework.renderers.validators.RequiredValidator" />
-			<fr:slot name="socialSecurityNumber">
+			<fr:slot name="fiscalCountry" key="label.fiscalCountry" layout="menu-select-postback" required="true">
+					<fr:property name="providerClass" value="org.fenixedu.academic.ui.renderers.providers.CountryProvider" />
+					<fr:property name="format" value="${name} (${code})"/>
+					<fr:property name="sortBy" value="name"/>
+					<fr:property name="destination" value="fiscalCountryPostback" />
+			</fr:slot>
+			<fr:slot name="socialSecurityNumber" required="true">
 				<fr:validator name="org.fenixedu.ulisboa.specifications.ui.renderers.validators.FiscalCodeValidator" >
-					<fr:property name="countryCode" value="<%= countryCode %>" />
+					<fr:property name="countryCode" value="<%= (String) pageContext.getAttribute("countryCode") %>" />
 				</fr:validator>
 			</fr:slot>
 			<fr:slot name="professionType" />
@@ -72,6 +86,7 @@
 	        <fr:property name="requiredMarkShown" value="true" />
 		</fr:layout>
         <fr:destination name="invalid" path="/createStudent.do?method=invalid" />
+		<fr:destination name="fiscalCountryPostback" path='/createStudent.do?method=fillNewPersonDataPostback' />
 	</fr:edit>
 	
 	<h3 class="mtop1 mbottom025"><bean:message key="label.identification" bundle="ACADEMIC_OFFICE_RESOURCES" /></h3>
@@ -166,7 +181,7 @@
 			</fr:slot>
 			<% if (precedentDegreeInformationBean.isHighSchoolCountryFieldRequired()) { %>
 				<fr:slot name="countryWhereFinishedHighSchoolLevel" layout="menu-select" validator="pt.ist.fenixWebFramework.renderers.validators.RequiredValidator"> 
-					<fr:property name="format" value="${localizedName}"/>
+					<fr:property name="format" value="${localizedName.content}"/>
 					<fr:property name="sortBy" value="name=asc" />
 					<fr:property name="providerClass" value="org.fenixedu.academic.ui.renderers.providers.DistinctCountriesProvider" />
 				</fr:slot>

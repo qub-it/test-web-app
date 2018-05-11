@@ -18,6 +18,7 @@
     along with FenixEdu Academic.  If not, see <http://www.gnu.org/licenses/>.
 
 --%>
+<%@page import="org.joda.time.DateTime"%>
 <%@page import="org.fenixedu.academic.domain.student.Registration"%>
 <%@page import="org.fenixedu.academic.domain.student.Student"%>
 <%@page import="org.fenixedu.academic.domain.treasury.TreasuryBridgeAPIFactory"%>
@@ -32,7 +33,7 @@
 
 <div style="float: right;">
 	<bean:define id="personID" name="student" property="person.username"/>
-	<html:img align="middle" src="<%= request.getContextPath() + "/user/photo/" + personID.toString()%>" altKey="personPhoto" bundle="IMAGE_RESOURCES" styleClass="showphoto"/>
+	<html:img align="middle" src="<%= request.getContextPath() + "/user/photo/" + personID.toString() + "?timestamp=" + new DateTime().toDate().getTime()%>" altKey="personPhoto" bundle="IMAGE_RESOURCES" styleClass="showphoto"/>
 </div>
 
 <h2><bean:message key="label.studentPage" bundle="ACADEMIC_OFFICE_RESOURCES"/></h2>
@@ -92,20 +93,27 @@
 		<fr:slot name="startDate" layout="null-as-label" key="label.startDate" >
 	        <fr:property name="label" value="-"/>	
 		</fr:slot>
+	    
 	    <fr:slot name="number" layout="null-as-label" key="label.number">
 	        <property name="label" value="-"/>
 	    </fr:slot>	
 		<fr:slot name="this" key="label.degree" layout="format">
 			<fr:property name="format" value="${degreeNameWithDescription} (${degree.code})" />
 		</fr:slot>
+		
 		<fr:slot name="activeStateType" key="label.currentState" />
+		<fr:slot name="registrationProtocol.description.content" key="label.registrationAgreement" />
+		
 		<fr:slot name="numberEnroledCurricularCoursesInCurrentYear" key="label.numberEnroledCurricularCoursesInCurrentYear" />
+		<fr:slot name="lastEnrolmentExecutionYear" layout="format" key="label.Registration.lastEnrolmentExecutionYear" >
+			<fr:property name="format" value="${qualifiedName}" />
+		</fr:slot>
 	</fr:schema>
 	<fr:layout name="tabular">
-		<fr:property name="sortBy" value="startDate=desc"/>
+		<fr:property name="sortBy" value="registrationYear=desc,startDate=desc"/>
 
 		<fr:property name="classes" value="tstyle1 thlight mtop025 boldlink1"/>
-		<fr:property name="columnClasses" value="acenter,acenter,tdhl1,,acenter,nowrap"/>
+		<fr:property name="columnClasses" value="acenter,acenter nowrap,acenter,tdhl1,,acenter,acenter,acenter,nowrap"/>
 
 		<fr:property name="linkFormat(view)" value="/student.do?method=visualizeRegistration&registrationID=${externalId}" />
 		<fr:property name="key(view)" value="link.student.visualizeRegistration"/>
@@ -152,10 +160,25 @@
 </academic:allowed>
 
 <%-- qubExtension --%>
-<fr:view name="student" property="currentStatutes" schema="student.statutes" >
+<fr:view name="student" property="currentStatutes">
+	<fr:schema bundle="ACADEMIC_OFFICE_RESOURCES" type="org.fenixedu.academic.dto.student.StudentStatuteBean">
+		<fr:slot name="statuteType" key="label.code" >
+			<fr:property name="format" value="${code}" /> 
+		</fr:slot>
+		<fr:slot name="description" key="label.statuteType" />
+		<fr:slot name="beginPeriodFormatted" key="label.beginExecutionPeriod" />
+		<fr:slot name="studentStatute.beginDate" key="label.beginDate" />
+		<fr:slot name="endPeriodFormatted" key="label.endExecutionPeriod" />
+		<fr:slot name="studentStatute.endDate" key="label.endDate" />
+		<fr:slot name="studentStatute.registration" key="label.registration" >
+			<fr:property name="format" value="${degree.presentationNameI18N.content}" /> 
+		</fr:slot>
+	</fr:schema>
+
 	<fr:layout name="tabular">
 		<fr:property name="classes" value="tstyle4 thlight mtop025 mbottom0"/>
 		<fr:property name="columnClasses" value=",tdhl1"/>
+		<fr:property name="sortBy" value="studentStatute.beginExecutionPeriod.qualifiedName=desc,studentStatute.endExecutionPeriod.qualifiedName=desc" />
 	</fr:layout>
 </fr:view>
 

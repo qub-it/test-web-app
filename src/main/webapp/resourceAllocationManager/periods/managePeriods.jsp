@@ -18,6 +18,9 @@
     along with FenixEdu Academic.  If not, see <http://www.gnu.org/licenses/>.
 
 --%>
+<%@page import="org.fenixedu.academic.domain.ExecutionDegree"%>
+<%@page import="org.fenixedu.academic.domain.degreeStructure.CycleType"%>
+<%@page import="org.fenixedu.academic.domain.Degree"%>
 <%@ taglib uri="http://struts.apache.org/tags-logic" prefix="logic"%>
 <%@ taglib uri="http://struts.apache.org/tags-bean" prefix="bean"%>
 <%@ taglib uri="http://struts.apache.org/tags-html" prefix="html"%>
@@ -355,6 +358,29 @@
 										<div id="name"><bean:write name="degree" property="degreeName"/></div>
 									</div>							
 								</logic:equal>
+							</logic:iterate>
+						</div>
+					</div>
+				</div>
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						<h3 class="panel-title">
+							<a data-toggle="collapse" data-parent="#courses" data-target="#collapseOtherCycles" href="#">
+								<bean:message key="label.others" bundle="APPLICATION_RESOURCES"/>
+							</a>
+						</h3>
+					</div>
+					<div id="collapseOtherCycles" class="panel-collapse collapse">
+						<div class="panel-body">
+							<logic:iterate id="degree" name="managementBean" property="degrees">
+								<% if (((ExecutionDegree)degree).getDegreeType().getCycleTypes().contains(CycleType.SPECIALIZATION_CYCLE) || ((ExecutionDegree)degree).getDegreeType().getCycleTypes().contains(CycleType.SINGLE_CYCLE)) { %>
+									<div class="draggable_course">
+										<div id="oid" style="display:none"><bean:write name="degree" property="oid"/></div>
+										<div id="presentationName" style="display:none"><bean:write name="degree" property="degree.presentationName"/></div>
+										<div id="availableYears" style="display: none"><bean:write name="degree" property="degreeCurricularPlan.durationInYears"/></div>
+										<div id="name"><bean:write name="degree" property="degreeName"/></div>
+									</div>							
+								<% } %>
 							</logic:iterate>
 						</div>
 					</div>

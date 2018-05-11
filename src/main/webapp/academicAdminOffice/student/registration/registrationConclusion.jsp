@@ -18,6 +18,9 @@
     along with FenixEdu Academic.  If not, see <http://www.gnu.org/licenses/>.
 
 --%>
+<%@page import="org.fenixedu.ulisboa.specifications.domain.student.curriculum.conclusion.RegistrationConclusionServices"%>
+<%@page import="org.fenixedu.academic.domain.student.curriculum.Curriculum"%>
+<%@page import="org.fenixedu.academic.domain.ExecutionYear"%>
 <%@ taglib uri="http://struts.apache.org/tags-bean" prefix="bean" %>
 <%@ taglib uri="http://struts.apache.org/tags-logic" prefix="logic" %>
 <%@ taglib uri="http://struts.apache.org/tags-html" prefix="html" %>
@@ -30,12 +33,15 @@
 <%@page import="org.fenixedu.commons.i18n.I18N" %>
 <%@page import="org.fenixedu.academic.dto.student.RegistrationConclusionBean" %>
 <%@page import="org.fenixedu.academic.domain.Grade" %>
+<%@page import="org.fenixedu.academic.predicate.AccessControl"%>
 <%@page import="org.fenixedu.ulisboa.specifications.domain.ects.DegreeGradingTable" %>
 <%@page import="org.fenixedu.academic.domain.accessControl.AcademicAuthorizationGroup" %>
 <%@page import="org.fenixedu.academic.domain.accessControl.academicAdministration.AcademicOperationType" %>
 <%@page import="org.fenixedu.bennu.core.security.Authenticate" %>
 <%@page import="org.fenixedu.bennu.core.i18n.BundleUtil" %>
+<%@page import="org.fenixedu.academic.util.Bundle"%>
 <%@page import="org.fenixedu.ulisboa.specifications.servlet.FenixeduUlisboaSpecificationsInitializer" %>
+<%@page import="org.fenixedu.ulisboa.specifications.domain.services.RegistrationServices"%>
 
 <html:xhtml/>
 
@@ -56,7 +62,8 @@
 			
 			if (registrationConclusionBean != null
 			        && registrationConclusionBean.getFinalGrade() != null
-			        && registrationConclusionBean.getFinalGrade().getValue() != null) {
+			        && registrationConclusionBean.getFinalGrade().getValue() != null
+			        && registrationConclusionBean.getConclusionYear() != null) {
 			    
 			    DegreeGradingTable table = DegreeGradingTable.find(registrationConclusionBean.getConclusionYear(), registrationConclusionBean.getProgramConclusion(), registrationConclusionBean.getRegistration());
 			    if (table != null) {
@@ -165,83 +172,47 @@
 		</fr:view>
 	</logic:notPresent>
 	
+	<%
+		boolean hasProcessedProgramConclusionInOtherPlan = RegistrationConclusionServices.hasProcessedProgramConclusionInOtherPlan(registrationConclusionBean.getCurriculumGroup().getStudentCurricularPlan(), registrationConclusionBean.getProgramConclusion());
+		boolean canProcessProgramConclusionInPreviousPlans = RegistrationConclusionServices.canProcessProgramConclusionInPreviousPlans(registrationConclusionBean.getCurriculumGroup().getStudentCurricularPlan(), registrationConclusionBean.getProgramConclusion());
+	%>	
 	
-	<%-- Credits in group not correct  --%> 		
-	<h3 class="mtop1 mbottom05"><bean:message key="label.summary" bundle="ACADEMIC_OFFICE_RESOURCES"/></h3>
-	<logic:iterate id="curriculumGroup" name="registrationConclusionBean" property="curriculumGroupsNotVerifyingStructure">
-		<p>
-			<span class="error0">O grupo <bean:write name="curriculumGroup" property="fullPath"/> tem <bean:write name="curriculumGroup" property="aprovedEctsCredits"/> créditos ECTS quando deveria ter <bean:write name="curriculumGroup" property="creditsConcluded"/> créditos ECTS</span>
-		</p>
-	</logic:iterate>
-		
-	<%-- Registration Not Concluded  --%> 
-	<logic:equal name="registrationConclusionBean" property="concluded" value="false">
-		<p>
-			<span class="error0"><bean:message key="registration.not.concluded" bundle="ACADEMIC_OFFICE_RESOURCES"/></span>
-		</p>
-		<strong><bean:message  key="student.registrationConclusionProcess.data" bundle="ACADEMIC_OFFICE_RESOURCES" /></strong>
-		<logic:equal name="registrationConclusionBean" property="byGroup" value="true" >
-			<%-- Conclusion Process For Cycle  --%>
-			<fr:view name="registrationConclusionBean" schema="RegistrationConclusionBean.viewForCycle">
-				<fr:layout name="tabular">
-					<fr:property name="classes" value="tstyle4 thright thlight mvert05"/>
-					<fr:property name="columnClasses" value=",,tderror1 tdclear"/>
-				</fr:layout>
-			</fr:view>
-		</logic:equal>
-	</logic:equal>
+	<% if (hasProcessedProgramConclusionInOtherPlan) { %>
+		<div class="alert alert-danger" role="alert"><strong><bean:message key="message.programConclusion.conclusion.type.is.already.processed.in.another.plan" bundle="FENIXEDU_ULISBOA_SPECIFICATIONS_RESOURCES"/></strong></div>
+	<% } else { %>
 	
+		<%-- Credits in group not correct  --%> 		
+		<h3 class="mtop1 mbottom05"><bean:message key="label.summary" bundle="ACADEMIC_OFFICE_RESOURCES"/></h3>
 	
-	<%-- Registration Concluded  --%>
-	<logic:equal name="registrationConclusionBean" property="concluded" value="true">
-		
-		<%-- Conclusion Processed  --%>
-		<logic:equal name="registrationConclusionBean" property="conclusionProcessed" value="true">
-			<logic:equal name="registrationConclusionBean" property="byGroup" value="true" >
-
-				<%-- Conclusion Process For Cycle  --%>
-				<div style="float: left;" id="conclusionInformation">
-					<strong><bean:message  key="student.registrationConclusionProcess.data" bundle="ACADEMIC_OFFICE_RESOURCES" /></strong>
-					<fr:view name="registrationConclusionBean" schema="RegistrationConclusionBean.viewForCycleWithConclusionProcessedInformation">
-						<fr:layout name="tabular">
-							<fr:property name="classes" value="tstyle4 thright thlight mvert05"/>
-							<fr:property name="columnClasses" value=",,tderror1 tdclear"/>
-						</fr:layout>
-					</fr:view>
-				</div>
-
-				<div style="float: left; margin-left: 20px;">				
-					<logic:equal name="registrationConclusionBean" property="canRepeatConclusionProcess" value="true">		
-						
-						<strong><bean:message  key="student.new.registrationConclusionProcess.data" bundle="ACADEMIC_OFFICE_RESOURCES" /></strong>		
-						<fr:view name="registrationConclusionBean" schema="RegistrationConclusionBean.viewConclusionPreviewForCycle">
-							<fr:layout name="tabular">
-								<fr:property name="classes" value="tstyle4 thright thlight mvert05"/>
-								<fr:property name="columnClasses" value=",,tderror1 tdclear"/>
-							</fr:layout>
-						</fr:view>
-					</logic:equal>
-				</div>
-
-				<div style="clear: both;"></div>
-			</logic:equal>
+		<logic:iterate id="curriculumGroup" name="registrationConclusionBean" property="curriculumGroupsNotVerifyingStructure" type="org.fenixedu.academic.domain.studentCurriculum.CurriculumGroup">
+			<p>
+				<span class="error0">
+	            <%=BundleUtil.getString(Bundle.APPLICATION, "label.curriculumGroupsNotVerifyingStructure", registrationConclusionBean.getConclusionYear() != null ? registrationConclusionBean.getConclusionYear().getQualifiedName() : ExecutionYear.readCurrentExecutionYear().getQualifiedName(), curriculumGroup.getFullPath(), curriculumGroup.getAprovedEctsCredits().toString(), curriculumGroup.getCreditsConcluded(registrationConclusionBean.getConclusionYear()).toString())%>
+	            </span>
+			</p>
+		</logic:iterate>
 			
-			<div style="clear: both;"></div>
-
-		</logic:equal>
-		
-		<%-- Conclusion Not Processed  --%>
-		<logic:equal name="registrationConclusionBean" property="conclusionProcessed" value="false">
-			<logic:iterate id="curriculumModule" name="registrationConclusionBean" property="curriculumModulesWithNoConlusionDate">
-				<p>
-					<span class="error0"><bean:write name="curriculumModule" property="fullPath"/> não tem data de conclusão, assegure-se que está concluído e todas as datas de avaliação estão inseridas no sistema.</span>
-				</p>
-			</logic:iterate>
-			
+		<%-- Registration Not Concluded  --%>
+	    <!-- qubExtension, allow manual conclusion process for accumulated registrations -->
+	    <%
+	    if (
+	        RegistrationServices.isCurriculumAccumulated(registrationConclusionBean.getRegistration())
+	    ) {
+	    %>
+	        <p>
+	            <span class="warning0"><bean:message key="curriculumAccumulated.enabled" bundle="ACADEMIC_OFFICE_RESOURCES"/></span>
+	        </p>
+	    <%
+	    } else {
+	    %>
+		<logic:equal name="registrationConclusionBean" property="concluded" value="false">
+			<p>
+				<span class="error0"><bean:message key="registration.not.concluded" bundle="ACADEMIC_OFFICE_RESOURCES"/></span>
+			</p>
+			<strong><bean:message  key="student.registrationConclusionProcess.data" bundle="ACADEMIC_OFFICE_RESOURCES" /></strong>
 			<logic:equal name="registrationConclusionBean" property="byGroup" value="true" >
 				<%-- Conclusion Process For Cycle  --%>
-				<strong><bean:message  key="student.registrationConclusionProcess.data" bundle="ACADEMIC_OFFICE_RESOURCES" /></strong>
-				<fr:view name="registrationConclusionBean" schema="RegistrationConclusionBean.viewConclusionPreviewForCycle">
+				<fr:view name="registrationConclusionBean" schema="RegistrationConclusionBean.viewForCycle">
 					<fr:layout name="tabular">
 						<fr:property name="classes" value="tstyle4 thright thlight mvert05"/>
 						<fr:property name="columnClasses" value=",,tderror1 tdclear"/>
@@ -249,71 +220,192 @@
 				</fr:view>
 			</logic:equal>
 		</logic:equal>
-	
-		<p class="mtop05">
-			<bean:define id="registrationId" name="registrationConclusionBean" property="registration.externalId" />		
-			<logic:notEmpty name="registrationConclusionBean" property="curriculumGroup">
-				<bean:define id="curriculumGroupId" name="registrationConclusionBean" property="curriculumGroup.externalId" />
-				<html:link action="<%="/registration.do?method=prepareRegistrationConclusionDocument&amp;registrationId=" + registrationId + "&amp;curriculumGroupId=" + curriculumGroupId %>" target="_blank">
-					Folha de <bean:message key="student.registrationConclusionProcess" bundle="ACADEMIC_OFFICE_RESOURCES"/>
-				</html:link>
-			</logic:notEmpty>
-		</p>
-	</logic:equal>
-
-		<h3 class="mtop15 mbottom05"><bean:message key="registration.curriculum" bundle="ACADEMIC_OFFICE_RESOURCES"/></h3>
-
-			<p>
-				<fr:view name="registrationConclusionBean" property="curriculumForConclusion">
-					<fr:layout>
-						<fr:property name="visibleCurricularYearEntries" value="false" />
-					</fr:layout>
-				</fr:view>
-			</p>
-
-	<%-- Form used to concluded process or to repeat --%>
-	
-	<logic:equal name="registrationConclusionBean" property="canBeConclusionProcessed" value="true">
+	    <%
+	    }
+	    %> 
 		
-		<fr:form action="/registration.do?method=doRegistrationConclusion">
 		
-			<fr:edit id="registrationConclusionBean" name="registrationConclusionBean" visible="false" />
+		<%-- Registration Concluded  --%>
+	    <!-- qubExtension, allow manual conclusion process for accumulated registrations -->
+	    <%
+	    if (
+	        registrationConclusionBean.isConcluded() || RegistrationServices.isCurriculumAccumulated(registrationConclusionBean.getRegistration())
+	    ) {
+	    %>
 			
-			<strong><bean:message  key="student.registrationConclusionProcess.data" bundle="ACADEMIC_OFFICE_RESOURCES" /></strong>
-			<fr:edit id="registrationConclusionBean-manage" name="registrationConclusionBean">
-				<fr:schema bundle="APPLICATION_RESOURCES" type="org.fenixedu.academic.dto.student.RegistrationConclusionBean">
-					<fr:slot name="calculatedConclusionDate" readOnly="true">
-						<fr:property name="classes" value="bold" />
-					</fr:slot>
-					<fr:slot name="enteredConclusionDate" layout="input-with-comment">
-				        <fr:property name="bundle" value="APPLICATION_RESOURCES"/>
-						<fr:property name="comment" value="label.registrationConclusionProcess.enteredConclusionDate.comment"/>
-						<fr:property name="commentLocation" value="right" />
-					</fr:slot>
-					<logic:equal name="registrationConclusionBean" property="programConclusion.averageEditable" value="true">
-						<fr:slot name="enteredAverageGrade"/>
-						<fr:slot name="enteredFinalAverageGrade"/>
-						<fr:slot name="enteredDescriptiveGrade"/>
-					</logic:equal>
-					<fr:slot name="observations" key="label.anotation" bundle="ACADEMIC_OFFICE_RESOURCES">
-					</fr:slot>
-				</fr:schema>
-				<fr:layout name="tabular-editable">
-					<fr:property name="classes" value="tstyle4 thright thlight mvert05"/>
-					<fr:property name="columnClasses" value=",,tderror1 tdclear"/>
-				</fr:layout>
-			</fr:edit>
-			
-			<p class="mtop15">
-				<html:submit bundle="HTMLALT_RESOURCES" altKey="submit.submit">
-					<bean:message bundle="APPLICATION_RESOURCES" key="label.finish"/>
-				</html:submit>
-			</p>
-		
-		</fr:form>
-		
-	</logic:equal>
+			<%-- Conclusion Processed  --%>
+			<logic:equal name="registrationConclusionBean" property="conclusionProcessed" value="true">
+				<logic:equal name="registrationConclusionBean" property="byGroup" value="true" >
 	
+					<%-- Conclusion Process For Cycle  --%>
+					<div style="float: left;" id="conclusionInformation">
+						<strong><bean:message  key="student.registrationConclusionProcess.data" bundle="ACADEMIC_OFFICE_RESOURCES" /></strong>
+						<fr:view name="registrationConclusionBean" schema="RegistrationConclusionBean.viewForCycleWithConclusionProcessedInformation">
+							<fr:layout name="tabular">
+								<fr:property name="classes" value="tstyle4 thright thlight mvert05"/>
+								<fr:property name="columnClasses" value=",,tderror1 tdclear"/>
+							</fr:layout>
+						</fr:view>
+					</div>
+	
+					<div style="float: left; margin-left: 20px;">				
+						<logic:equal name="registrationConclusionBean" property="canRepeatConclusionProcess" value="true">		
+							
+							<strong><bean:message  key="student.new.registrationConclusionProcess.data" bundle="ACADEMIC_OFFICE_RESOURCES" /></strong>		
+							<fr:view name="registrationConclusionBean" schema="RegistrationConclusionBean.viewConclusionPreviewForCycle">
+								<fr:layout name="tabular">
+									<fr:property name="classes" value="tstyle4 thright thlight mvert05"/>
+									<fr:property name="columnClasses" value=",,tderror1 tdclear"/>
+								</fr:layout>
+							</fr:view>
+						</logic:equal>
+					</div>
+	
+					<div style="clear: both;"></div>
+				</logic:equal>
+				
+				<div style="clear: both;"></div>
+	
+			</logic:equal>
+			
+			<%-- Conclusion Not Processed  --%>
+			<logic:equal name="registrationConclusionBean" property="conclusionProcessed" value="false">
+				<logic:iterate id="curriculumModule" name="registrationConclusionBean" property="curriculumModulesWithNoConlusionDate">
+					<p>
+						<span class="error0"><bean:write name="curriculumModule" property="fullPath"/> não tem data de conclusão, assegure-se que está concluído e todas as datas de avaliação estão inseridas no sistema.</span>
+					</p>
+				</logic:iterate>
+				
+				<logic:equal name="registrationConclusionBean" property="byGroup" value="true" >
+					<%-- Conclusion Process For Cycle  --%>
+					<strong><bean:message  key="student.registrationConclusionProcess.data" bundle="ACADEMIC_OFFICE_RESOURCES" /></strong>
+					<fr:view name="registrationConclusionBean" schema="RegistrationConclusionBean.viewConclusionPreviewForCycle">
+						<fr:layout name="tabular">
+							<fr:property name="classes" value="tstyle4 thright thlight mvert05"/>
+							<fr:property name="columnClasses" value=",,tderror1 tdclear"/>
+						</fr:layout>
+					</fr:view>
+				</logic:equal>
+			</logic:equal>
+		
+			<p class="mtop05">
+				<bean:define id="registrationId" name="registrationConclusionBean" property="registration.externalId" />		
+				<logic:notEmpty name="registrationConclusionBean" property="curriculumGroup">
+					<bean:define id="curriculumGroupId" name="registrationConclusionBean" property="curriculumGroup.externalId" />
+					<html:link action="<%="/registration.do?method=prepareRegistrationConclusionDocument&amp;registrationId=" + registrationId + "&amp;curriculumGroupId=" + curriculumGroupId %>" target="_blank">
+						Folha de <bean:message key="student.registrationConclusionProcess" bundle="ACADEMIC_OFFICE_RESOURCES"/>
+					</html:link>
+				</logic:notEmpty>
+			</p>
+	    <%
+	    }
+	    %>
+	
+	    <%-- Form used to concluded process or to repeat --%>
+	    <!-- qubExtension, allow manual conclusion process for accumulated registrations -->
+	    <%
+	    // override of getCanBeConclusionProcessed() behaviour
+	    if (
+	        (!registrationConclusionBean.isConclusionProcessed() || registrationConclusionBean.getRegistration().canRepeatConclusionProcess(AccessControl.getPerson()))
+	        && (registrationConclusionBean.isConcluded() || RegistrationServices.isCurriculumAccumulated(registrationConclusionBean.getRegistration()))
+	    ) {
+	    %>
+	        <fr:form action="/registration.do?method=doRegistrationConclusion">
+	        
+	            <fr:edit id="registrationConclusionBean" name="registrationConclusionBean" visible="false" />
+	
+	            <h3 class="mtop15 mbottom05"><bean:message  key="student.registrationConclusionProcess.data" bundle="ACADEMIC_OFFICE_RESOURCES" /></h3>
+	
+	            <fr:edit id="registrationConclusionBean-manage" name="registrationConclusionBean">
+	                <fr:schema bundle="APPLICATION_RESOURCES" type="org.fenixedu.academic.dto.student.RegistrationConclusionBean">
+	                    <fr:slot name="calculatedConclusionDate" readOnly="true">
+	                        <fr:property name="classes" value="bold" />
+	                    </fr:slot>
+	                    <fr:slot name="enteredConclusionDate" layout="input">
+	                        <fr:property name="format" value="dd-MM-yyyy"/>
+	                        <%-- // QubEdu extension
+	                        <fr:property name="bundle" value="APPLICATION_RESOURCES"/>
+	                        <fr:property name="comment" value="label.registrationConclusionProcess.enteredConclusionDate.comment"/>
+	                        <fr:property name="commentLocation" value="right" />
+	                         --%>
+	                    </fr:slot>
+	
+	                    <!-- qubExtension, allow manual conclusion process for accumulated registrations -->
+	                    <%
+	                    // override of getCanBeConclusionProcessed() behaviour
+	                    if (
+	                        registrationConclusionBean.isConcluded() || RegistrationServices.isCurriculumAccumulated(registrationConclusionBean.getRegistration())
+	                    ) {
+	                    %>
+	                        <fr:slot name="enteredAverageGrade"/>
+	                        <fr:slot name="enteredFinalAverageGrade"/>
+	                        <fr:slot name="enteredDescriptiveGrade"/>
+	                    <%
+	                    }
+	                    %>
+	                    <fr:slot name="observations" key="label.anotation" bundle="ACADEMIC_OFFICE_RESOURCES" layout="longText">
+	                        <fr:property name="columns" value="25" />
+	                        <fr:property name="rows" value="5" />
+	                    </fr:slot>
+	                </fr:schema>
+	                <fr:layout name="tabular-editable">
+	                    <fr:property name="classes" value="tstyle4 thright thlight mvert05"/>
+	                    <fr:property name="columnClasses" value=",,tderror1 tdclear"/>
+	                </fr:layout>
+	            </fr:edit>
+	
+					<% if (canProcessProgramConclusionInPreviousPlans && !hasProcessedProgramConclusionInOtherPlan) { %>
+						<div class="alert alert-warning" role="alert"><strong><bean:message key="message.programConclusion.conclusion.type.should.be.processed.in.previous.plan" bundle="FENIXEDU_ULISBOA_SPECIFICATIONS_RESOURCES"/></strong></div>
+					<% } %>
+	                <div style="float: left; margin-top: 1.5em">
+	                    <logic:equal name="registrationConclusionBean" property="conclusionProcessed" value="false">
+	                        <html:submit bundle="HTMLALT_RESOURCES" altKey="submit.submit">
+	                            <bean:message bundle="APPLICATION_RESOURCES" key="label.finish"/>
+	                        </html:submit>
+	                    </logic:equal>
+	                    
+	                    <%-- // QubEdu extension, Explicit button label of update --%>
+	                    <logic:equal name="registrationConclusionBean" property="conclusionProcessed" value="true">
+	                        <html:submit bundle="HTMLALT_RESOURCES" altKey="submit.submit">
+	                            <bean:message bundle="APPLICATION_RESOURCES" key="label.update"/>
+	                        </html:submit>
+	                    </logic:equal>
+	                </div>
+	
+	                <%-- QubEdu extension --%>
+	                <div style="float: left; margin-left: 2em; margin-top: 2em;"><span class="warning0"><bean:message key="label.registrationConclusionProcess.enteredConclusionDate.comment" bundle="APPLICATION_RESOURCES" /></span></div>
+	                <div style="clear: both;"></div>
+	                
+	        </fr:form>
+	    <%
+	    }
+	    %>
+	        
+	        <%-- // QubEdu extension, moved to end of page --%>
+			<h3 class="mtop15 mbottom05"><bean:message key="registration.curriculum" bundle="ACADEMIC_OFFICE_RESOURCES"/></h3>
+	
+				<p>
+					<fr:view name="registrationConclusionBean" property="curriculumForConclusion">
+						<fr:layout>
+							<fr:property name="visibleCurricularYearEntries" value="false" />
+						</fr:layout>
+					</fr:view>
+				</p>
+	            
+	            <%-- Extension --%>
+	            <p>
+	                <%
+	                final RegistrationConclusionBean bean = (RegistrationConclusionBean) request.getAttribute("registrationConclusionBean");
+	                final Curriculum curriculum = bean == null ? null : (Curriculum) bean.getCurriculumForConclusion();
+	                request.setAttribute("curriculum", curriculum);
+	                %>
+	                <jsp:include page="<%=org.fenixedu.ulisboa.specifications.ULisboaConfiguration.getConfiguration().getCurriculumGradeCalculatorVisualizer()%>" /> 
+	            </p>   
+		
+		
+		<% } %>
+	             
+
 </logic:equal>
 
 <logic:equal name="registrationConclusionBean" property="hasAccessToRegistrationConclusionProcess" value="false">

@@ -38,12 +38,24 @@
 
 <p class="mtop15 mbottom025"><strong><bean:message key="label.student.enrolment.chooseExecutionPeriod" bundle="ACADEMIC_OFFICE_RESOURCES"/>:</strong></p>
 
-<fr:form action="/studentEnrolments.do?method=showDegreeModulesToEnrol">
+<fr:form action="/studentEnrolmentsExtended.do?method=showDegreeModulesToEnrol">
 	<fr:edit id="studentEnrolment"
 			 name="studentEnrolmentBean"
 			 type="org.fenixedu.academic.dto.administrativeOffice.studentEnrolment.StudentEnrolmentBean"
-			 schema="student.enrolment.choose.executionPeriod">
-		<fr:destination name="postBack" path="/studentEnrolments.do?method=postBack"/>
+			 >
+		<fr:schema type="org.fenixedu.academic.dto.administrativeOffice.studentEnrolment.StudentEnrolmentBean" bundle="ACADEMIC_OFFICE_RESOURCES">
+			<fr:slot name="studentCurricularPlan.student.student.person.name" key="label.name" readOnly="true"/>
+			<fr:slot name="studentCurricularPlan.student.student.number" key="label.studentNumber" readOnly="true"/>
+			<fr:slot name="studentCurricularPlan.degreeCurricularPlan.name" key="label.degreeCurricularPlan" readOnly="true"/>
+			<fr:slot name="executionPeriod" layout="menu-select-postback" validator="pt.ist.fenixWebFramework.renderers.validators.RequiredValidator" >
+				<%-- qubExtension --%>
+				<fr:property name="providerClass"
+					value="org.fenixedu.academic.ui.renderers.providers.enrollment.bolonha.ExecutionPeriodsForEnrolmentProvider" />
+				<fr:property name="format" value="${qualifiedName}" />
+				<fr:property name="destination" value="postBack"/>
+			</fr:slot>
+		</fr:schema>
+		<fr:destination name="postBack" path="/studentEnrolmentsExtended.do?method=postBack"/>
 		<fr:layout name="tabular">
 			<fr:property name="classes" value="tstyle4 thright thlight mtop025 mbottom05"/>
 			<fr:property name="columnClasses" value=",,tdclear tderror1"/>
@@ -60,12 +72,12 @@
 		<academic:allowed operation="ENROLMENT_WITHOUT_RULES" program="<%= degree %>">
 			<li>
 				<bean:define id="url1">/bolonhaStudentEnrollment.do?method=prepare&amp;scpID=<bean:write name="studentEnrolmentBean" property="studentCurricularPlan.externalId"/>&amp;executionPeriodID=<bean:write name="studentEnrolmentBean" property="executionPeriod.externalId"/>&amp;withRules=false</bean:define>
-				<html:link action='<%= url1 %>'><bean:message key="label.course.enrolmentWithoutRules" bundle="ACADEMIC_OFFICE_RESOURCES"/></html:link>
+				<html:link action='<%= url1 %>' onclick="openPleaseWaitDialog();"><bean:message key="label.course.enrolmentWithoutRules" bundle="ACADEMIC_OFFICE_RESOURCES"/></html:link>
 			</li>
 		</academic:allowed>
 		<li>
 			<bean:define id="url2">/bolonhaStudentEnrollment.do?method=prepare&amp;scpID=<bean:write name="studentEnrolmentBean" property="studentCurricularPlan.externalId"/>&amp;executionPeriodID=<bean:write name="studentEnrolmentBean" property="executionPeriod.externalId"/>&amp;withRules=true</bean:define>
-			<html:link action='<%= url2 %>'><bean:message key="label.course.enrolmentWithRules" bundle="ACADEMIC_OFFICE_RESOURCES"/></html:link>
+			<html:link action='<%= url2 %>' onclick="openPleaseWaitDialog();"><bean:message key="label.course.enrolmentWithRules" bundle="ACADEMIC_OFFICE_RESOURCES"/></html:link>
 		</li>
 		<br />
 		<li>
@@ -116,7 +128,7 @@
 	</ul>
 
 	<br/>
-	<fr:form action="/studentEnrolments.do?method=backViewRegistration">
+	<fr:form action="/studentEnrolmentsExtended.do?method=backViewRegistration">
 		<fr:edit id="studentEnrolment-back" name="studentEnrolmentBean" visible="false" />
 		<html:cancel><bean:message key="button.back" bundle="ACADEMIC_OFFICE_RESOURCES"/></html:cancel>
 	</fr:form>
@@ -126,26 +138,32 @@
 		<fr:view name="studentEnrolments">
 			<%-- qubExtensions --%>
 			<fr:schema type="org.fenixedu.academic.domain.Enrolment" bundle="ACADEMIC_OFFICE_RESOURCES">
-				<fr:slot name="name" key="label.name" />
+				<fr:slot name="code" key="label.code" />
+				<fr:slot name="presentationName" key="label.name" />
 				<fr:slot name="curriculumGroup.fullPath" key="label.group"/>
 				<fr:slot name="weigthForCurriculum" key="label.set.evaluation.enrolment.weight" />
 				<fr:slot name="ectsCreditsForCurriculum" key="label.ects.credits" />
-				<fr:slot name="creationDateDateTime" key="label.date" layout="no-time" />
+				<fr:slot name="creationDateDateTime" key="label.enrolmentDate" layout="no-time" />
+				<fr:slot name="annulmentDate" key="label.annulmentDate" layout="no-time" />
 				<fr:slot name="enrollmentState.description" key="label.set.evaluation.enrolment.state" />
 				<fr:slot name="grade" key="label.set.evaluation.grade.value.simple" />
 			</fr:schema>
 			
 			<fr:layout name="tabular">	 
 				<fr:property name="classes" value="tstyle2"/>
-		      	<fr:property name="columnClasses" value=",smalltxt color888,acenter,acenter,nowrap smalltxt,smalltxt, acenter"/>
-				<fr:property name="sortBy" value="name"/>
+		      	<fr:property name="columnClasses" value=",,smalltxt color888,acenter,acenter,nowrap smalltxt,smalltxt, acenter"/>
+		      	
+		      	<fr:property name="linkFormat(edit)" value="/studentEnrolmentsExtended.do?method=prepareEditEnrolment&enrolmentId=${externalId}&scpID=${studentCurricularPlan.externalId}&executionPeriodId=${executionPeriod.externalId}" />
+				<fr:property name="key(edit)" value="label.edit"/>
+				<fr:property name="bundle(edit)" value="ACADEMIC_OFFICE_RESOURCES"/>
+				<fr:property name="visibleIf(edit)" value="annulled"/>
 				
-				<fr:property name="linkFormat(activate)" value="/studentEnrolments.do?method=activateEnrolment&enrolmentId=${externalId}&scpID=${studentCurricularPlan.externalId}&executionPeriodId=${executionPeriod.externalId}" />
+				<fr:property name="linkFormat(activate)" value="/studentEnrolmentsExtended.do?method=activateEnrolment&enrolmentId=${externalId}&scpID=${studentCurricularPlan.externalId}&executionPeriodId=${executionPeriod.externalId}" />
 				<fr:property name="key(activate)" value="label.enrolment.activate"/>
 				<fr:property name="bundle(activate)" value="ACADEMIC_OFFICE_RESOURCES"/>
 				<fr:property name="visibleIf(activate)" value="annulled"/>
 			
-				<fr:property name="linkFormat(annul)" value="/studentEnrolments.do?method=annulEnrolment&enrolmentId=${externalId}&scpID=${studentCurricularPlan.externalId}&executionPeriodId=${executionPeriod.externalId}" />
+				<fr:property name="linkFormat(annul)" value="/studentEnrolmentsExtended.do?method=annulEnrolment&enrolmentId=${externalId}&scpID=${studentCurricularPlan.externalId}&executionPeriodId=${executionPeriod.externalId}" />
 				<fr:property name="key(annul)" value="label.enrolment.annul"/>
 				<fr:property name="bundle(annul)" value="ACADEMIC_OFFICE_RESOURCES"/>
 				<fr:property name="visibleIfNot(annul)" value="annulled"/>
@@ -164,11 +182,12 @@
 		<fr:view name="studentImprovementEnrolments">
 			<%-- [JIRA] (ACDM-979) Bug Fix, Enrolments in Improvements: allow to choose EvaluationSeason --%>
 			<fr:schema type="org.fenixedu.academic.domain.EnrolmentEvaluation" bundle="ACADEMIC_OFFICE_RESOURCES">
-				<fr:slot name="enrolment.name" key="label.name" />
+				<fr:slot name="enrolment.code" key="label.code" />				
+				<fr:slot name="enrolment.presentationName" key="label.name" />
 				<fr:slot name="enrolment.curriculumGroup.fullPath" key="label.group"/>
 				<fr:slot name="enrolment.weigthForCurriculum" key="label.set.evaluation.enrolment.weight" />
 				<fr:slot name="enrolment.ectsCreditsForCurriculum" key="label.ects.credits" />
-				<fr:slot name="versioningCreationDate" key="label.date" layout="no-time" />
+				<fr:slot name="versioningCreationDate" key="label.enrolmentDate" layout="no-time" />
 				<fr:slot name="enrollmentStateByGrade.description" key="label.set.evaluation.enrolment.state"/>
 				<fr:slot name="grade" key="label.set.evaluation.grade.value.simple"/>
 				<fr:slot name="evaluationSeason" key="label.evaluationSeason">
@@ -178,8 +197,7 @@
 		
 			<fr:layout name="tabular">	 
 				<fr:property name="classes" value="tstyle2"/>
-		      	<fr:property name="columnClasses" value=",smalltxt color888,acenter,acenter,nowrap smalltxt,smalltxt,acenter, acenter smalltxt"/>
-				<fr:property name="sortBy" value="enrolment.name"/>
+		      	<fr:property name="columnClasses" value=",,smalltxt color888,acenter,acenter,nowrap smalltxt,smalltxt,acenter, acenter smalltxt"/>
 			</fr:layout>
 		</fr:view>
 	</logic:notEmpty>
@@ -194,11 +212,12 @@
 		<fr:view name="studentSpecialSeasonEnrolments">
 			<%-- [JIRA] (ACDM-980) Bug Fix, Enrolments in Special Season: allow to choose EvaluationSeason --%>
 			<fr:schema type="org.fenixedu.academic.domain.EnrolmentEvaluation" bundle="ACADEMIC_OFFICE_RESOURCES">
-				<fr:slot name="enrolment.name" key="label.name" />
+				<fr:slot name="enrolment.code" key="label.code" />
+				<fr:slot name="enrolment.presentationName" key="label.name" />
 				<fr:slot name="enrolment.curriculumGroup.fullPath" key="label.group"/>
 				<fr:slot name="enrolment.weigthForCurriculum" key="label.set.evaluation.enrolment.weight" />
 				<fr:slot name="enrolment.ectsCreditsForCurriculum" key="label.ects.credits" />
-				<fr:slot name="versioningCreationDate" key="label.date" layout="no-time" />
+				<fr:slot name="versioningCreationDate" key="label.enrolmentDate" layout="no-time" />
 				<fr:slot name="enrollmentStateByGrade.description" key="label.set.evaluation.enrolment.state"/>
 				<fr:slot name="grade" key="label.set.evaluation.grade.value.simple"/>
 				<fr:slot name="evaluationSeason" key="label.evaluationSeason">
@@ -208,8 +227,7 @@
 		
 			<fr:layout name="tabular">	 
 				<fr:property name="classes" value="tstyle2"/>
-		      	<fr:property name="columnClasses" value=",smalltxt color888,acenter,acenter,nowrap smalltxt,smalltxt,acenter, acenter smalltxt"/>
-				<fr:property name="sortBy" value="enrolment.name"/>
+		      	<fr:property name="columnClasses" value=",,smalltxt color888,acenter,acenter,nowrap smalltxt,smalltxt,acenter, acenter smalltxt"/>
 			</fr:layout>
 		</fr:view>
 	</logic:notEmpty>
@@ -221,7 +239,10 @@
 	
 </logic:present>
 
-<fr:form action="/studentEnrolments.do?method=backViewRegistration">
+<fr:form action="/studentEnrolmentsExtended.do?method=backViewRegistration">
 	<fr:edit id="studentEnrolment-back" name="studentEnrolmentBean" visible="false" />
 	<html:cancel><bean:message key="button.back" bundle="ACADEMIC_OFFICE_RESOURCES"/></html:cancel>
 </fr:form>
+
+<%-- qubExtension --%>
+<jsp:include page="<%= "/layout/pleasewait.jsp"%>"/>
