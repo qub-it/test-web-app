@@ -32,21 +32,21 @@
     <dependency>
       <groupId>javax.servlet</groupId>
       <artifactId>javax.servlet-api</artifactId>
-        <version>3.0.1</version>
+      <version>3.0.1</version>
       <scope>provided</scope>
     </dependency>
     <dependency>
       <groupId>com.qubit.solution.fenixedu.module</groupId>
       <artifactId>bennu-qub.module.fculApi</artifactId>
-        <version>1.9.3</version>
+      <version>1.9.3</version>
       <scope />
     </dependency>
     <dependency>
       <groupId>com.qubit.solution.fenixedu.module</groupId>
       <artifactId>bennu-qub.module.customers-fcul</artifactId>
-        <version>2.0.1-SNAPSHOT</version>
+      <version>2.0.1-SNAPSHOT</version>
       <scope />
     </dependency>
   </dependencies>
-  <version>607</version>
+  <version>608</version>
 </project>
