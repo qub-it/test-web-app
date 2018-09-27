@@ -82,7 +82,9 @@
 <%
 	request.setAttribute("degreeFinalizationDate", registrationConclusionBean.getConclusionDate().toString("dd 'de' MMMM 'de' yyyy", I18N.getLocale()));
 	request.setAttribute("finalGrade", registrationConclusionBean.getFinalGrade());
-	request.setAttribute("degreeFinalizationGrade", DegreeFinalizationCertificate.getDegreeFinalizationGrade(registrationConclusionBean.getFinalGrade().getIntegerValue()));
+	request.setAttribute("descriptiveGrade", registrationConclusionBean.getDescriptiveGradeExtendedValue());	
+	request.setAttribute("degreeFinalizationGrade", "");
+
 	request.setAttribute("degreeFinalizationEcts", String.valueOf(registrationConclusionBean.getEctsCredits()));
 	request.setAttribute("creditsDescription", registration.getDegreeType().getCreditsDescription());
 	
@@ -112,9 +114,16 @@
 	</tr>
 	<tr>
 		<td style="padding: 5px;"><bean:message bundle="ACADEMIC_OFFICE_RESOURCES" key="final.degree.average"/></td>
-		<td style="padding: 5px;"><bean:write name="finalGrade" property="value"/> <bean:message bundle="ACADEMIC_OFFICE_RESOURCES" key="values"/></td>
+		<td style="padding: 5px;"><bean:write name="finalGrade" property="value"/> </td>
 		<td style="padding: 5px; padding-left: 100px;">	</td>
 	</tr>
+	<logic:notEmpty name="descriptiveGrade">
+		<tr>
+			<td style="padding: 5px;"><bean:message bundle="APPLICATION_RESOURCES" key="label.descriptiveGrade" /></td>
+			<td style="padding: 5px;"><bean:write name="descriptiveGrade"/> </td>
+			<td style="padding: 5px; padding-left: 100px;">	</td>
+		</tr>
+	</logic:notEmpty>
 	<tr>
 		<td style="padding: 5px;"><fmt:message key="label.gradingTables.curriculumRenderer.ectsGrade" bundle="${ULISBOA_SPECIFICATIONS_RESOURCES}" /></td>
 		<td style="padding: 5px;"><bean:write name="finalEctsGrade"/></td>
