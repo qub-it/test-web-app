@@ -38,15 +38,15 @@
     <dependency>
       <groupId>com.qubit.solution.fenixedu.module</groupId>
       <artifactId>bennu-qub.module.fculApi</artifactId>
-      <version>1.9.4</version>
+      <version>1.9.5</version>
       <scope />
     </dependency>
     <dependency>
       <groupId>com.qubit.solution.fenixedu.module</groupId>
       <artifactId>bennu-qub.module.customers-fcul</artifactId>
-      <version>2.0.1-SNAPSHOT</version>
+      <version>2.0.1</version>
       <scope />
     </dependency>
   </dependencies>
-  <version>620</version>
+  <version>621</version>
 </project>
