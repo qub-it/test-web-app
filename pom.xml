@@ -41,32 +41,32 @@
       <version>1.9.5</version>
       <scope />
       <exclusions>
- 	<exclusion>
-       		<artifactId>qub-foundation</artifactId>
-       		<groupId>com.qubit.terra</groupId>
+        <exclusion>
+          <artifactId>qub-foundation</artifactId>
+          <groupId>com.qubit.terra</groupId>
         </exclusion>
         <exclusion>
-        	<artifactId>qub-uilayer</artifactId>
-                <groupId>com.qubit.terra</groupId>
+          <artifactId>qub-uilayer</artifactId>
+          <groupId>com.qubit.terra</groupId>
         </exclusion>
-     </exclusions>
+      </exclusions>
     </dependency>
     <dependency>
       <groupId>com.qubit.solution.fenixedu.module</groupId>
       <artifactId>bennu-qub.module.customers-fcul</artifactId>
       <version>2.0.1</version>
       <scope />
-        <exclusions>
+      <exclusions>
         <exclusion>
-                <artifactId>qub-foundation</artifactId>
-                <groupId>com.qubit.terra</groupId>
+          <artifactId>qub-foundation</artifactId>
+          <groupId>com.qubit.terra</groupId>
         </exclusion>
-        <exclusion>             
-                <artifactId>qub-uilayer</artifactId>
-                <groupId>com.qubit.terra</groupId>
+        <exclusion>
+          <artifactId>qub-uilayer</artifactId>
+          <groupId>com.qubit.terra</groupId>
         </exclusion>
-     </exclusions>
+      </exclusions>
     </dependency>
   </dependencies>
-  <version>628</version>
+  <version>629</version>
 </project>
