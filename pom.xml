@@ -68,5 +68,5 @@
       </exclusions>
     </dependency>
   </dependencies>
-  <version>640</version>
+  <version>641</version>
 </project>
