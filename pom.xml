@@ -38,7 +38,7 @@
     <dependency>
       <groupId>com.qubit.solution.fenixedu.module</groupId>
       <artifactId>bennu-qub.module.fculApi</artifactId>
-      <version>2.0.0</version>
+      <version>2.0.1</version>
       <scope />
       <exclusions>
         <exclusion>
@@ -54,7 +54,7 @@
     <dependency>
       <groupId>com.qubit.solution.fenixedu.module</groupId>
       <artifactId>bennu-qub.module.customers-fcul</artifactId>
-      <version>2.0.5</version>
+      <version>2.0.6</version>
       <scope />
       <exclusions>
         <exclusion>
@@ -67,6 +67,21 @@
         </exclusion>
       </exclusions>
     </dependency>
+    <dependency>
+      <groupId>com.qubit.solution.fenixedu.module</groupId>
+      <artifactId>bennu-qub.module.ciencias-api-utils</artifactId>
+      <version>1.0.5</version>
+      <exclusions>
+        <exclusion>
+          <artifactId>qub-foundation</artifactId>
+          <groupId>com.qubit.terra</groupId>
+        </exclusion>
+        <exclusion>
+          <artifactId>qub-uilayer</artifactId>
+          <groupId>com.qubit.terra</groupId>
+        </exclusion>
+      </exclusions>
+    </dependency>
   </dependencies>
-  <version>651</version>
+  <version>652</version>
 </project>
