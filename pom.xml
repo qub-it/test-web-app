@@ -38,7 +38,7 @@
     <dependency>
       <groupId>com.qubit.solution.fenixedu.module</groupId>
       <artifactId>bennu-qub.module.fculApi</artifactId>
-      <version>2.0.2</version>
+      <version>2.0.3</version>
       <scope />
       <exclusions>
         <exclusion>
@@ -83,5 +83,5 @@
       </exclusions>
     </dependency>
   </dependencies>
-  <version>659</version>
+  <version>660</version>
 </project>
