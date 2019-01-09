@@ -82,6 +82,11 @@
         </exclusion>
       </exclusions>
     </dependency>
+    <dependency>
+      <groupId>com.qubit.terra.fenixframework</groupId>
+      <artifactId>qub-fenix-framework-bridging</artifactId>
+      <version>1.7.0</version>
+    </dependency>
   </dependencies>
-  <version>665</version>
+  <version>666</version>
 </project>
